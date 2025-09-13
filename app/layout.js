@@ -5,7 +5,6 @@ import SmoothScroll from "@/components/SmoothScroll";
 import { NavbarThemeProvider } from "@/contexts/NavbarThemeContext";
 import { AnimationProvider } from "@/contexts/AnimationContext";
 import AnimationInitializer from "@/app/components/AnimationInitializer";
-import CacheClearer from "@/app/components/CacheClearer";
 
 export const metadata = {};
 
@@ -99,7 +98,6 @@ export default function RootLayout({ children }) {
             {/* ✅ AnimationProvider for animations */}
             <AnimationProvider>
               {/* ✅ Cache clearer for page refresh */}
-              <CacheClearer />
               {/* ✅ Animation initializer */}
               <AnimationInitializer />
               {/* ✅ SideNav context */}

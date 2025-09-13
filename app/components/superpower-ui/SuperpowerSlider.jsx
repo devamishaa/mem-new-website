@@ -1,176 +1,120 @@
 import Image from "next/image";
-import Button from "@/app/components/common/Button";
+import Button from "../common/Button";
 import FeatureCard from "./FeatureCard";
-import { useRef } from "react";
-import clsx from "clsx";
+import { useMemo, useRef } from "react";
+import clsx from "clsx"; // Recommended for conditional classes: npm install clsx
 import { useTranslation } from "@/hooks/useTranslation";
-// import { useNavbarColor } from "@/hooks/useNavbarColor";
 
-const SuperpowerSlides = ({ model, activeSlide, onDotClick }) => {
+const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
   const scrollContainerRef = useRef(null);
   const containerRef = useRef(null);
-  const { t, language } = useTranslation();
+  const { t } = useTranslation();
 
-  // Create superpower data directly from translations
-  const superpowerData = {
-    title: t("superpowers.title"),
-    ctaLabel: t("superpowers.ctaLabel"),
-    slides: [
+  const superpowerData = useMemo(() => {
+    console.log("SuperpowerSlider - Building superpowerData with translations");
+
+    // Debug translation function
+    console.log("SuperpowerSlider - Translation debug:", {
+      title: t("superpowers.title"),
+      ctaLabel: t("superpowers.ctaLabel"),
+      remindersTitle: t("superpowers.slides.reminders.title"),
+      remindersDesc: t("superpowers.slides.reminders.description"),
+      isTitleSame: t("superpowers.title") === "superpowers.title",
+      isCtaSame: t("superpowers.ctaLabel") === "superpowers.ctaLabel",
+    });
+
+    const gradients = [
+      "from-blue-500 to-purple-600",
+      "from-green-500 to-teal-600",
+      "from-pink-500 to-red-600",
+      "from-yellow-500 to-orange-600",
+      "from-indigo-500 to-violet-600",
+      "from-red-500 to-rose-600",
+    ];
+
+    // Get individual slide data using translation keys with fallbacks
+    const slides = [
       {
-        title: t("superpowers.slides.reminders.title"),
-        dotTitle: t("superpowers.slides.reminders.dotTitle"),
-        description: t("superpowers.slides.reminders.description"),
-        image:
-          language === "es"
-            ? "/homepage/chat_one.svg"
-            : "/homepage/chat_one.webp",
-        gradient: "gradientBlue",
+        title:
+          t("superpowers.slides.reminders.title") ||
+          "Unlimited automatic reminders",
+        description:
+          t("superpowers.slides.reminders.description") ||
+          "One-time or recurring. Weekly, monthly, with excuses or relentless. For anything, anytime, as many times as needed.",
+        dotTitle: t("superpowers.slides.reminders.dotTitle") || "Reminders",
         messages: [
-          {
-            side: "sender",
-            type: "text",
-            text: t("superpowers.slides.reminders.messages.sender"),
-            timestamp: "17:48",
-            read: true,
-          },
-          {
-            side: "receiver",
-            type: "text",
-            text: t("superpowers.slides.reminders.messages.receiver"),
-            timestamp: "17:48",
-          },
+          t("superpowers.slides.reminders.messages.sender") ||
+            "Memorae, remind me tomorrow at 8 a.m. that I have to take my medication",
+          t("superpowers.slides.reminders.messages.receiver") ||
+            "I've created your reminder for tomorrow at 8 a.m. so you don't forget your medication. Don't forget to dedicate that moment to taking care of yourself!🧘",
         ],
+        gradient: gradients[0],
       },
       {
         title: t("superpowers.slides.calendars.title"),
-        dotTitle: t("superpowers.slides.calendars.dotTitle"),
         description: t("superpowers.slides.calendars.description"),
-        image:
-          language === "es"
-            ? "/homepage/chat_two.svg"
-            : "/homepage/chat_two.webp",
-        gradient: "gradientPurple",
+        dotTitle: t("superpowers.slides.calendars.dotTitle"),
         messages: [
-          {
-            side: "sender",
-            type: "text",
-            text: t("superpowers.slides.calendars.messages.sender"),
-            timestamp: "17:48",
-            read: true,
-          },
-          {
-            side: "receiver",
-            type: "text",
-            text: t("superpowers.slides.calendars.messages.receiver"),
-            timestamp: "17:48",
-          },
+          t("superpowers.slides.calendars.messages.sender"),
+          t("superpowers.slides.calendars.messages.receiver"),
         ],
+        gradient: gradients[1],
       },
       {
         title: t("superpowers.slides.focus.title"),
-        dotTitle: t("superpowers.slides.focus.dotTitle"),
         description: t("superpowers.slides.focus.description"),
-        image:
-          language === "es"
-            ? "/homepage/chat_three.svg"
-            : "/homepage/chat_three.webp",
-        gradient: "gradientGreen",
+        dotTitle: t("superpowers.slides.focus.dotTitle"),
         messages: [
-          {
-            side: "sender",
-            type: "text",
-            text: t("superpowers.slides.focus.messages.sender"),
-            timestamp: "17:48",
-            read: true,
-          },
-          {
-            side: "receiver",
-            type: "text",
-            text: t("superpowers.slides.focus.messages.receiver"),
-            timestamp: "17:48",
-          },
+          t("superpowers.slides.focus.messages.sender"),
+          t("superpowers.slides.focus.messages.receiver"),
         ],
+        gradient: gradients[2],
       },
       {
         title: t("superpowers.slides.insights.title"),
-        dotTitle: t("superpowers.slides.insights.dotTitle"),
         description: t("superpowers.slides.insights.description"),
-        image:
-          language === "es"
-            ? "/homepage/chat_four.svg"
-            : "/homepage/chat_four.webp",
-        gradient: "gradientPink",
-        messages: [
-          {
-            side: "sender",
-            type: "image",
-            imgSrc: "/homepage/voice_pfp.svg",
-            imgAlt: "Voice message waveform",
-            timestamp: "17:48",
-            read: true,
-          },
-          {
-            side: "receiver",
-            type: "text",
-            text: t("superpowers.slides.insights.messages.receiver"),
-            timestamp: "17:48",
-          },
-        ],
+        dotTitle: t("superpowers.slides.insights.dotTitle"),
+        messages: [t("superpowers.slides.insights.messages.receiver")],
+        gradient: gradients[3],
       },
       {
         title: t("superpowers.slides.listas.title"),
-        dotTitle: t("superpowers.slides.listas.dotTitle"),
         description: t("superpowers.slides.listas.description"),
-        image:
-          language === "es"
-            ? "/homepage/chat_five.svg"
-            : "/homepage/chat_five.webp",
-        gradient: "gradientBlue",
+        dotTitle: t("superpowers.slides.listas.dotTitle"),
         messages: [
-          {
-            side: "sender",
-            type: "image",
-            imgSrc: "/homepage/Rectangle.svg",
-            imgAlt: "Img Chat message",
-            text: t("superpowers.slides.listas.messages.sender"),
-            timestamp: "17:48",
-            read: true,
-          },
-          {
-            side: "receiver",
-            type: "text",
-            text: t("superpowers.slides.listas.messages.receiver"),
-            timestamp: "17:48",
-          },
+          t("superpowers.slides.listas.messages.sender"),
+          t("superpowers.slides.listas.messages.receiver"),
         ],
+        gradient: gradients[4],
       },
       {
         title: t("superpowers.slides.integracion.title"),
-        dotTitle: t("superpowers.slides.integracion.dotTitle"),
         description: t("superpowers.slides.integracion.description"),
-        image:
-          language === "es"
-            ? "/homepage/chat_six.svg"
-            : "/homepage/chat_six.webp",
-        gradient: "gradientOrange",
+        dotTitle: t("superpowers.slides.integracion.dotTitle"),
         messages: [
-          {
-            side: "sender",
-            type: "text",
-            text: t("superpowers.slides.integracion.messages.sender"),
-            timestamp: "17:48",
-            read: true,
-          },
-          {
-            side: "receiver",
-            type: "text",
-            text: t("superpowers.slides.integracion.messages.receiver"),
-            timestamp: "17:48",
-          },
+          t("superpowers.slides.integracion.messages.sender"),
+          t("superpowers.slides.integracion.messages.receiver"),
         ],
+        gradient: gradients[5],
       },
-    ],
-  };
+    ];
+
+    const result = {
+      title: t("superpowers.title"),
+      ctaLabel: t("superpowers.ctaLabel"),
+      slides,
+    };
+
+    // Debug first slide
+    console.log("SuperpowerSlider - First slide data:", {
+      title: result.slides[0]?.title,
+      description: result.slides[0]?.description,
+      dotTitle: result.slides[0]?.dotTitle,
+      messages: result.slides[0]?.messages,
+    });
+
+    return result;
+  }, [t]);
 
   // Scroll + sync state when dot clicked
   const handleDotClick = (i) => {
@@ -209,7 +153,7 @@ const SuperpowerSlides = ({ model, activeSlide, onDotClick }) => {
     >
       <div
         data-content-2
-        style={{ width: "100vw", marginLeft: "calc(50% - 50vw)" }}
+        // style={{ width: "100vw", marginLeft: "calc(50% - 50vw)" }}
       >
         <div className="hidden max-md:block">
           <h2 className="hidden text-center text-sm font-semibold text-white max-md:block max-sm:mt-[3.7em] max-sm:px-[25px] max-sm:pb-0 max-sm:pt-[10px] max-sm:text-2xl">
@@ -223,7 +167,7 @@ const SuperpowerSlides = ({ model, activeSlide, onDotClick }) => {
         >
           <div
             data-horizontal-track
-            className="sm:mt-30 flex snap-x snap-mandatory touch-pan-x scroll-smooth [-webkit-overflow-scrolling:touch] max-md:min-h-0 max-md:gap-4 max-md:px-[30px] max-md:py-[20px] 2xl:absolute 2xl:top-[92px] 2xl:mt-20 2xl:min-h-screen 2xl:w-fit 2xl:gap-8 2xl:px-8"
+            className="flex snap-x snap-mandatory touch-pan-x scroll-smooth [-webkit-overflow-scrolling:touch] max-md:min-h-0 max-md:gap-4 max-md:px-[30px] max-md:py-[20px] 2xl:absolute 2xl:top-[92px] 2xl:mt-20 2xl:min-h-screen 2xl:w-fit 2xl:gap-8 2xl:px-8"
             style={{ willChange: "transform" }}
             ref={scrollContainerRef}
           >
