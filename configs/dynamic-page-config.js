@@ -6,11 +6,11 @@ export const COMPONENT_VARIANTS = {
     },
   },
 
-  superpower: {
-    default: {
-      importer: () => import("@/app/components/superpower-ui/SuperpowerView"),
-    },
-  },
+  // superpower: {
+  //   default: {
+  //     importer: () => import("@/app/components/superpower-ui/SuperpowerView"),
+  //   },
+  // },
 
   cosmic: {
     default: {
