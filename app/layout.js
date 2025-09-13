@@ -5,6 +5,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import { NavbarThemeProvider } from "@/contexts/NavbarThemeContext";
 import { AnimationProvider } from "@/contexts/AnimationContext";
 import AnimationInitializer from "@/app/components/AnimationInitializer";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata = {};
 
@@ -102,6 +103,7 @@ export default function RootLayout({ children }) {
               <AnimationInitializer />
               {/* ✅ SideNav context */}
               {children}
+              <SpeedInsights />
             </AnimationProvider>
           </NavbarThemeProvider>
         </SmoothScroll>
