@@ -1,7 +1,7 @@
 "use client";
 import { useLayoutEffect, useEffect, useMemo } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { gsap } from "@/utils/gsap";
+import { ScrollTrigger } from "@/utils/gsap";
 import { useAnimationContext } from "@/contexts/AnimationContext";
 import { useCardsAnimation } from "./useCardsAnimation";
 import { useTextReveal } from "./useTextReveal";
