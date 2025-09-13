@@ -12,12 +12,7 @@ export default function MotionPathOverlay() {
   return (
     <div
       ref={overlayRef}
-      style={{
-        position: "fixed",
-        inset: 0,
-        zIndex: "var(--z-motion-path, 2)",
-        pointerEvents: "none",
-      }}
+      className="fixed inset-0 z-[2] pointer-events-none"
       aria-hidden="true"
     >
       <Image
@@ -26,7 +21,7 @@ export default function MotionPathOverlay() {
         alt="Memorae character moving"
         width={200}
         height={200}
-        style={{ opacity: 0, visibility: "hidden" }}
+        className="opacity-0 invisible"
         unoptimized
       />
     </div>

@@ -71,17 +71,6 @@ const Notification = ({
             height={36}
             className="h-full w-full object-cover"
           />
-          {badgeIcon && (
-            <span className="absolute -bottom-1 -right-1 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-white p-0.5">
-              <Image
-                src={badgeIcon}
-                alt="badge"
-                width={14}
-                height={14}
-                className="h-3.5 w-3.5"
-              />
-            </span>
-          )}
         </div>
         <div className="flex flex-col gap-1">
           <h4 className="m-0 text-left text-[15px] font-medium">

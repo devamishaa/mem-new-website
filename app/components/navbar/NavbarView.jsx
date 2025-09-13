@@ -193,11 +193,11 @@ function NavbarCTA({ model }) {
 // Component for rendering the mobile menu button
 function MobileMenuButton({ mobileOpen, setMobileOpen, mobileMenuRef }) {
   const lineBase =
-    "absolute h-[3px] rounded-[3px] origin-center transition-all duration-300 ease-out";
+    "bg-[#01214F] absolute h-[3px] rounded-[3px] origin-center transition-all duration-300 ease-out";
   return (
     <button
       ref={mobileMenuRef}
-      className="group inline-flex h-10 w-10 cursor-pointer items-center justify-center border-0 bg-transparent min-[860px]:hidden"
+      className="group inline-flex h-10 w-10 cursor-pointer items-center justify-center border-0 min-[860px]:hidden"
       aria-expanded={mobileOpen}
       onClick={() => setMobileOpen(!mobileOpen)}
       aria-label="Toggle mobile menu"
@@ -310,7 +310,7 @@ function NavbarBody({ overlay, logoHref, model }) {
   return (
     <header
       className={clsx(
-        "fixed top-4 left-1/2 -translate-x-1/2 z-50 inline-flex max-w-[1240px] items-center justify-between gap-12 rounded-3xl p-2 pl-6 backdrop-blur-[6rem] backdrop-saturate-125 transition-colors duration-300 ease-in-out isolate max-[860px]:w-[calc(100%-40px)]",
+        "fixed top-4 left-1/2 -translate-x-1/2 z-50 inline-flex max-w-[1240px] items-center justify-between gap-12 rounded-4xl p-2 pl-6 backdrop-blur-[6rem] backdrop-saturate-125 transition-colors duration-300 ease-in-out isolate max-[860px]:w-[calc(100%-40px)]",
         themeClasses[theme],
         overlay && "bg-white/10"
       )}
@@ -340,8 +340,8 @@ function NavbarBody({ overlay, logoHref, model }) {
         <div
           className={clsx(
             "*:transition-colors *:duration-300",
-            burgerLineClasses[theme],
-            "max-[860px]:!*:bg-black"
+            "max-[860px]:!*:bg-transparent",
+            "lg:hidden"
           )}
         >
           <MobileMenuButton

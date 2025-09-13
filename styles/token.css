@@ -1,0 +1,239 @@
+/**
+ * Design System Tokens
+ * Centralized CSS custom properties for consistent design
+ */
+
+:root {
+  /* ===== Memorae Brand Colors ===== */
+  /* Primary brand colors */
+  --color-primary-500: #4f46e5; /* indigo brand */
+  --color-primary-600: #4338ca;
+  --color-primary-700: #3730a3;
+
+  /* Secondary accent */
+  --color-secondary-500: #7c3aed; /* violet accent */
+  --color-secondary-600: #6d28d9;
+
+  /* Memorae specific colors */
+  --color-memorae-dark: #142b4e; /* navbar text */
+  --color-memorae-text-600: #13233a; /* card titles */
+  --color-memorae-text-500: #324a67; /* card content */
+  --color-memorae-muted: #6b7c93; /* muted text */
+  --color-memorae-meta: #6c7a8b; /* meta text */
+
+  /* Neutral system */
+  --color-neutral-50: #f8fafc;
+  --color-neutral-100: #f1f5f9;
+  --color-neutral-200: #e2e8f0;
+  --color-neutral-300: #cbd5e1;
+  --color-neutral-400: #a0a0a0; /* loading text */
+  --color-neutral-500: #64748b;
+  --color-neutral-600: #475569;
+  --color-neutral-700: #334155;
+  --color-neutral-800: #1e293b;
+  --color-neutral-900: #0f172a;
+  --color-neutral-950: #0a0a0a; /* loading bg dark */
+
+  /* Semantic colors mapped to Memorae brand */
+  --color-background: #ffffff;
+  --color-background-dark: var(--color-neutral-950);
+  --color-surface: var(--color-neutral-50);
+  --color-card-bg: #fff; /* Clean white for cards */
+  --color-text-primary: var(--color-memorae-text-600);
+  --color-text-secondary: var(--color-memorae-text-500);
+  --color-text-muted: var(--color-memorae-muted);
+  --color-text-meta: var(--color-memorae-meta);
+
+  /* Component specific colors */
+  --color-navbar-text: var(--color-memorae-dark);
+
+  /* Brand specific backgrounds */
+  --color-brand-bg: radial-gradient(
+    120% 120% at 50% 0%,
+    #f1f6ff 0%,
+    #f6f1ff 50%,
+    #f8f9ff 100%
+  );
+  --color-glass: rgba(255, 255, 255, 0.2);
+  --color-glass-border: rgba(255, 255, 255, 0.28);
+  --color-cta-gradient: linear-gradient(90deg, #6c6cff 0%, #ff66a9 100%);
+
+  /* Pill/Badge colors */
+  --color-pill-green: #e6f6ea;
+  --color-pill-green-text: #1a4c2e;
+  --color-pill-pink: #ffe8f3;
+  --color-pill-pink-text: #7c1a49;
+  --color-pill-blue: #eaf3ff;
+  --color-pill-blue-text: #1e3a8a;
+
+  /* Card specific colors */
+  --color-card-text-primary: #01214f;
+  --color-card-text-secondary: #898f91;
+  --color-card-border: #eaf2f1;
+  --color-gradient-border: #4690c1;
+  --color-verified: #23cf67;
+  --color-rating: #fab115;
+
+  /* ===== Spacing System ===== */
+  --space-1: 0.25rem; /* 4px */
+  --space-2: 0.5rem; /* 8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem; /* 16px */
+  --space-5: 1.25rem; /* 20px */
+  --space-6: 1.5rem; /* 24px */
+  --space-8: 2rem; /* 32px */
+  --space-10: 2.5rem; /* 40px */
+  --space-12: 3rem; /* 48px */
+  --space-16: 4rem; /* 64px */
+  --space-20: 5rem; /* 80px */
+  --space-24: 6rem; /* 96px */
+
+  /* Card specific dimensions */
+  --card-width-min: 220px;
+  --card-width-mobile: 200px;
+  --card-min-height: 120px;
+  --card-whatsapp-height: 200px;
+  --icon-sm: 18px;
+  --icon-md: 24px;
+
+  /* Hero specific dimensions */
+  --hero-max-width: 1280px;
+  --hero-phone-width: 420px;
+  --hero-phone-mobile: 360px;
+  --hero-subtitle-width: 780px;
+  --hero-subtitle-mobile: 520px;
+  --orb-size: 82px;
+
+  /* ===== Typography Scale ===== */
+  --text-xs: 0.75rem; /* 12px */
+  --text-sm: 0.875rem; /* 14px */
+  --text-base: 1rem; /* 16px */
+  --text-lg: 1.125rem; /* 18px */
+  --text-xl: 1.25rem; /* 20px */
+  --text-2xl: 1.5rem; /* 24px */
+  --text-3xl: 1.875rem; /* 30px */
+  --text-4xl: 2.25rem; /* 36px */
+  --text-5xl: 3rem; /* 48px */
+  --text-6xl: 3.75rem; /* 60px */
+
+  /* Card specific typography */
+  --text-card-title: 1.3125rem; /* 21px */
+  --text-card-hero: 0.9375rem; /* 15px */
+  --text-card-micro: 0.6875rem; /* 11px */
+
+  /* ===== Border Radius System ===== */
+  --radius-none: 0;
+  --radius-sm: 0.125rem; /* 2px */
+  --radius-base: 0.25rem; /* 4px */
+  --radius-md: 0.375rem; /* 6px */
+  --radius-lg: 0.5rem; /* 8px */
+  --radius-xl: 0.75rem; /* 12px */
+  --radius-2xl: 1rem; /* 16px */
+  --radius-3xl: 1.125rem; /* 18px */
+  --radius-4xl: 2rem; /* 32px */
+  --radius-full: 9999px;
+
+  /* ===== Shadow System ===== */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-base: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.25);
+
+  /* Component specific shadows */
+  --shadow-glass: 0 8px 24px rgba(0, 0, 0, 0.18);
+  --shadow-card: 0 6px 30px rgba(0, 0, 0, 0.08);
+  --shadow-loading: 0 8px 32px rgba(79, 70, 229, 0.3);
+  --shadow-floating: 0px 8px 8px -4px rgba(0, 0, 0, 0.03);
+  --shadow-testimonial: 0px 28px 33px -17px rgba(150, 52, 231, 0.1);
+
+  /* Hero specific shadows and effects */
+  --shadow-hero-text: 0 2px 20px rgba(31, 7, 69, 0.25);
+  --shadow-cta: 0 10px 24px rgba(255, 102, 169, 0.35);
+  --shadow-cta-hover: 0 14px 30px rgba(255, 102, 169, 0.4);
+
+  /* ===== Animation & Transition ===== */
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 300ms;
+  --duration-slower: 500ms;
+
+  --ease-linear: linear;
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-custom: cubic-bezier(0.2, 0.6, 0, 0.9);
+
+  /* ===== Z-Index Scale ===== */
+  /* Global layers */
+  --z-navbar: 90; /* site navigation */
+  --z-dropdown: var(--z-navbar); /* popovers/menus share navbar layer */
+  --z-modal: 2000; /* dialogs/modals */
+  --z-loading: 9999; /* cursors/spinners */
+  --z-maximum: 2147483647; /* absolute top overlays */
+
+  /* Feature-specific layers (preserve current behavior) */
+  --z-hero-foreground: 89; /* hero character below navbar/dropdowns, above phone */
+  --z-motion-path: 2; /* moving ghost sits behind key images */
+  --z-motion-path-low: 2; /* low layer for motion path */
+  --z-motion-path-high: var(--z-maximum); /* elevate above all when needed */
+
+  /* ===== Breakpoints (for responsive design) ===== */
+  /* Core scale */
+  --bp-sm: 640px;
+  --bp-md: 768px;
+  --bp-lg: 1024px;
+  --bp-xl: 1280px;
+
+  /* Extended breakpoints (used across modules) */
+  --bp-320: 320px;
+  --bp-375: 375px;
+  --bp-425: 425px;
+  --bp-432: 432px;
+  --bp-480: 480px;
+  --bp-600: 600px;
+  --bp-640: var(--bp-sm);
+  --bp-768: var(--bp-md);
+  --bp-800: 800px;
+  --bp-860: 860px;
+  --bp-980: 980px;
+  --bp-1024: var(--bp-lg);
+  --bp-1199: 1199px;
+  --bp-1200: 1200px;
+  --bp-1280: var(--bp-xl);
+  --bp-1420: 1420px;
+  --bp-1440: 1440px;
+}
+
+/* ===== Dark Mode Support ===== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: var(--color-neutral-950);
+    --color-surface: var(--color-neutral-900);
+    --color-text-primary: var(--color-neutral-50);
+    --color-text-secondary: var(--color-neutral-300);
+    --color-text-muted: var(--color-neutral-500);
+  }
+}
+
+/* ===== Reduced Motion Support ===== */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+    --duration-slow: 0ms;
+    --duration-slower: 0ms;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
