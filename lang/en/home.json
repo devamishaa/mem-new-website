@@ -307,15 +307,15 @@
       "cookies": "Cookie Settings"
     }
   },
-  "emotions": {
-    "slide1": "No more post-its on the rearview mirror",
-    "slide2": "No more mental lists",
-    "slide3": "No more reminders on napkins",
-    "slide4": "No more nameless alarms",
-    "slide5": "No more missed appointments",
-    "slide6": "No more late deliveries",
-    "slide7": "No more dead plants"
-  },
+    "emotions": {
+      "slide1": "No more post-its on the rearview mirror",
+      "slide2": "No more mental lists",
+      "slide3": "No more reminders on napkins",
+      "slide4": "No more nameless alarms",
+      "slide5": "No more missed appointments",
+      "slide6": "No more late deliveries",
+      "slide7": "No more dead plants"
+    },
   "cosmic": {
     "title": "Your chaos",
     "subtitle": "Your plan",

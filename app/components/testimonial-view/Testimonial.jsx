@@ -134,13 +134,13 @@ export default function TestimonialsView({ model }) {
       >
         <div className="mb-16 text-center max-w-3xl">
           <h1 data-testimonial-title>
-            <span className="bg-gradient-to-r from-[#5f64ff] to-[#ff66c4] bg-clip-text text-transparent text-5xl font-semibold">
+            <span className="bg-gradient-to-r from-[#5f64ff] to-[#ff66c4] bg-clip-text text-transparent text-5xl font-[500]">
               {t("testimonials.label", "+20k people")}
             </span>
           </h1>
           <h2
             data-testimonial-subtitle
-            className="text-4xl font-semibold text-[#01214f] mt-4"
+            className="text-4xl font-[500] text-[#01214f] mt-4"
           >
             {t("testimonials.tagline", "have forgotten to forget")}
           </h2>
@@ -164,7 +164,7 @@ export default function TestimonialsView({ model }) {
     >
       <div className="mb-16 max-w-3xl text-center">
         <h1 data-testimonial-title>
-          <span className="bg-gradient-to-r from-[#5f64ff] to-[#ff66c4] bg-clip-text text-transparent text-5xl font-semibold">
+          <span className="bg-gradient-to-r from-[#5f64ff] to-[#ff66c4] bg-clip-text text-transparent text-5xl font-[600]">
             {t("testimonials.label", "+20k people")}
           </span>
         </h1>

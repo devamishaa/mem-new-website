@@ -58,11 +58,11 @@ const SuperpowerView = ({ model }) => {
         activeSlide={activeSlide}
         model={model}
       />
-      <SuperpowerSlides
+      {/* <SuperpowerSlides
         model={model}
         activeSlide={activeSlide}
         onDotClick={handleDotClick}
-      />
+      /> */}
     </section>
   );
 };

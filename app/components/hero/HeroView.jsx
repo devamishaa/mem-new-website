@@ -25,7 +25,7 @@ const HeroView = ({ model, language, imageDimensions, ctaHref }) => {
     >
       <img
         className="absolute top-[100px] z-50 h-auto w-[100px] max-h-full object-cover 
-                   min-[1200px]:hidden 
+                   hidden 
                    lg:w-[92px] lg:left-auto 
                    xl:top-[106px] xl:w-[112px]"
         alt="Memorae AI assistant character"

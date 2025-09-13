@@ -97,7 +97,7 @@ const HeroPhoneSection = ({ model, language }) => {
               </div>
             </div>
           </div>
-          <div className="relative z-10 flex w-full flex-col gap-[5px] p-4 md:gap-3 xl:max-w-[340px] xl:gap-3">
+          <div className="relative z-10 flex w-full flex-col gap-[5px] p-2 md:gap-3 xl:max-w-[350px] xl:gap-3">
             <Notification
               appIcon="/hero/Notification.svg"
               appName="WhatsApp"

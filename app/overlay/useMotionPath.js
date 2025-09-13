@@ -87,18 +87,13 @@ function setupGhost(ghost) {
     transformOrigin: "50% 50%",
   });
 
-  // Hide ghost on screens smaller than 1200px
+  // Show ghost on all screen sizes
   const shouldShowGhost = () => {
-    const width =
-      window.innerWidth || document.documentElement.clientWidth || 0;
-    return width >= 1200;
+    return true; // Always show ghost on all screen sizes
   };
 
-  if (shouldShowGhost()) {
-    gsap.set(ghost, { opacity: 1, visibility: "visible" });
-  } else {
-    gsap.set(ghost, { opacity: 0, visibility: "hidden" });
-  }
+  // Always show the ghost
+  gsap.set(ghost, { opacity: 1, visibility: "visible" });
 
   return {
     setX: gsap.quickSetter(ghost, "x", "px"),
@@ -107,8 +102,16 @@ function setupGhost(ghost) {
   };
 }
 
-// Breakpoint-specific motion paths
+// Breakpoint-specific motion paths for all screen sizes
 const MOTION_PATHS = {
+  // Mobile: 320px - 767px
+  MOBILE:
+    "M160,200 Q120,300 200,500 Q280,600 180,800 Q100,1000 220,1200 Q300,1400 200,1600 Q120,1800 240,2000 Q320,2200 200,2400 Q120,2600 240,2800",
+
+  // Tablet: 768px - 1023px
+  TABLET:
+    "M384,180 Q300,350 450,600 Q600,700 400,900 Q250,1100 420,1300 Q550,1500 400,1700 Q280,1900 450,2100 Q600,2300 400,2500 Q280,2700 450,2900",
+
   // Desktop: 1024px - 1439px - Fixed to ensure smooth curves
   DESKTOP:
     "M512,147 Q380,350 709,708 Q950,800 684,1059 Q300,1150 203,1275 Q150,1550 823,1680 Q1100,1720 841,1841 Q600,1950 303,2276 Q180,2450 515,2956",
@@ -124,6 +127,16 @@ function getResponsivePath() {
 
   const width =
     window.innerWidth || document.documentElement.clientWidth || 1024;
+
+  // Mobile: 320px - 767px
+  if (width < 768) {
+    return MOTION_PATHS.MOBILE;
+  }
+
+  // Tablet: 768px - 1023px
+  if (width < 1024) {
+    return MOTION_PATHS.TABLET;
+  }
 
   // Large Desktop: 1440px+
   if (width >= 1440) {
@@ -161,10 +174,11 @@ function applyPathAndMeasure(svgPathNode) {
 }
 
 function ghostWidthFromViewport(vw) {
-  if (vw >= 1440) return 112;
-  if (vw >= 1024) return 92;
-  if (vw >= 768) return 64;
-  return 51;
+  if (vw >= 1440) return 112; // Large Desktop
+  if (vw >= 1024) return 92; // Desktop
+  if (vw >= 768) return 64; // Tablet
+  if (vw >= 480) return 48; // Large Mobile
+  return 40; // Small Mobile
 }
 
 function createScrollTrigger({ place, refreshAll, getYStart, getYEnd }) {
@@ -312,6 +326,10 @@ function mountMotionPath(overlay, ghost) {
 
     // Default targets for each breakpoint - based on actual ghost positions
     const targets = {
+      // Mobile: 320px - 767px
+      MOBILE: { x: 160, y: 200, tol: 20, z: 99999 },
+      // Tablet: 768px - 1023px
+      TABLET: { x: 384, y: 300, tol: 25, z: 99999 },
       // Desktop: 1024px - 1439px (ghost at 675.32px, 377.758px when z-index should change)
       DESKTOP: { x: 675.32, y: 377.758, tol: 25, z: 99999 },
       // Large Desktop: 1440px+ (ghost at 399.739px, 489.18px when z-index should change)
@@ -319,8 +337,16 @@ function mountMotionPath(overlay, ghost) {
     };
 
     // Select target based on screen width
-    const defaultTarget =
-      width >= 1440 ? targets.LARGE_DESKTOP : targets.DESKTOP;
+    let defaultTarget;
+    if (width < 768) {
+      defaultTarget = targets.MOBILE;
+    } else if (width < 1024) {
+      defaultTarget = targets.TABLET;
+    } else if (width >= 1440) {
+      defaultTarget = targets.LARGE_DESKTOP;
+    } else {
+      defaultTarget = targets.DESKTOP;
+    }
 
     // Allow runtime override via window.MEMORAE_MOTIONPATH_ZTARGET
     try {
@@ -348,9 +374,8 @@ function mountMotionPath(overlay, ghost) {
   const { setX, setY, shouldShowGhost } = setupGhost(ghost);
 
   const place = (progress) => {
-    // Hide ghost on screens smaller than 1200px
+    // Always show ghost on all screen sizes
     if (!shouldShowGhost()) {
-      gsap.set(ghost, { opacity: 0, visibility: "hidden" });
       return;
     }
 
@@ -581,17 +606,24 @@ function mountMotionPath(overlay, ghost) {
   window.addEventListener("memorae:path-change", onPathChange);
 
   // Track current path type to detect breakpoint changes
-  let currentPathType = window.innerWidth >= 1440 ? "LARGE_DESKTOP" : "DESKTOP";
+  const getCurrentPathType = (width) => {
+    if (width < 768) return "MOBILE";
+    if (width < 1024) return "TABLET";
+    if (width >= 1440) return "LARGE_DESKTOP";
+    return "DESKTOP";
+  };
+
+  let currentPathType = getCurrentPathType(window.innerWidth);
 
   const onResize = () => {
-    const newPathType = window.innerWidth >= 1440 ? "LARGE_DESKTOP" : "DESKTOP";
+    const width =
+      window.innerWidth || document.documentElement.clientWidth || 1024;
+    const newPathType = getCurrentPathType(width);
     const shouldShow = shouldShowGhost();
 
-    // Handle visibility changes based on screen size
+    // Always show ghost on all screen sizes
     if (shouldShow) {
       gsap.set(ghost, { opacity: 1, visibility: "visible" });
-    } else {
-      gsap.set(ghost, { opacity: 0, visibility: "hidden" });
     }
 
     // If breakpoint changed, update path and reset z-index lock

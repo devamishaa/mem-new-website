@@ -5,8 +5,8 @@ import Button from "@/app/components/common/Button";
 const HeroTextContent = ({ model, ctaHref }) => {
   return (
     <div className="relative z-40 flex w-full flex-col items-center justify-start gap-6 self-stretch text-center text-[63px] text-white md:gap-7 md:text-[80px] lg:text-[100px] xl:text-[132px]">
-      <div className="mt-24 flex flex-col items-center justify-start md:mt-0">
-        <div className="relative mt-[50px] inline-block w-[331.9px] leading-[1.01] md:w-[420px] md:leading-[1.05] lg:w-auto lg:leading-[1.1]">
+      <div className="sm:mt-24 flex flex-col items-center justify-start md:mt-0">
+        <div className="relative sm:mt-[50px] mt-0 inline-block w-[331.9px] leading-[1.01] md:w-[420px] md:leading-[1.05] lg:w-auto lg:leading-[1.1]">
           {/* Mobile view uses a single span with a line break for better text flow */}
           <span
             className="font-figtree font-semibold lg:hidden"
