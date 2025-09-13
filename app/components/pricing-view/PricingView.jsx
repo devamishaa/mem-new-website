@@ -590,7 +590,7 @@ const PricingView = ({
           )}
         </div>
 
-        <div className="flex items-center gap-4 py-1 px-2  md:p-6 bg-[rgba(35, 207, 103, 0.10)] mb-5 rounded-xl backdrop-blur-sm border border-[#23CF67] text-left w-full">
+        <div className="flex items-center gap-4 py-1 px-2 w-auto md:p-2 bg-[rgba(35, 207, 103, 0.10)] mb-5 rounded-xl backdrop-blur-sm border border-[#23CF67] text-left">
           <CdnImage
             src="/homepage/offer_check.svg"
             alt="offer"
@@ -600,7 +600,8 @@ const PricingView = ({
           />
           <div>
             <h2 className="text-sm sm:text-base md:text-lg font-normal text-[#23CF67]">
-              {model.refundGuaranteeTitle}: {model.refundGuaranteeDescription}
+              <b>{model.refundGuaranteeTitle}</b>:{" "}
+              {model.refundGuaranteeDescription}
             </h2>
           </div>
         </div>
