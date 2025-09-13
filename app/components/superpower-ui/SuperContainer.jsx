@@ -1,7 +1,14 @@
-import React from "react";
+"use client";
+import { useMemo } from "react";
+import { useTranslation } from "@/hooks/useTranslation";
+import SuperpowerView from "./SuperpowerView";
 
-const SuperContainer = () => {
-  return <div>SuperContainer</div>;
+const SuperpowerContainer = () => {
+  return (
+    <>
+      <SuperpowerView model={model} />
+    </>
+  );
 };
 
-export default SuperContainer;
+export default SuperpowerContainer;

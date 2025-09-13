@@ -66,6 +66,13 @@ export default function FeatureCard({
     // { side: 'receiver'|'sender', name: 'Benni', text: '...', timestamp: '10:20 pm' }
   ],
 }) {
+  console.log("FeatureCard props:", {
+    title,
+    description,
+    className,
+    gradient,
+    messages,
+  });
   return (
     <div
       className={clsx(
@@ -90,7 +97,7 @@ export default function FeatureCard({
           {title}
         </h3>
         <p className="text-lg font-normal leading-snug text-[#999] max-md:mb-3 max-md:text-base max-md:leading-tight max-sm:mb-2.5 max-sm:text-sm">
-          {description}
+          {description || "No description available"}
         </p>
 
         {/* chat bubbles (replaces children) */}

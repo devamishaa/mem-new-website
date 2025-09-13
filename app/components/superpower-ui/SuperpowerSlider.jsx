@@ -1,38 +1,176 @@
 import Image from "next/image";
-import Button from "../common/Button";
+import Button from "@/app/components/common/Button";
 import FeatureCard from "./FeatureCard";
-import { useMemo, useRef } from "react";
-import clsx from "clsx"; // Recommended for conditional classes: npm install clsx
+import { useRef } from "react";
+import clsx from "clsx";
 import { useTranslation } from "@/hooks/useTranslation";
+// import { useNavbarColor } from "@/hooks/useNavbarColor";
 
-const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
+const SuperpowerSlides = ({ model, activeSlide, onDotClick }) => {
   const scrollContainerRef = useRef(null);
   const containerRef = useRef(null);
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
 
-  const superpowerData = useMemo(() => {
-    const slidesData = t('superpowers.slides');
-    const gradients = [
-      "from-blue-500 to-purple-600",
-      "from-green-500 to-teal-600",
-      "from-pink-500 to-red-600",
-      "from-yellow-500 to-orange-600",
-      "from-indigo-500 to-violet-600",
-      "from-red-500 to-rose-600",
-    ];
-
-    const slides = slidesData && typeof slidesData === 'object' ? Object.values(slidesData).map((slide, index) => ({
-      ...slide,
-      messages: slide.messages ? [slide.messages.sender, slide.messages.receiver] : [],
-      gradient: gradients[index % gradients.length],
-    })) : [];
-
-    return {
-      title: t('superpowers.title'),
-      ctaLabel: t('superpowers.ctaLabel'),
-      slides,
-    };
-  }, [t]);
+  // Create superpower data directly from translations
+  const superpowerData = {
+    title: t("superpowers.title"),
+    ctaLabel: t("superpowers.ctaLabel"),
+    slides: [
+      {
+        title: t("superpowers.slides.reminders.title"),
+        dotTitle: t("superpowers.slides.reminders.dotTitle"),
+        description: t("superpowers.slides.reminders.description"),
+        image:
+          language === "es"
+            ? "/homepage/chat_one.svg"
+            : "/homepage/chat_one.webp",
+        gradient: "gradientBlue",
+        messages: [
+          {
+            side: "sender",
+            type: "text",
+            text: t("superpowers.slides.reminders.messages.sender"),
+            timestamp: "17:48",
+            read: true,
+          },
+          {
+            side: "receiver",
+            type: "text",
+            text: t("superpowers.slides.reminders.messages.receiver"),
+            timestamp: "17:48",
+          },
+        ],
+      },
+      {
+        title: t("superpowers.slides.calendars.title"),
+        dotTitle: t("superpowers.slides.calendars.dotTitle"),
+        description: t("superpowers.slides.calendars.description"),
+        image:
+          language === "es"
+            ? "/homepage/chat_two.svg"
+            : "/homepage/chat_two.webp",
+        gradient: "gradientPurple",
+        messages: [
+          {
+            side: "sender",
+            type: "text",
+            text: t("superpowers.slides.calendars.messages.sender"),
+            timestamp: "17:48",
+            read: true,
+          },
+          {
+            side: "receiver",
+            type: "text",
+            text: t("superpowers.slides.calendars.messages.receiver"),
+            timestamp: "17:48",
+          },
+        ],
+      },
+      {
+        title: t("superpowers.slides.focus.title"),
+        dotTitle: t("superpowers.slides.focus.dotTitle"),
+        description: t("superpowers.slides.focus.description"),
+        image:
+          language === "es"
+            ? "/homepage/chat_three.svg"
+            : "/homepage/chat_three.webp",
+        gradient: "gradientGreen",
+        messages: [
+          {
+            side: "sender",
+            type: "text",
+            text: t("superpowers.slides.focus.messages.sender"),
+            timestamp: "17:48",
+            read: true,
+          },
+          {
+            side: "receiver",
+            type: "text",
+            text: t("superpowers.slides.focus.messages.receiver"),
+            timestamp: "17:48",
+          },
+        ],
+      },
+      {
+        title: t("superpowers.slides.insights.title"),
+        dotTitle: t("superpowers.slides.insights.dotTitle"),
+        description: t("superpowers.slides.insights.description"),
+        image:
+          language === "es"
+            ? "/homepage/chat_four.svg"
+            : "/homepage/chat_four.webp",
+        gradient: "gradientPink",
+        messages: [
+          {
+            side: "sender",
+            type: "image",
+            imgSrc: "/homepage/voice_pfp.svg",
+            imgAlt: "Voice message waveform",
+            timestamp: "17:48",
+            read: true,
+          },
+          {
+            side: "receiver",
+            type: "text",
+            text: t("superpowers.slides.insights.messages.receiver"),
+            timestamp: "17:48",
+          },
+        ],
+      },
+      {
+        title: t("superpowers.slides.listas.title"),
+        dotTitle: t("superpowers.slides.listas.dotTitle"),
+        description: t("superpowers.slides.listas.description"),
+        image:
+          language === "es"
+            ? "/homepage/chat_five.svg"
+            : "/homepage/chat_five.webp",
+        gradient: "gradientBlue",
+        messages: [
+          {
+            side: "sender",
+            type: "image",
+            imgSrc: "/homepage/Rectangle.svg",
+            imgAlt: "Img Chat message",
+            text: t("superpowers.slides.listas.messages.sender"),
+            timestamp: "17:48",
+            read: true,
+          },
+          {
+            side: "receiver",
+            type: "text",
+            text: t("superpowers.slides.listas.messages.receiver"),
+            timestamp: "17:48",
+          },
+        ],
+      },
+      {
+        title: t("superpowers.slides.integracion.title"),
+        dotTitle: t("superpowers.slides.integracion.dotTitle"),
+        description: t("superpowers.slides.integracion.description"),
+        image:
+          language === "es"
+            ? "/homepage/chat_six.svg"
+            : "/homepage/chat_six.webp",
+        gradient: "gradientOrange",
+        messages: [
+          {
+            side: "sender",
+            type: "text",
+            text: t("superpowers.slides.integracion.messages.sender"),
+            timestamp: "17:48",
+            read: true,
+          },
+          {
+            side: "receiver",
+            type: "text",
+            text: t("superpowers.slides.integracion.messages.receiver"),
+            timestamp: "17:48",
+          },
+        ],
+      },
+    ],
+  };
 
   // Scroll + sync state when dot clicked
   const handleDotClick = (i) => {
@@ -71,7 +209,7 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
     >
       <div
         data-content-2
-        // style={{ width: "100vw", marginLeft: "calc(50% - 50vw)" }}
+        style={{ width: "100vw", marginLeft: "calc(50% - 50vw)" }}
       >
         <div className="hidden max-md:block">
           <h2 className="hidden text-center text-sm font-semibold text-white max-md:block max-sm:mt-[3.7em] max-sm:px-[25px] max-sm:pb-0 max-sm:pt-[10px] max-sm:text-2xl">
@@ -85,7 +223,7 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
         >
           <div
             data-horizontal-track
-            className="flex snap-x snap-mandatory touch-pan-x scroll-smooth [-webkit-overflow-scrolling:touch] max-md:min-h-0 max-md:gap-4 max-md:px-[30px] max-md:py-[20px] 2xl:absolute 2xl:top-[92px] 2xl:mt-20 2xl:min-h-screen 2xl:w-fit 2xl:gap-8 2xl:px-8"
+            className="sm:mt-30 flex snap-x snap-mandatory touch-pan-x scroll-smooth [-webkit-overflow-scrolling:touch] max-md:min-h-0 max-md:gap-4 max-md:px-[30px] max-md:py-[20px] 2xl:absolute 2xl:top-[92px] 2xl:mt-20 2xl:min-h-screen 2xl:w-fit 2xl:gap-8 2xl:px-8"
             style={{ willChange: "transform" }}
             ref={scrollContainerRef}
           >

@@ -454,49 +454,6 @@
   "pills": {
     "topText": "If your hand doesn't tremble when paying €5 for an 'artisanal' coffee",
     "bottomText": "why not invest in remembering everything?",
-    "comparePlansButton": "Compare Plans",
-    "cards": [
-      {
-        "title": "Smart Reminders",
-        "description": "Never forget important tasks with AI-powered reminders",
-        "dotTitle": "Smart"
-      },
-      {
-        "title": "Voice Notes",
-        "description": "Record and transcribe your thoughts instantly",
-        "dotTitle": "Voice"
-      },
-      {
-        "title": "Multi-Platform",
-        "description": "Sync across all your devices seamlessly",
-        "dotTitle": "Sync"
-      },
-      {
-        "title": "AI Assistant",
-        "description": "Get intelligent suggestions and insights",
-        "dotTitle": "AI"
-      }
-    ]
-  },
-  "comparePlans": {
-    "button": "Compare Plans",
-    "functionality": "Functionality",
-    "features": {
-      "unlimitedUniqueReminders": "Unlimited unique reminders",
-      "unlimitedRecurringReminders": "Unlimited recurring reminders",
-      "support100Languages": "Support in 100+ languages",
-      "unlimitedVoiceNotes": "Unlimited voice notes",
-      "multiCalendarSync": "Multi-calendar sync",
-      "createAndAddLists": "Create and add lists",
-      "advancedDashboard": "Advanced dashboard",
-      "chatGptIntegrated": "ChatGPT integrated (unlimited use)",
-      "unlimitedImageAnalysis": "Unlimited image analysis",
-      "unlimitedInternetSearch": "Unlimited internet search",
-      "premiumSupport": "Premium support",
-      "noSubscriptions": "No subscriptions or recurring payments",
-      "priorityPremiumSupport": "Priority in Premium support",
-      "guaranteedAccess": "Guaranteed access to future features",
-      "priorityNewFeatures": "Priority in requesting new features"
-    }
+    "comparePlansButton": "Compare Plans"
   }
 }

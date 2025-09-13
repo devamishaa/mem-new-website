@@ -530,49 +530,6 @@
   "pills": {
     "topText": "Si no te tiembla la mano al pagar 5€ por un café \"artesanal\"",
     "bottomText": "¿por qué no invertir en recordarlo todo?",
-    "comparePlansButton": "Comparar Planes",
-    "cards": [
-      {
-        "title": "Recordatorios Inteligentes",
-        "description": "Nunca olvides tareas importantes con recordatorios impulsados por IA",
-        "dotTitle": "Smart"
-      },
-      {
-        "title": "Notas de Voz",
-        "description": "Graba y transcribe tus pensamientos al instante",
-        "dotTitle": "Voz"
-      },
-      {
-        "title": "Multi-Plataforma",
-        "description": "Sincroniza en todos tus dispositivos sin problemas",
-        "dotTitle": "Sync"
-      },
-      {
-        "title": "Asistente IA",
-        "description": "Obtén sugerencias e insights inteligentes",
-        "dotTitle": "IA"
-      }
-    ]
-  },
-  "comparePlans": {
-    "button": "Comparar Planes",
-    "functionality": "Funcionalidad",
-    "features": {
-      "unlimitedUniqueReminders": "Recordatorios únicos ilimitados",
-      "unlimitedRecurringReminders": "Recordatorios recurrentes ilimitados",
-      "support100Languages": "Soporte en 100+ idiomas",
-      "unlimitedVoiceNotes": "Notas de voz ilimitadas",
-      "multiCalendarSync": "Sincronización multi-calendarios",
-      "createAndAddLists": "Crear y añadir listas",
-      "advancedDashboard": "Dashboard avanzado",
-      "chatGptIntegrated": "ChatGPT integrado (uso ilimitado)",
-      "unlimitedImageAnalysis": "Análisis de imágenes ilimitado",
-      "unlimitedInternetSearch": "Búsqueda ilimitada en Internet",
-      "premiumSupport": "Soporte Premium",
-      "noSubscriptions": "Sin suscripciones ni pagos recurrentes",
-      "priorityPremiumSupport": "Prioridad en Soporte Premium",
-      "guaranteedAccess": "Acceso garantizado a futuras funciones",
-      "priorityNewFeatures": "Prioridad en petición de nuevas funcionalidades"
-    }
+    "comparePlansButton": "Comparar Planes"
   }
 }

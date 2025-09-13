@@ -93,7 +93,6 @@ export function useHeroTimeline(containerRef) {
   const { isLoadingComplete } = useAnimationContext();
 
   // Debug logging
-  console.log("useHeroTimeline - isLoadingComplete:", isLoadingComplete);
 
   // Initialize floating elements immediately (they don't need to wait for loading)
   const floatingAnimation = useFloatingElements(containerRef);

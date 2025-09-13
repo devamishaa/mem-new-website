@@ -342,7 +342,7 @@ const PricingView = ({
         <div className="w-full mt-2 rounded-xl bg-[#eaf2f1] min-h-[70px] sm:min-h-[87px] overflow-visible flex-shrink-0 flex flex-col items-start justify-start box-border gap-2 text-base text-[#121723]">
           {renderVideoCard("pro")}
         </div>
-        <button className="w-full mt-4 text-base sm:text-lg py-3 rounded-full font-semibold text-white transition-all duration-200 flex items-center justify-center gap-2 bg-[#557bf4] hover:bg-[#4169e1]">
+        <button className="w-full mt-4 text-base sm:text-lg py-3 rounded-full font-normal text-white transition-all duration-200 flex items-center justify-center gap-2 bg-[#557bf4] hover:bg-[#4169e1]">
           {model.plans.pro.cta.try} <SvgIcon name="ArrowRight" size={18} />
         </button>
       </div>
@@ -417,7 +417,7 @@ const PricingView = ({
             <div className="w-full mt-2 rounded-xl bg-[#eaf2f1] min-h-[70px] sm:min-h-[87px] overflow-visible flex-shrink-0 flex flex-col items-start justify-start box-border gap-2 text-base text-[#121723]">
               {renderVideoCard("super")}
             </div>
-            <button className="w-full mt-4 text-base sm:text-lg py-3 rounded-full font-semibold text-white transition-all duration-200 flex items-center justify-center gap-2 bg-gradient-to-r from-[#557bf4] to-[#ff66c4] hover:shadow-lg hover:shadow-pink-500/30">
+            <button className="w-full mt-4 text-base sm:text-lg py-3 rounded-full font-normal text-white transition-all duration-200 flex items-center justify-center gap-2 bg-gradient-to-r from-[#557bf4] to-[#ff66c4] hover:shadow-lg hover:shadow-pink-500/30">
               {model.plans.supernova.cta.try}{" "}
               <SvgIcon name="ArrowRight" size={18} />
             </button>
@@ -474,7 +474,7 @@ const PricingView = ({
         <div className="w-full mt-2 rounded-xl bg-[#eaf2f1] min-h-[70px] sm:min-h-[87px] overflow-visible flex-shrink-0 flex flex-col items-start justify-start box-border gap-2 text-base text-[#121723]">
           {renderVideoCard("life")}
         </div>
-        <button className="w-full mt-4 text-base sm:text-lg py-3 rounded-full font-semibold text-black transition-all duration-200 flex items-center justify-center gap-2 bg-[#fab115] hover:bg-[#e6a014]">
+        <button className="w-full mt-4 text-base sm:text-lg py-3 rounded-full font-normal text-black transition-all duration-200 flex items-center justify-center gap-2 bg-[#fab115] hover:bg-[#e6a014]">
           {model.plans.lifetime.cta.try} <SvgIcon name="ArrowRight" size={18} />
         </button>
       </div>
@@ -489,7 +489,7 @@ const PricingView = ({
       {/* Background gradient handled by a separate div for cleaner dynamic classes */}
       <div
         className={clsx(
-          "absolute w-[2060px] h-[2094px] top-1/2 -translate-y-1/2 rounded-full z-0 transition-all duration-700 ease-in-out",
+          "absolute w-[2060px] h-[2094px] top-1/2 -translate-y-1/2 rounded-[80%] sm:rounded-[90%] md:rounded-[80%] lg:rounded-full z-0 transition-all duration-700 ease-in-out",
           selected === "pro" &&
             "left-[calc(50%-1416px)] bg-[radial-gradient(50%_50%_at_50%_50%,rgba(85,123,244,0.25),rgba(9,13,16,0.3)_40%,rgba(9,13,16,0.8)_70%,rgba(9,13,16,1))]",
           selected === "super" &&

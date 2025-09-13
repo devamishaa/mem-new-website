@@ -1,5 +1,6 @@
 import CdnImage from "@/app/components/common/CdnImage";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useMemo } from "react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 /**
  * A component to inject custom CSS for the speech bubble's tail,
@@ -25,82 +26,102 @@ const SpeechBubbleTailStyle = () => (
 
 const SuperpowerContent = ({
   currentEmotionImage = "/homepage/Memorae_Character.png",
-  // activeSlide and model props are kept for API consistency
-  activeSlide = 0,
+  emotionText,
   model,
+  activeSlide = 0,
 }) => {
   const containerRef = useRef(null);
-  const [emotionText, setEmotionText] = useState(
-    "¡Hola! Soy Memorae, tu asistente personal para recordar todo lo importante."
-  );
-
-  // Mark the emotion image as hydrated so external overlays wait to mutate it
   const imgRef = useRef(null);
+  const { t } = useTranslation();
+
   useEffect(() => {
     if (imgRef.current) {
       imgRef.current.setAttribute("data-hydrated", "");
     }
   }, []);
 
-  // Ensure image is visible when component mounts or image changes
   useEffect(() => {
     if (imgRef.current) {
-      // Reset to visible state when image changes
       imgRef.current.style.opacity = "1";
       imgRef.current.style.visibility = "visible";
       imgRef.current.style.animation = ""; // Reset animation
     }
   }, [currentEmotionImage]);
 
+  // Get speech bubble text from translations based on active slide - reactive to activeSlide changes
+  const speechBubbleText = useMemo(() => {
+    // Map activeSlide to existing superpowers.slides translation keys
+    const slideTexts = {
+      0: "superpowers.slides.reminders.description",
+      1: "superpowers.slides.calendars.description",
+      2: "superpowers.slides.focus.description",
+      3: "superpowers.slides.insights.description",
+      4: "superpowers.slides.listas.description",
+      5: "superpowers.slides.integracion.description",
+    };
+
+    const textKey =
+      slideTexts[activeSlide] || "superpowers.slides.reminders.description";
+    const translatedText = t(textKey);
+
+    console.log("SuperpowerContent - Translation debug:", {
+      activeSlide,
+      textKey,
+      translatedText,
+      isKeySame: translatedText === textKey,
+    });
+
+    // If translation returns the key itself, use a fallback
+    if (translatedText === textKey) {
+      return "Hello! I'm Memorae, your personal assistant.";
+    }
+
+    return translatedText;
+  }, [activeSlide, t]);
+
+  // Debug: Log when activeSlide changes
   useEffect(() => {
-    const emotionTextElement = document.querySelector("[data-emotion-text]");
-    if (!emotionTextElement) return;
+    console.log("SuperpowerContent - activeSlide changed:", activeSlide);
+    console.log("SuperpowerContent - speechBubbleText:", speechBubbleText);
+    console.log("SuperpowerContent - emotionText:", emotionText);
 
-    const observer = new MutationObserver(() => {
-      const text = emotionTextElement.textContent || "";
-      setEmotionText(text);
-    });
-
-    // Initial check
-    setEmotionText(emotionTextElement.textContent || "");
-
-    // Start observing
-    observer.observe(emotionTextElement, {
-      childList: true,
-      characterData: true,
-      subtree: true,
-    });
-
-    return () => observer.disconnect();
-  }, []);
+    // Test translation directly
+    const testKey = "superpowers.slides.reminders.description";
+    const testTranslation = t(testKey);
+    console.log("Test translation for", testKey, ":", testTranslation);
+  }, [activeSlide, speechBubbleText, emotionText, t]);
 
   return (
     <div
       ref={containerRef}
-      className="relative z-[1] flex h-screen w-full items-center justify-center overflow-hidden max-md:px-4 max-md:py-8 max-sm:px-4 max-sm:py-6"
+      className="relative z-[1] flex h-screen w-screen items-center justify-center overflow-hidden max-md:px-4 max-md:py-8 max-sm:px-4 max-sm:py-6"
       data-panel-1
+      style={{ width: "100vw", marginLeft: "calc(50% - 50vw)" }}
     >
       <SpeechBubbleTailStyle />
       {/* Desktop background */}
       <CdnImage
-        className="absolute inset-0 z-[1]"
+        className="absolute inset-0 z-[1] w-full h-full"
         src="/homepage/Desktop.webp"
         alt="Desktop background"
         fill
         priority
-        style={{ objectFit: "cover" }}
+        style={{
+          objectFit: "cover",
+          objectPosition: "center",
+        }}
       />
       <div className="relative z-[2] text-center text-white">
         <div className="relative mt-[13em] flex flex-col items-center">
           <div
             className="speech-bubble-tail relative mb-[25px] rounded-xl bg-white/85 px-6 py-3 text-base font-medium text-[#333] shadow-[0_4px_12px_rgba(0,0,0,0.1)] max-sm:max-w-[320px] max-sm:px-[1.2rem] max-sm:py-[0.8rem]"
-            style={{ display: emotionText ? "block" : "none" }}
+            style={{ display: speechBubbleText ? "block" : "none" }}
           >
             <p
               data-emotion-text
               className="font-intertight m-0 text-[20px] font-medium leading-snug max-sm:text-lg"
             >
-              {emotionText}
+              {speechBubbleText}
             </p>
           </div>
           <div className="relative z-[3] flex items-center justify-center">

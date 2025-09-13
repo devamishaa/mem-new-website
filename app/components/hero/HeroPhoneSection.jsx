@@ -6,7 +6,6 @@ import Notification from "@/app/components/common/notification/Notification";
 
 const HeroPhoneSection = ({ model, language }) => {
   // Debug logging
-  console.log("HeroPhoneSection rendering with:", { model, language });
 
   const [currentTime, setCurrentTime] = useState(null);
 
