@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import { useMotionPath } from "@/app/overlay/useMotionPath";
 
 export default function MotionPathOverlay() {
@@ -19,11 +20,14 @@ export default function MotionPathOverlay() {
       }}
       aria-hidden="true"
     >
-      <img
+      <Image
         ref={ghostRef}
         src="/homepage/Memorae_Character 1.svg"
         alt="Memorae character moving"
+        width={200}
+        height={200}
         style={{ opacity: 0, visibility: "hidden" }}
+        unoptimized
       />
     </div>
   );

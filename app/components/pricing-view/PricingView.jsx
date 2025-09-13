@@ -28,7 +28,11 @@ const planBorderColor = {
   life: "#F59E0B", // Yellow
 };
 
-const PricingView = ({ model, getFeaturesByPlan, priceUtils }) => {
+const PricingView = ({
+  model = { packages: [], plans: {} },
+  getFeaturesByPlan,
+  priceUtils,
+}) => {
   const [billing, setBilling] = useState("anual");
   const [selected, setSelected] = useState("super");
   const [modalFeature, setModalFeature] = useState(null);
@@ -115,7 +119,7 @@ const PricingView = ({ model, getFeaturesByPlan, priceUtils }) => {
 
   const plans = useMemo(() => {
     // Memoization logic remains the same...
-    if (!model.packages || !priceUtils) return {};
+    if (!model?.packages || !priceUtils) return {};
     const isAnnual = billing === "anual";
     const filteredPackages = model.packages.filter((pkg) =>
       isAnnual
