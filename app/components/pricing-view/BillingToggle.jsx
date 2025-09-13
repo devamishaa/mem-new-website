@@ -25,7 +25,7 @@ const BillingToggle = ({ billing, setBilling, model }) => {
       ></div>
       <button
         ref={monthlyRef}
-        className={`relative border-0 bg-transparent text-white/70 px-3 py-1.5 rounded-[19px] font-medium cursor-pointer transition-all duration-200 text-sm whitespace-nowrap flex flex-row items-center justify-center gap-1 min-w-[80px] z-10 ${
+        className={`relative border-0 bg-transparent text-white/70 px-3 py-1.5 rounded-[19px] font-medium cursor-pointer transition-all duration-200 text-xs sm:text-sm whitespace-nowrap flex flex-row items-center justify-center gap-1 min-w-[80px] z-10 ${
           billing === "mensual" ? "text-white font-bold" : "hover:text-white/90"
         }`}
         onClick={() => setBilling("mensual")}
@@ -36,7 +36,7 @@ const BillingToggle = ({ billing, setBilling, model }) => {
       </button>
       <button
         ref={annualRef}
-        className={`relative border-0 bg-transparent text-white/70 px-3 py-1.5 rounded-[19px] font-medium cursor-pointer transition-all duration-200 text-sm whitespace-nowrap flex flex-row items-center justify-center gap-1 min-w-[80px] z-10 ${
+        className={`relative border-0 bg-transparent text-white/70 px-3 py-1.5 rounded-[19px] font-medium cursor-pointer transition-all duration-200 text-xs sm:text-sm whitespace-nowrap flex flex-row items-center justify-center gap-1 min-w-[80px] z-10 ${
           billing === "anual" ? "text-white font-bold" : "hover:text-white/90"
         }`}
         onClick={() => setBilling("anual")}
@@ -44,7 +44,7 @@ const BillingToggle = ({ billing, setBilling, model }) => {
         aria-selected={billing === "anual"}
       >
         {model.interval.annual}
-        <span className="rounded-[15px] bg-[#23cf67] text-[#090d10] px-1 py-0.5 text-xs font-semibold">
+        <span className="rounded-[15px] bg-[#23cf67] text-[#090d10] px-1 py-0.5 text-[10px] sm:text-xs font-semibold">
           -40%
         </span>
       </button>

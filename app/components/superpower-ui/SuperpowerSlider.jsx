@@ -1,73 +1,38 @@
 import Image from "next/image";
 import Button from "../common/Button";
 import FeatureCard from "./FeatureCard";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import clsx from "clsx"; // Recommended for conditional classes: npm install clsx
+import { useTranslation } from "@/hooks/useTranslation";
 
-const SuperpowerSlides = ({ model, activeSlide, onDotClick }) => {
+const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
   const scrollContainerRef = useRef(null);
   const containerRef = useRef(null);
+  const { t } = useTranslation();
 
-  // Default dummy data
-  const defaultModel = {
-    superpower: {
-      title: "Descubre el poder de Memorae",
-      ctaLabel: "Comenzar ahora",
-      slides: [
-        {
-          title: "Recordatorios Inteligentes",
-          dotTitle: "Recordatorios",
-          description:
-            "Nunca olvides una cita importante. Memorae te recuerda todo lo que necesitas saber en el momento perfecto.",
-          gradient: "from-blue-500 to-purple-600",
-          messages: [
-            "Recordatorio: Reunión con el equipo a las 3 PM",
-            "No olvides llamar al dentista mañana",
-            "Tu cita médica es en 2 horas",
-          ],
-        },
-        {
-          title: "Análisis de Patrones",
-          dotTitle: "Análisis",
-          description:
-            "Aprende de tus hábitos y patrones para ofrecerte recordatorios más precisos y útiles.",
-          gradient: "from-green-500 to-teal-600",
-          messages: [
-            "Detecté que siempre olvidas el gimnasio los lunes",
-            "Tu patrón de trabajo sugiere recordarte el almuerzo",
-            "Análisis: Mejor momento para recordatorios es 9 AM",
-          ],
-        },
-        {
-          title: "Integración Total",
-          dotTitle: "Integración",
-          description:
-            "Conecta con todas tus apps favoritas para un control completo de tu vida digital.",
-          gradient: "from-pink-500 to-red-600",
-          messages: [
-            "Sincronizado con tu calendario",
-            "Conectado con WhatsApp",
-            "Integrado con Google Calendar",
-          ],
-        },
-        {
-          title: "Personalización Avanzada",
-          dotTitle: "Personalización",
-          description:
-            "Configura Memorae exactamente como lo necesitas. Cada detalle se adapta a tu estilo de vida.",
-          gradient: "from-yellow-500 to-orange-600",
-          messages: [
-            "Configura tus horarios preferidos",
-            "Personaliza el tono de voz",
-            "Ajusta la frecuencia de recordatorios",
-          ],
-        },
-      ],
-    },
-  };
+  const superpowerData = useMemo(() => {
+    const slidesData = t('superpowers.slides');
+    const gradients = [
+      "from-blue-500 to-purple-600",
+      "from-green-500 to-teal-600",
+      "from-pink-500 to-red-600",
+      "from-yellow-500 to-orange-600",
+      "from-indigo-500 to-violet-600",
+      "from-red-500 to-rose-600",
+    ];
 
-  // Use model data or fallback to default
-  const superpowerData = model?.superpower || defaultModel.superpower;
+    const slides = slidesData && typeof slidesData === 'object' ? Object.values(slidesData).map((slide, index) => ({
+      ...slide,
+      messages: slide.messages ? [slide.messages.sender, slide.messages.receiver] : [],
+      gradient: gradients[index % gradients.length],
+    })) : [];
+
+    return {
+      title: t('superpowers.title'),
+      ctaLabel: t('superpowers.ctaLabel'),
+      slides,
+    };
+  }, [t]);
 
   // Scroll + sync state when dot clicked
   const handleDotClick = (i) => {

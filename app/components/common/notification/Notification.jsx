@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 // Note: No more CSS Module import is needed.
 
@@ -12,7 +12,10 @@ const Notification = ({
   badgeIcon,
   translations,
   style, // Accept style prop for animation delay
+  index = 0, // Add index prop for staggered animation
 }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const notificationRef = useRef(null);
   // Logic for translations remains the same
   const getTranslatedContent = () => {
     if (!translations) return { appName, message };
@@ -57,10 +60,48 @@ const Notification = ({
   const { appName: translatedAppName, message: translatedMessage } =
     getTranslatedContent();
 
+  // Intersection Observer for stack animation
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Add staggered delay based on index
+            setTimeout(() => {
+              setIsVisible(true);
+            }, index * 200); // 200ms delay between each notification
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px", // Trigger when 50px from bottom
+      }
+    );
+
+    if (notificationRef.current) {
+      observer.observe(notificationRef.current);
+    }
+
+    return () => {
+      if (notificationRef.current) {
+        observer.unobserve(notificationRef.current);
+      }
+    };
+  }, [index]);
+
   return (
     <div
-      className="relative flex w-full max-w-[380px] shrink-0 items-center justify-between rounded-[15px] p-1.5 font-sans text-[#111] shadow-[0_4px_20px_rgba(0,0,0,0.15)] backdrop-blur-[15px] animate-slideInFromRight"
-      style={style} // Apply dynamic styles here
+      ref={notificationRef}
+      className={`relative flex w-full max-w-[380px] shrink-0 items-center justify-between rounded-[15px] p-1.5 font-sans text-[#111] shadow-[0_4px_20px_rgba(0,0,0,0.15)] backdrop-blur-[15px] transition-all duration-500 ease-out ${
+        isVisible
+          ? "opacity-100 transform translate-y-0 scale-100"
+          : "opacity-0 transform translate-y-4 scale-95"
+      }`}
+      style={{
+        ...style,
+        transitionDelay: isVisible ? `${index * 200}ms` : "0ms",
+      }}
     >
       <div className="flex items-center gap-2.5">
         <div className="relative h-[42px] w-[42px] shrink-0">

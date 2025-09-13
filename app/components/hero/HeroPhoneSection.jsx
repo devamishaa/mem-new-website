@@ -106,6 +106,7 @@ const HeroPhoneSection = ({ model, language }) => {
               time={model?.notifications?.whatsapp?.time || "34m ago"}
               badgeIcon="/hero/Notification.svg"
               translations={model}
+              index={0}
             />
             <Notification
               appIcon="/hero/Notification.svg"
@@ -114,6 +115,7 @@ const HeroPhoneSection = ({ model, language }) => {
               time={model?.notifications?.memoraeMeeting?.time || "1h ago"}
               badgeIcon="/hero/Notification.svg"
               translations={model}
+              index={1}
             />
             <Notification
               appIcon="/hero/Notification.svg"
@@ -122,6 +124,7 @@ const HeroPhoneSection = ({ model, language }) => {
               time={model?.notifications?.calendar?.time || "2h ago"}
               badgeIcon="/hero/Notification.svg"
               translations={model}
+              index={2}
             />
             <Notification
               appIcon="/hero/Notification.svg"
@@ -130,6 +133,7 @@ const HeroPhoneSection = ({ model, language }) => {
               time={model?.notifications?.memoraeTask?.time || "3h ago"}
               badgeIcon="/hero/Notification.svg"
               translations={model}
+              index={3}
             />
           </div>
         </div>

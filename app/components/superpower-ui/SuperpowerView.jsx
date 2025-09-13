@@ -1,5 +1,5 @@
 "use client";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState, useMemo } from "react";
 // import { useAnimationContext } from "@/contexts/AnimationContext";
 import SuperpowerContent from "./SuperpowerContent";
 import gsap from "gsap";
@@ -230,7 +230,18 @@ function setupDotClickHandlers(container, handleDotClick) {
 
 // --- End of inlined useSuperpowerTimeline.js code ---
 
-const SuperpowerView = ({ model }) => {
+import { useTranslation } from "@/hooks/useTranslation";
+
+const SuperpowerView = () => {
+  const { t } = useTranslation();
+
+  const model = useMemo(
+    () => ({
+      emotions: t("emotions"),
+      superpower: t("superpowers"),
+    }),
+    [t]
+  );
   const containerRef = useRef(null);
   const timelineRef = useRef();
   //   const { isLoadingComplete } = useAnimationContext();

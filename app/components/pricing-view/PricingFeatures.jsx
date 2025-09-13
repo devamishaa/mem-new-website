@@ -55,7 +55,7 @@ const PricingFeatures = ({ model, featuresByPlan }) => {
   return (
     <div className="w-full" data-pricing-features>
       <div className="header-container">
-        <p className="self-stretch m-0 text-center text-2xl font-semibold">
+        <p className="self-stretch m-0 text-center text-lg sm:text-xl lg:text-2xl font-semibold">
           {model.unlockWithPlan}{" "}
           <span className={planTextStyles[selectedPlan]}>
             {model.planPrefix} {getPlanDisplayName()}
@@ -83,11 +83,11 @@ const PricingFeatures = ({ model, featuresByPlan }) => {
                 <div>
                   {" "}
                   {/* Corresponds to featureContent */}
-                  <h4 className="self-stretch m-0 text-center text-[11px] font-semibold text-white">
+                  <h4 className="self-stretch m-0 text-center text-[10px] sm:text-[11px] font-semibold text-white">
                     {feature.label}
                   </h4>
                   {/* featureDescription was not in CSS, added sensible defaults */}
-                  <p className="m-0 text-center text-[10px] text-gray-400">
+                  <p className="m-0 text-center text-[9px] sm:text-[10px] text-gray-400">
                     {feature.description}
                   </p>
                 </div>
@@ -95,7 +95,9 @@ const PricingFeatures = ({ model, featuresByPlan }) => {
             ))}
           </div>
         ) : (
-          <p className="p-8 text-gray-400">{model.selectPlanFeatures}</p>
+          <p className="p-8 text-sm sm:text-base text-gray-400">
+            {model.selectPlanFeatures}
+          </p>
         )}
 
         {/* Guarantee section styled with sensible defaults */}
@@ -108,10 +110,10 @@ const PricingFeatures = ({ model, featuresByPlan }) => {
             className="shrink-0"
           />
           <div>
-            <h4 className="font-semibold text-white">
+            <h4 className="text-sm sm:text-base font-semibold text-white">
               {model.refundGuaranteeTitle}
             </h4>
-            <p className="text-sm text-gray-400">
+            <p className="text-xs sm:text-sm text-gray-400">
               {model.refundGuaranteeDescription}
             </p>
           </div>

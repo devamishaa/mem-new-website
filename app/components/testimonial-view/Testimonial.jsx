@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { useTranslation } from "@/hooks/useTranslation";
 // import { useTestimonialsTimeline } from "./animations/useTestimonialsTimeline";
 
 const badgeColors = [
@@ -115,56 +116,15 @@ function TestimonialCard({ testimonial }) {
 
 export default function TestimonialsView({ model }) {
   const containerRef = useRef(null);
+  const { t } = useTranslation();
 
   //   useTestimonialsTimeline(containerRef);
 
-  const testimonialData = model?.testimonials || {};
-  const testimonialsList = Array.isArray(testimonialData.testimonials)
-    ? testimonialData.testimonials
-    : [];
+  // Get testimonials from translation data
+  const testimonialsList = t("testimonials.testimonials", []) || [];
 
-  // Default testimonials data as placeholder
-  const defaultTestimonials = [
-    {
-      id: 1,
-      badge: "Productivity",
-      stars: 5,
-      text: "Memorae has completely transformed how I manage my daily tasks. I never forget important meetings or deadlines anymore!",
-      username: "Sarah Johnson",
-    },
-    {
-      id: 2,
-      badge: "Organization",
-      stars: 5,
-      text: "The smart reminders are incredibly helpful. It's like having a personal assistant that never sleeps.",
-      username: "Mike Chen",
-    },
-    {
-      id: 3,
-      badge: "Efficiency",
-      stars: 4,
-      text: "Finally, an app that understands my schedule and helps me stay on top of everything. Highly recommended!",
-      username: "Emily Rodriguez",
-    },
-    {
-      id: 4,
-      badge: "Innovation",
-      stars: 5,
-      text: "The AI-powered features are game-changing. It learns my patterns and anticipates what I need to remember.",
-      username: "David Kim",
-    },
-    {
-      id: 5,
-      badge: "Reliability",
-      stars: 5,
-      text: "I've tried many reminder apps, but Memorae is the only one that actually works consistently. Love it!",
-      username: "Lisa Thompson",
-    },
-  ];
-
-  // Use default testimonials if no data is provided
-  const finalTestimonialsList =
-    testimonialsList.length > 0 ? testimonialsList : defaultTestimonials;
+  // Use only testimonials from translation data
+  const finalTestimonialsList = testimonialsList;
 
   if (finalTestimonialsList.length === 0) {
     return (
@@ -175,9 +135,16 @@ export default function TestimonialsView({ model }) {
         <div className="mb-16 text-center max-w-3xl">
           <h1 data-testimonial-title>
             <span className="bg-gradient-to-r from-[#5f64ff] to-[#ff66c4] bg-clip-text text-transparent text-5xl font-semibold">
-              Loading testimonials...
+              {t("testimonials.label", "+20k people")}
             </span>
           </h1>
+          <h2
+            data-testimonial-subtitle
+            className="text-4xl font-semibold text-[#01214f] mt-4"
+          >
+            {t("testimonials.tagline", "have forgotten to forget")}
+          </h2>
+          <p className="text-gray-500 mt-4">Loading testimonials...</p>
         </div>
       </div>
     );
@@ -198,15 +165,14 @@ export default function TestimonialsView({ model }) {
       <div className="mb-16 max-w-3xl text-center">
         <h1 data-testimonial-title>
           <span className="bg-gradient-to-r from-[#5f64ff] to-[#ff66c4] bg-clip-text text-transparent text-5xl font-semibold">
-            {testimonialData.label || "+20k people have forgotten to forget"}
+            {t("testimonials.label", "+20k people")}
           </span>
         </h1>
         <h2
           data-testimonial-subtitle
-          className="text-4xl font-semibold text-[#01214f]"
+          className="text-xl sm:text-4xl font-semibold text-[#01214f]"
         >
-          {testimonialData.tagline ||
-            "You just live. Memorae remembers for you."}
+          {t("testimonials.tagline", "have forgotten to forget")}
         </h2>
       </div>
 
@@ -217,7 +183,10 @@ export default function TestimonialsView({ model }) {
         <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-12 bg-gradient-to-l from-white to-transparent"></div>
 
         {/* Track */}
-        <div className="flex w-max gap-4 animate-marquee will-change-transform">
+        <div
+          className="flex w-max gap-4 animate-marquee will-change-transform"
+          style={{ minHeight: "200px" }}
+        >
           {extendedTestimonials.map((testimonial, index) => (
             <TestimonialCard
               key={`${testimonial.id}-${index}`}

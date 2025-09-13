@@ -1,7 +1,7 @@
 const PricingHeader = ({ model }) => {
   // Base classes for the toggle buttons
   const toggleBtnBase =
-    "flex min-w-[80px] cursor-pointer items-center justify-center gap-1 whitespace-nowrap rounded-[19px] border-0 bg-transparent px-3 py-[7px] text-sm font-medium text-white/70 transition-all duration-200 ease-in-out";
+    "flex min-w-[80px] cursor-pointer items-center justify-center gap-1 whitespace-nowrap rounded-[19px] border-0 bg-transparent px-3 py-[7px] text-xs sm:text-sm font-medium text-white/70 transition-all duration-200 ease-in-out";
 
   // Classes for the active state of a toggle button
   const toggleBtnActive =
@@ -13,7 +13,7 @@ const PricingHeader = ({ model }) => {
   return (
     <div className="flex flex-col items-center gap-4">
       {/* The CSS for .pricingTitle was not provided, so using standard heading styles */}
-      <h2 className="text-center text-4xl font-bold text-white md:text-5xl">
+      <h2 className="text-center text-3xl sm:text-4xl md:text-5xl font-bold text-white">
         {model.header}
       </h2>
 
@@ -38,7 +38,7 @@ const PricingHeader = ({ model }) => {
             aria-selected="true"
           >
             {model.interval.annual}
-            <span className="ml-1 rounded-[15px] bg-[#23cf67] px-1 py-0.5 text-[13px] font-semibold text-[#090d10]">
+            <span className="ml-1 rounded-[15px] bg-[#23cf67] px-1 py-0.5 text-[11px] sm:text-[13px] font-semibold text-[#090d10]">
               {model.interval.discount}
             </span>
           </button>

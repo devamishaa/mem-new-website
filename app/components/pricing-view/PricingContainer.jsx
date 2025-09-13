@@ -740,7 +740,9 @@ export default function PricingContainer(props) {
   if (!model) {
     return (
       <div className="pricing-loading">
-        <div className="pricing-loading-text">Loading pricing...</div>
+        <div className="pricing-loading-text text-sm sm:text-base">
+          Loading pricing...
+        </div>
       </div>
     );
   }

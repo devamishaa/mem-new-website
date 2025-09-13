@@ -5,6 +5,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import { NavbarThemeProvider } from "@/contexts/NavbarThemeContext";
 import { AnimationProvider } from "@/contexts/AnimationContext";
 import AnimationInitializer from "@/app/components/AnimationInitializer";
+import CacheClearer from "@/app/components/CacheClearer";
 
 export const metadata = {};
 
@@ -84,8 +85,10 @@ export default function RootLayout({ children }) {
 
         {/* ✅ SEO Meta Tags (already covered in metadata, fallback here optional) */}
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#EC4899" />
         <meta name="robots" content="index, follow" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="#EC4899" />
       </head>
 
       <body>
@@ -95,6 +98,8 @@ export default function RootLayout({ children }) {
           <NavbarThemeProvider>
             {/* ✅ AnimationProvider for animations */}
             <AnimationProvider>
+              {/* ✅ Cache clearer for page refresh */}
+              <CacheClearer />
               {/* ✅ Animation initializer */}
               <AnimationInitializer />
               {/* ✅ SideNav context */}
