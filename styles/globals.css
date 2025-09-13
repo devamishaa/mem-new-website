@@ -1,0 +1,687 @@
+@import "tailwindcss";
+
+@layer utilities {
+  @keyframes gentleStarTwinkle {
+    0% {
+      opacity: 0.3;
+      transform: scale3d(1, 1, 1);
+    }
+    100% {
+      opacity: 1;
+      transform: scale3d(1.2, 1.2, 1);
+    }
+  }
+
+  @keyframes subtleGlow {
+    0% {
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.15),
+        0 0 20px rgba(255, 255, 255, 0.1);
+    }
+    100% {
+      text-shadow: 0 0 16px rgba(255, 255, 255, 0.25),
+        0 0 28px rgba(255, 255, 255, 0.15);
+    }
+  }
+
+  @keyframes shadowShift {
+    0% {
+      box-shadow: 0 -50px 100px -40px #ff9cd9,
+        0 -20px 60px -20px rgba(255, 156, 217, 0.5),
+        0 -10px 30px -10px rgba(255, 156, 217, 0.3);
+    }
+    50% {
+      box-shadow: 0 -50px 100px -40px #c2185b,
+        0 -20px 60px -20px rgba(194, 24, 91, 0.5),
+        0 -10px 30px -10px rgba(194, 24, 91, 0.3);
+    }
+    100% {
+      box-shadow: 0 -50px 100px -40px #673ab7,
+        0 -20px 60px -20px rgba(103, 58, 183, 0.5),
+        0 -10px 30px -10px rgba(103, 58, 183, 0.3);
+    }
+  }
+
+  @keyframes horizonGlow {
+    0% {
+      opacity: 0.3;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    }
+    50% {
+      opacity: 0.8;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.4),
+        0 0 40px rgba(255, 255, 255, 0.2);
+    }
+    100% {
+      opacity: 0.3;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  @keyframes slowBounce {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+}
+
+@layer utilities {
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-33.3333%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
+  }
+}
+
+button {
+  cursor: pointer;
+}
+
+.modal-close {
+  position: absolute;
+  right: 9px;
+  top: 7px;
+  color: #fff;
+  background-color: transparent;
+  border: none;
+}
+
+.modal-content {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  border: 1px solid #222;
+  background: linear-gradient(180deg, #121619 0%, #0c1013 100%);
+  justify-content: center;
+  height: 30vh;
+  width: 30vw;
+}
+
+.modal-title {
+  color: #fff;
+}
+
+.no-scroll {
+  overflow: hidden !important;
+}
+
+/* star */
+.horizonStar {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  contain: layout style;
+}
+
+/* Shooting stars */
+@keyframes animate {
+  0% {
+    transform: rotate(315deg) translateX(0);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(315deg) translateX(-1000px);
+    opacity: 0;
+  }
+}
+
+.shootingStar {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1),
+    0 0 0 8px rgba(255, 255, 255, 0.1), 0 0 20px rgba(255, 255, 255, 0.1);
+  animation: animate 13s linear infinite;
+}
+
+.shootingStar::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 300px;
+  height: 1px;
+  background: linear-gradient(90deg, #fff, transparent);
+}
+
+.shootingStar:nth-child(1) {
+  top: 0;
+  right: 0;
+  left: initial;
+  animation-delay: 0s;
+  animation-duration: 2s;
+}
+
+.shootingStar:nth-child(2) {
+  top: 0;
+  right: 80px;
+  left: initial;
+  animation-delay: 0.2s;
+  animation-duration: 6s;
+}
+
+.shootingStar:nth-child(3) {
+  top: 80px;
+  right: 0px;
+  left: initial;
+  animation-delay: 0.4s;
+  animation-duration: 4s;
+}
+
+.shootingStar:nth-child(4) {
+  top: 0;
+  right: 180px;
+  left: initial;
+  animation-delay: 0.6s;
+  animation-duration: 3s;
+}
+
+.shootingStar:nth-child(5) {
+  top: 0;
+  right: 400px;
+  left: initial;
+  animation-delay: 0.8s;
+  animation-duration: 5s;
+}
+
+.shootingStar:nth-child(6) {
+  top: 0;
+  right: 600px;
+  left: initial;
+  animation-delay: 1s;
+  animation-duration: 6s;
+}
+
+.shootingStar:nth-child(7) {
+  top: 300px;
+  right: 0px;
+  left: initial;
+  animation-delay: 1.2s;
+  animation-duration: 3.5s;
+}
+
+.shootingStar:nth-child(8) {
+  top: 0px;
+  right: 700px;
+  left: initial;
+  animation-delay: 1.4s;
+  animation-duration: 4.5s;
+}
+
+.shootingStar:nth-child(9) {
+  top: 0px;
+  right: 1000px;
+  left: initial;
+  animation-delay: 0.75s;
+  animation-duration: 7.5s;
+}
+/* star end */
+/* PillView.module.css */
+
+.svgScrollWrapper {
+  width: 100%;
+  height: 200vh;
+  display: grid;
+  background: #001a3f;
+  background: linear-gradient(
+    0deg,
+    rgba(0, 26, 63, 1) 0%,
+    rgba(9, 13, 16, 1) 100%
+  );
+  place-items: start;
+  perspective: 1000px;
+
+  justify-content: center;
+}
+
+.comparePlansBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: transparent;
+  border: none;
+  color: white;
+  font-family: Figtree;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 140%;
+  padding: 10px 20px;
+  border-radius: 8px;
+  /* Ensure button is clickable */
+  pointer-events: auto;
+  z-index: 101;
+  position: relative;
+}
+
+.comparePlansBtn:active {
+  transform: translateY(0);
+}
+
+/* Compare Plans Modal Styles - Removed as we now use CompareTable component */
+
+.featureValue {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Compare Plans Modal Overlay */
+.comparePlansOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(8px);
+}
+
+.comparePlansModal {
+  background: transparent;
+  border-radius: 20px;
+  max-width: 95vw;
+  max-height: 95vh;
+  overflow: hidden; /* Hide overflow on modal container */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.modalContent {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* Enable smooth scrolling */
+  scroll-behavior: smooth;
+  /* Custom scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: #666 #1a1a1a;
+}
+
+/* Webkit scrollbar styling for modal content */
+.modalContent::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modalContent::-webkit-scrollbar-track {
+  background: #1a1a1a;
+  border-radius: 4px;
+}
+
+.modalContent::-webkit-scrollbar-thumb {
+  background: #666;
+  border-radius: 4px;
+}
+
+.modalContent::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+.modalCloseButton {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+  z-index: 1001;
+}
+
+.modalCloseButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive adjustments for modal */
+@media (max-width: 768px) {
+  .comparePlansModal {
+    max-width: 98vw;
+    max-height: 98vh;
+  }
+
+  .modalCloseButton {
+    top: -35px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+    font-size: 20px;
+  }
+}
+
+.svgScrollWrapper > * {
+  grid-area: 1 / 1;
+}
+
+.pillSvg {
+  width: 40vw;
+  max-width: 380px;
+  height: auto;
+  z-index: 10;
+}
+
+.pill {
+  max-width: 50%;
+  height: auto;
+  transform-origin: center center; /* IMPORTANT for smooth rotation */
+  backface-visibility: hidden;
+}
+
+.logoWrapper {
+  position: absolute;
+  z-index: 20;
+  will-change: transform;
+  transform: translateZ(0);
+  /* Add this for better centering */
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) translateZ(0);
+}
+/* Image responsive */
+.logoImg {
+  width: 15vw;
+  max-width: 200px;
+  height: auto;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .pillSvg {
+    width: 50vw;
+    max-width: 320px;
+  }
+
+  .logoImg {
+    width: 20vw;
+    max-width: 160px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .pillSvg {
+    width: 70vw;
+    max-width: 280px;
+  }
+
+  .logoImg {
+    width: 28vw;
+    max-width: 120px;
+  }
+}
+
+.logoWrapper {
+  position: relative;
+}
+
+.logoImg {
+  width: 200px;
+  height: auto;
+  z-index: 2;
+  position: relative;
+}
+
+.waves {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.wave {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border: 1px solid rgba(29, 83, 244, 0.687);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  backdrop-filter: blur(5px);
+  inset: 50%;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.005) 0%,
+    rgba(255, 255, 255, 0.12) 30%,
+    rgba(255, 255, 255, 0.06) 40%,
+    rgba(255, 255, 255, 0.02) 50%,
+    transparent 100%
+  );
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.08),
+    0 0 10px rgba(255, 255, 255, 0.05), 0 0 15px rgba(255, 255, 255, 0.03),
+    0 0 10px rgba(255, 255, 255, 0.02), inset 0 0 15px rgba(255, 255, 255, 0.04),
+    inset 0 0 30px rgba(255, 255, 255, 0.02);
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.06));
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.waveText {
+  font-family: figtree;
+  opacity: 0;
+  position: absolute;
+  color: white;
+  font-weight: 600;
+  transform: translateY(130px);
+}
+
+.floatingObjectsWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: auto; /* match your SVG size */
+  height: auto;
+  pointer-events: none;
+}
+
+.floatingObject {
+  opacity: 0;
+  transform: translateY(100px); /* start below */
+  position: absolute;
+  border-radius: 50%;
+}
+
+/* Position them around the logo */
+.obj1 {
+  top: -10px;
+  left: -190px;
+}
+
+.obj2 {
+  top: -160px;
+  right: -100px;
+}
+
+.obj3 {
+  bottom: -160px;
+  right: -0px;
+}
+
+.obj4 {
+  top: 0px;
+  right: -210px;
+}
+
+@media (max-width: 600px) {
+  .comparePlansBtn {
+    display: flex !important
+;
+    bottom: -36%;
+  }
+  .waveText {
+    display: none;
+    font-size: 2em;
+  }
+  .waveText.topLeft {
+    bottom: 0%;
+    left: 0%;
+    text-align: left;
+  }
+
+  .waveText.bottomRight {
+    bottom: -70%;
+    right: 10%;
+    text-align: right;
+  }
+
+  .waveText.comparePlans {
+    bottom: -20%;
+    left: 50%;
+    transform: translateX(-50%) translateY(130px);
+    text-align: center;
+    /* Temporary debugging - make it more visible */
+    padding: 10px;
+    /* Ensure button is clickable */
+    pointer-events: auto;
+    z-index: 100;
+  }
+}
+
+@media (min-width: 1200px) {
+  .waveText {
+    font-size: 2.8em;
+    width: 500px;
+  }
+
+  .waveText.topLeft {
+    top: 50%;
+    left: -50%;
+    text-align: left;
+  }
+
+  .waveText.bottomRight {
+    color: #fff !important;
+    bottom: 10%;
+    right: 10%;
+    text-align: right;
+  }
+
+  .waveText.comparePlans {
+    left: 15%;
+    bottom: -76%;
+    transform: translateX(-50%) translateY(130px);
+    text-align: center;
+    width: 400px;
+    padding: 10px;
+    color: #fff;
+    font-family: Figtree;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%; /* 33.6px */
+    /* Ensure button is clickable */
+    pointer-events: auto;
+    z-index: 100;
+  }
+}
+
+/* Additional SVG Styles */
+.additionalSvg {
+  opacity: 0;
+  transform: scale3d(0.8, 0.8, 1);
+  transition: all 0.3s ease;
+}
+
+/* Circle SVG Container Styles */
+.circleSvgContainer {
+  opacity: 0;
+  transform: scale3d(0.8, 0.8, 1);
+  transition: all 0.3s ease;
+}
+
+.circleSvg {
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+}
+
+.circleImageContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+}
+
+/* Responsive adjustments for new elements */
+@media (max-width: 768px) {
+  .additionalSvg {
+    width: 80px !important;
+    height: 80px !important;
+    top: 15% !important;
+    right: 10% !important;
+  }
+
+  .circleSvgContainer {
+    bottom: 20% !important;
+    left: 5% !important;
+  }
+
+  .circleSvg {
+    width: 120px !important;
+    height: 120px !important;
+  }
+
+  .circleImageContainer img {
+    width: 60px !important;
+    height: 60px !important;
+  }
+}
+
+/* Reduce SVG size for mobile screens */
+@media (max-width: 768px) {
+  .pillSvg {
+    width: 46vw;
+    max-width: 300px;
+  }
+}
+
+/* Hide top and bottom wave text on small screens, keep only compare plans */
+@media (max-width: 600px) {
+  .waveText.topLeft,
+  .waveText.bottomRight {
+    display: none !important;
+  }
+
+  .waveText.comparePlans {
+    display: block !important;
+  }
+
+  /* Hide waves on screens smaller than 600px */
+  .waves {
+    display: none !important;
+  }
+}

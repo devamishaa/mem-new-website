@@ -1,0 +1,19 @@
+{
+  "nav": {
+    "superpowers": "Superpoderes",
+    "dominaMemorae": "Domina Memorae",
+    "dashboard": "Panel",
+    "about": "Sobre nosotros",
+    "superpowersMenu": {
+      "unlimitedReminders": "Recordatorios sin límites",
+      "calendars": "Tus calendarios",
+      "lists": "Tus listas",
+      "voiceNotes": "Notas de voz",
+      "smartSearch": "Búsqueda inteligente",
+      "imageAnalysis": "Análisis de imágenes"
+    }
+  },
+  "cta": {
+    "tryFree": "Probar gratis"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "nav": {
+    "superpowers": "Superpowers",
+    "dominaMemorae": "Master Memorae",
+    "dashboard": "Dashboard",
+    "about": "About Us",
+    "superpowersMenu": {
+      "unlimitedReminders": "Unlimited recurring reminders",
+      "calendars": "Your calendars",
+      "lists": "Your lists",
+      "voiceNotes": "Unlimited voice notes",
+      "smartSearch": "Smart search",
+      "imageAnalysis": "Image analysis"
+    }
+  },
+  "cta": {
+    "tryFree": "Try for free"
+  }
+}

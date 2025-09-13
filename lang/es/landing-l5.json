@@ -1,0 +1,135 @@
+{
+  "navbar": {
+    "explore": "Explorar superpoderes",
+    "try": "Probar gratis"
+  },
+  "hero": {
+    "title": {
+      "line1": "Tu segunda cabeza,",
+      "line2": "en WhatsApp"
+    },
+    "subtitle": {
+      "line1": "Porque vivir al borde del colapso no debería ser normal.",
+      "line2": "Y olvidarte de todo… tampoco."
+    },
+    "cta": {
+      "primary": "Probar gratis",
+      "secondary": "Explorar superpoderes"
+    }
+  },
+  "marquee": {
+    "items": [
+      "No más post-its en el retrovisor",
+      "No más listas mentales",
+      "No más recordatorios en servilletas",
+      "No más alarmas sin nombre",
+      "No más plantas muertas",
+      "No más citas olvidadas",
+      "No más entregas pasadas"
+    ],
+    "lead": "No te estás volviendo un desastre: estás intentando hacerlo todo tú solo."
+  },
+  "features": {
+    "lead": "Superpoderes para gente que no llega a todo",
+    "cards": [
+      {
+        "title": "Recordatorios automáticos sin límites",
+        "body": "Únicos o repetitivos. Semanales, mensuales, con excusas o sin piedad. Para lo que sea, cuando sea, todas las veces que haga falta."
+      },
+      {
+        "title": "Todos tus calendarios en un solo chat",
+        "body": "Google, Outlook, Apple. Tus citas, eventos y tareas conectadas. Así no se te escapa nada. Ni aunque lo intentes."
+      },
+      {
+        "title": "Listas que no se pierden",
+        "body": "Tareas, recados, ideas o lo que sea. Puedes dictarlas, escribirlas o simplemente soltarlas. Da igual cómo lo hagas, tu lista queda guardada."
+      },
+      {
+        "title": "Notas de voz que se convierten en tareas",
+        "body": "Tu voz es suficiente. Memorae escucha, transcribe y organiza lo que dices. Así de fácil."
+      },
+      {
+        "title": "Búsquedas inteligentes, sin salir de WhatsApp",
+        "body": "¿Dudas? ¿Datos? ¿Ideas? Pregúntalo en WhatsApp. Obtén respuestas con cabeza, gracias a ChatGPT y DeepSeek integrados."
+      },
+      {
+        "title": "De la foto al recordatorio",
+        "body": "Haz una foto a lo que quieras recordar. Una pizarra, un post-it, una hoja garabateada. Si tú lo entiendes, Memorae también."
+      }
+    ]
+  },
+  "howItWorks": {
+    "title": "Tu plan / Tu caos",
+    "option": {
+      "plan": "Tu plan",
+      "chaos": "Tu caos"
+    },
+    "subtitle": "Elige cómo quieres que Memorae te ayude a no perder la cabeza."
+  },
+  "pricing": {
+    "header": "Compara los planes",
+    "guarantee": "14 días sin riesgos: 7 gratis + 7 con garantía de reembolso. Pruébalo sin pagar. Te devolvemos el dinero si no es para ti.",
+    "plans": {
+      "pro": {
+        "name": "Pro",
+        "badge": "5 MESES GRATIS",
+        "monthlyPrice": "$2,99 por mes",
+        "annualPrice": "12 meses por $35,88 ($59,92)",
+        "popular": false,
+        "cta": {
+          "viewDemo": "Ver demostración del Plan Pro",
+          "try": "Probar gratis"
+        }
+      },
+      "supernova": {
+        "name": "Supernova",
+        "badge": "5 MESES GRATIS",
+        "monthlyPrice": "$7,49 por mes",
+        "annualPrice": "12 meses por $89,88 ($150,10)",
+        "popular": true,
+        "cta": {
+          "viewDemo": "Ver demostración del Plan Supernova",
+          "try": "Probar gratis"
+        }
+      },
+      "lifetime": {
+        "name": "Lifetime",
+        "badge": "PAGO ÚNICO",
+        "oneTimePrice": "$399,00",
+        "savings": "Ahorra más de $900 en 5 años",
+        "cta": {
+          "viewDemo": "Ver demostración del Plan Lifetime",
+          "try": "Probar gratis"
+        },
+        "includes": [
+          "Recordatorios recurrentes ilimitados",
+          "Recordatorios recurrentes ilimitados",
+          "Soporte en 100+ idiomas",
+          "Notas de voz ilimitadas",
+          "Sincronización multi-calendarios",
+          "Listas personalizadas",
+          "Dashboard avanzado",
+          "ChatGPT integrado",
+          "Análisis de imágenes ilimitado",
+          "Búsqueda ilimitada en internet",
+          "Soporte Premium",
+          "Acceso garantizado a futuras funciones",
+          "Sin suscripciones ni pagos recurrentes",
+          "Prioridad en petición de nuevas funcionalidades"
+        ]
+      }
+    }
+  },
+  "testimonials": {
+    "label": "+20k personas se han olvidado de olvidar",
+    "tagline": "Tú solo vive. Memorae se acuerda por ti."
+  },
+  "footer": {
+    "copyright": "© 2024 Genera Capital SLU. Todos los derechos reservados.",
+    "links": {
+      "privacy": "Política de Privacidad",
+      "terms": "Términos y Condiciones",
+      "cookies": "Configuración de Cookies"
+    }
+  }
+}

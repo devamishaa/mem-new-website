@@ -1,0 +1,135 @@
+{
+  "navbar": {
+    "explore": "Explore superpowers",
+    "try": "Try for free"
+  },
+  "hero": {
+    "title": {
+      "line1": "Your second brain,",
+      "line2": "on WhatsApp"
+    },
+    "subtitle": {
+      "line1": "Because living on the brink shouldn't be normal.",
+      "line2": "And forgetting everything shouldn't be either."
+    },
+    "cta": {
+      "primary": "Try for free",
+      "secondary": "Explore superpowers"
+    }
+  },
+  "marquee": {
+    "items": [
+      "No more post-its on the rear-view mirror",
+      "No more mental lists",
+      "No more reminders on napkins",
+      "No more nameless alarms",
+      "No more dead plants",
+      "No more missed appointments",
+      "No more late deliveries"
+    ],
+    "lead": "You're not becoming a mess — you're trying to do everything by yourself."
+  },
+  "features": {
+    "lead": "Superpowers for people who can't do it all",
+    "cards": [
+      {
+        "title": "Unlimited automatic reminders",
+        "body": "One-off or recurring. Weekly, monthly, with excuses or without mercy. Whatever, whenever — as many times as needed."
+      },
+      {
+        "title": "All your calendars in a single chat",
+        "body": "Google, Outlook, Apple. Your appointments, events and tasks connected. Nothing slips through. Not even if you try."
+      },
+      {
+        "title": "Lists that never get lost",
+        "body": "Tasks, errands, ideas — dictate them, type them, or just drop them. However you do it, your list is saved."
+      },
+      {
+        "title": "Unlimited voice notes that become tasks",
+        "body": "Your voice is enough. Memorae listens, transcribes and organizes what you say. That easy."
+      },
+      {
+        "title": "Smart searches, without leaving WhatsApp",
+        "body": "Questions? Data? Ideas? Ask in WhatsApp. Get thoughtful answers, powered by integrated ChatGPT and DeepSeek."
+      },
+      {
+        "title": "From photo to reminder",
+        "body": "Snap what you want to remember — a whiteboard, a post-it, a scribbled sheet. If you can read it, Memorae can too."
+      }
+    ]
+  },
+  "howItWorks": {
+    "title": "Your plan / Your chaos",
+    "option": {
+      "plan": "Your plan",
+      "chaos": "Your chaos"
+    },
+    "subtitle": "Choose how you want Memorae to help you keep your head."
+  },
+  "pricing": {
+    "header": "Compare plans",
+    "guarantee": "14 risk-free days: 7 free + 7 with money-back guarantee. Try it without paying. We'll refund you if it's not for you.",
+    "plans": {
+      "pro": {
+        "name": "Pro",
+        "badge": "5 MONTHS FREE",
+        "monthlyPrice": "$2.99 per month",
+        "annualPrice": "12 months for $35.88 ($59.92)",
+        "popular": false,
+        "cta": {
+          "viewDemo": "View demo of Pro plan",
+          "try": "Try for free"
+        }
+      },
+      "supernova": {
+        "name": "Supernova",
+        "badge": "5 MONTHS FREE",
+        "monthlyPrice": "$7.49 per month",
+        "annualPrice": "12 months for $89.88 ($150.10)",
+        "popular": true,
+        "cta": {
+          "viewDemo": "View demo of Supernova plan",
+          "try": "Try for free"
+        }
+      },
+      "lifetime": {
+        "name": "Lifetime",
+        "badge": "ONE-TIME PAYMENT",
+        "oneTimePrice": "$399.00",
+        "savings": "Save over $900 in 5 years",
+        "cta": {
+          "viewDemo": "View demo of Lifetime plan",
+          "try": "Try for free"
+        },
+        "includes": [
+          "Unlimited recurring reminders",
+          "Unlimited recurring reminders",
+          "Support in 100+ languages",
+          "Unlimited Unlimited voice notes",
+          "Multi-calendar sync",
+          "Custom lists",
+          "Advanced dashboard",
+          "Integrated ChatGPT",
+          "Unlimited image analysis",
+          "Unlimited web search",
+          "Premium support",
+          "Guaranteed access to future features",
+          "No subscriptions or recurring payments",
+          "Priority for new feature requests"
+        ]
+      }
+    }
+  },
+  "testimonials": {
+    "label": "+20k people have forgotten to forget",
+    "tagline": "You just live. Memorae remembers for you."
+  },
+  "footer": {
+    "copyright": "© 2024 Genera Capital SLU. All rights reserved.",
+    "links": {
+      "privacy": "Privacy Policy",
+      "terms": "Terms & Conditions",
+      "cookies": "Cookie Settings"
+    }
+  }
+}
