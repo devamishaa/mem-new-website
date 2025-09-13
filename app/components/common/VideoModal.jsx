@@ -3,7 +3,11 @@
 import { useEffect, useRef } from "react";
 import SvgIcon from "../common/svg/SvgIcon";
 import { planVideos } from "@/constants/planVideos";
-import { safeCreateScript, safeRemoveElements, safeRemoveChild } from "@/utils/dom-utils";
+import {
+  safeCreateScript,
+  safeRemoveElements,
+  safeRemoveChild,
+} from "@/utils/dom-utils";
 
 // Helper to inject and clean up video script (from old implementation)
 function useVidalyticsScript(isOpen, videoScript) {
@@ -15,11 +19,14 @@ function useVidalyticsScript(isOpen, videoScript) {
       safeRemoveElements("script[data-vidalytics]");
 
       // Extract and inject the JavaScript part of the video script
-      const scriptContent = videoScript
-        .split('<script type="text/javascript">')[1]
-        ?.split("</script>")[0] || "";
-      
-      const script = safeCreateScript(scriptContent, { 'data-vidalytics': 'true' });
+      const scriptContent =
+        videoScript
+          .split('<script type="text/javascript">')[1]
+          ?.split("</script>")[0] || "";
+
+      const script = safeCreateScript(scriptContent, {
+        "data-vidalytics": "true",
+      });
       attachVideoScriptRef.current = script;
     }
 

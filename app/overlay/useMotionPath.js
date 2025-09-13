@@ -205,7 +205,7 @@ function makeSvgLayer() {
   svgPath.setAttribute("fill", "none");
   svgPath.setAttribute("stroke", "transparent");
   svgRoot.appendChild(svgPath);
-  
+
   // Use a more reliable method to append to body
   if (document.body) {
     document.body.appendChild(svgRoot);

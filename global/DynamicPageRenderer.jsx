@@ -18,16 +18,18 @@ class BlockErrorBoundary extends React.Component {
       // eslint-disable-next-line no-console
       console.error("[DynamicPageRenderer] Block error:", err, info);
     }
-    
+
     // Handle specific DOM manipulation errors
-    if (err.message && err.message.includes('insertBefore')) {
-      console.warn("[DynamicPageRenderer] DOM manipulation error detected. This might be due to direct DOM manipulation in a component.");
+    if (err.message && err.message.includes("insertBefore")) {
+      console.warn(
+        "[DynamicPageRenderer] DOM manipulation error detected. This might be due to direct DOM manipulation in a component."
+      );
     }
   }
   render() {
     if (this.state.hasError) {
       // Return a more informative fallback for DOM errors
-      if (this.state.error?.message?.includes('insertBefore')) {
+      if (this.state.error?.message?.includes("insertBefore")) {
         return (
           <div className="p-4 bg-yellow-100 border border-yellow-400 rounded">
             <p className="text-yellow-800">

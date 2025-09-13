@@ -20,7 +20,7 @@ function createWordSpan(word, index, totalWords) {
 // Split text into words and wrap each in a span with optimized DOM manipulation
 function splitTextIntoWords(element) {
   if (!element) return [];
-  
+
   const text = element.textContent;
   const words = text.split(" ");
 
