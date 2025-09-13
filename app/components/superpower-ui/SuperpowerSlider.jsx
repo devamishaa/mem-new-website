@@ -1,9 +1,26 @@
 import Image from "next/image";
 import Button from "../common/Button";
 import FeatureCard from "./FeatureCard";
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useEffect } from "react";
 import clsx from "clsx"; // Recommended for conditional classes: npm install clsx
 import { useTranslation } from "@/hooks/useTranslation";
+
+// Deterministic gradient colors for border (index-based to avoid hydration issues)
+const getGradientColors = (index) => {
+  const gradients = [
+    "#ff6b6b, #4ecdc4",
+    "#a8edea, #fed6e3",
+    "#ff9a9e, #fecfef",
+    "#ffecd2, #fcb69f",
+    "#a8c0ff, #3f2b96",
+    "#ff8a80, #ff80ab",
+    "#84fab0, #8fd3f4",
+    "#ffecd2, #fcb69f",
+    "#667eea, #764ba2",
+    "#f093fb, #f5576c",
+  ];
+  return gradients[index % gradients.length];
+};
 
 const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
   const scrollContainerRef = useRef(null);
@@ -116,25 +133,57 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
     return result;
   }, [t]);
 
+  // Initialize active slide to title card
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (container) {
+      // Ensure we start at the title card (scroll position 0)
+      container.scrollLeft = 0;
+    }
+    if (onDotClick && activeSlide !== -1) {
+      onDotClick(-1);
+    }
+  }, []);
+
+  // Handle scroll events to update active slide
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      const slideWidth = 320; // w-80 = 320px
+      const gap = 24; // gap-6 = 24px
+      const scrollLeft = container.scrollLeft;
+
+      // Calculate which slide is currently visible
+      // 0 = title card, 1+ = feature cards
+      const slideIndex = Math.round(scrollLeft / (slideWidth + gap));
+      const newActiveSlide = slideIndex === 0 ? -1 : slideIndex - 1;
+
+      if (onDotClick && newActiveSlide !== activeSlide) {
+        onDotClick(newActiveSlide);
+      }
+    };
+
+    container.addEventListener("scroll", handleScroll);
+    return () => container.removeEventListener("scroll", handleScroll);
+  }, [activeSlide, onDotClick]);
+
   // Scroll + sync state when dot clicked
   const handleDotClick = (i) => {
-    const slideElement = scrollContainerRef.current.querySelector(
+    const slideElement = scrollContainerRef.current?.querySelector(
       `[data-slide-ref="${i}"]`
     );
     const container = scrollContainerRef.current;
 
-    if (slideElement) {
-      const containerRect = container.getBoundingClientRect();
-      const slideRect = slideElement.getBoundingClientRect();
-      const containerScrollLeft = container.scrollLeft;
-
-      // distance of slide's center from container's center
-      const slideCenter = slideRect.left + slideRect.width / 2;
-      const containerCenter = containerRect.left + containerRect.width / 2;
-      const distanceToCenter = slideCenter - containerCenter;
-
+    if (container) {
+      const slideWidth = 320; // w-80 = 320px
+      const gap = 24; // gap-6 = 24px
+      // For title card (i = -1), scroll to position 0
+      // For feature cards (i >= 0), scroll to position (i + 1) * (slideWidth + gap)
+      const scrollPosition = i === -1 ? 0 : (i + 1) * (slideWidth + gap);
       container.scrollTo({
-        left: containerScrollLeft + distanceToCenter,
+        left: scrollPosition,
         behavior: "smooth",
       });
     }
@@ -146,105 +195,235 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
   };
 
   return (
-    <div
-      ref={containerRef}
-      className="absolute inset-0 z-[2] h-screen w-full overflow-hidden bg-[#061120]"
-      data-panel-2
-    >
-      <div
-        data-content-2
-        // style={{ width: "100vw", marginLeft: "calc(50% - 50vw)" }}
-      >
-        <div className="hidden max-md:block">
-          <h2 className="hidden text-center text-sm font-semibold text-white max-md:block max-sm:mt-[3.7em] max-sm:px-[25px] max-sm:pb-0 max-sm:pt-[10px] max-sm:text-2xl">
-            {superpowerData.title}
-          </h2>
-        </div>
-        <div
-          data-horizontal-viewport
-          className="overflow-hidden 2xl:h-[90vh]" // viewport height is responsive
-          style={{ width: "100vw" }}
-        >
-          <div
-            data-horizontal-track
-            className="flex snap-x snap-mandatory touch-pan-x scroll-smooth [-webkit-overflow-scrolling:touch] max-md:min-h-0 max-md:gap-4 max-md:px-[30px] max-md:py-[20px] 2xl:absolute 2xl:top-[92px] 2xl:mt-20 2xl:min-h-screen 2xl:w-fit 2xl:gap-8 2xl:px-8"
-            style={{ willChange: "transform" }}
-            ref={scrollContainerRef}
-          >
-            {/* Left content */}
-            <div className="hidden shrink-0 snap-start rounded-[10px] bg-transparent p-0 backdrop-blur-none md:flex md:max-w-[600px] md:flex-col md:gap-[72px] md:min-w-[600px] md:ml-[140px]">
-              <h2
-                className="text-left text-5xl font-semibold leading-tight text-white max-lg:text-4xl"
-                style={{ marginBottom: "1.5rem" }}
+    <div ref={containerRef} className="w-full bg-black py-16 h-[100vh]">
+      <div className="mx-auto px-4">
+        {/* Main Content - Combined Title and Slider */}
+        <div className="mb-12">
+          {/* Combined Slider Container */}
+          <div className="relative">
+            {/* Slider Track with Title and Cards */}
+            <div
+              ref={scrollContainerRef}
+              className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-6 pb-4"
+              style={{ scrollBehavior: "smooth" }}
+            >
+              {/* Title Card - First Slide */}
+              <div
+                data-slide-ref="title"
+                className="group relative flex-shrink-0 w-80 md:w-96 h-80 md:h-96 overflow-hidden rounded-2xl p-5 md:p-7 text-white transition-all duration-300 hover:scale-105 snap-center flex flex-col justify-center bg-transparent"
               >
-                {superpowerData.title}
-              </h2>
-              <Button
-                variant="primary"
-                icon={<img src="/homepage/east.svg" alt="arrow icon" />}
-                className="flex w-[150px] cursor-pointer items-center gap-2 rounded-full border-none bg-gradient-to-r from-[#6c6cff] to-[#ff66a9] px-6 py-3 font-semibold text-white transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-[0_8px_16px_rgba(108,108,255,0.3)] max-md:w-[250px]"
-              >
-                {superpowerData.ctaLabel}
-              </Button>
-            </div>
-
-            {/* Cards */}
-            <div className="flex min-w-fit gap-16 px-8 max-md:gap-4 max-md:px-0">
-              {superpowerData.slides?.map((slide, i) => (
+                <div className="relative z-10">
+                  <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                    {superpowerData.title}
+                  </h2>
+                  <p className="text-lg text-gray-200 mb-6">
+                    {superpowerData.ctaLabel}
+                  </p>
+                </div>
+              </div>
+              {superpowerData.slides.map((slide, index) => (
                 <div
-                  key={`${slide.title}-${i}`}
-                  className="shrink-0 snap-center xl:w-[400px] lg:w-[320px] md:w-auto w-[300px]" // Responsive card widths
-                  data-slide-ref={i}
+                  key={index}
+                  data-slide-ref={index}
+                  className="mt-10 group relative flex-shrink-0 w-80 md:w-96 h-80 md:h-96 overflow-hidden rounded-4xl p-5 md:p-7 text-white transition-all duration-300 hover:scale-105 snap-center bg-transparent"
+                  style={{
+                    position: "relative",
+                  }}
                 >
-                  <FeatureCard
-                    title={slide.title}
-                    description={slide.description}
-                    gradient={slide.gradient}
-                    messages={slide.messages}
-                  />
+                  {/* Rounded Gradient Border Bottom */}
+                  <div
+                    className="absolute bottom-0 left-0 right-0 h-2"
+                    style={{
+                      background: `linear-gradient(90deg, ${getGradientColors(
+                        index
+                      )})`,
+                      borderRadius: "0 0 32px 32px",
+                      height: "8px",
+                      marginLeft: "8px",
+                      marginRight: "8px",
+                    }}
+                  ></div>
+                  {/* Card Content */}
+                  <div className="relative z-10 h-full flex flex-col bg-transparent">
+                    <h3 className="text-xl font-semibold mb-3">
+                      {slide.title}
+                    </h3>
+                    <p className="text-sm mb-4 opacity-90 flex-grow">
+                      {slide.description}
+                    </p>
+
+                    {/* Messages Section */}
+                    <div className="space-y-2 mt-auto">
+                      {slide.messages.map((message, msgIndex) => (
+                        <div
+                          key={msgIndex}
+                          className={`text-xs p-2 rounded-lg relative ${
+                            msgIndex % 2 === 0
+                              ? "bg-[#DCF7C5] text-left text-[#000]"
+                              : "bg-[#FAFAFA] text-right text-[#000]"
+                          }`}
+                        >
+                          {message}
+                          {/* Chat bubble tail using SVG */}
+                          <div
+                            className={`absolute top-1/2 -translate-y-1/2 ${
+                              msgIndex % 2 === 0
+                                ? "left-0 -ml-1"
+                                : "right-0 -mr-1"
+                            }`}
+                          >
+                            <svg
+                              width="10"
+                              height="17"
+                              viewBox="0 0 10 17"
+                              fill="none"
+                              className={`${
+                                msgIndex % 2 === 0
+                                  ? "scale-x-100"
+                                  : "scale-x-[-1]"
+                              }`}
+                            >
+                              <path
+                                d="M1.06952 12.0015C6.45536 9.8956 9.6814 6.12422 9.6814 0.838867V16.3095C5.44397 16.1029 2.37371 15.3483 0.470664 14.0454C0.285939 13.919 0.145062 13.7383 0.0674381 13.5283C-0.139564 12.9683 0.14653 12.3466 0.706477 12.1396L1.06952 12.0015Z"
+                                fill={
+                                  msgIndex % 2 === 0 ? "#DCF7C5" : "#FAFAFA"
+                                }
+                              />
+                            </svg>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Hover Effect Overlay */}
+                  {/* <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" /> */}
                 </div>
               ))}
             </div>
+
+            {/* Navigation Arrows */}
+            <button
+              onClick={() => {
+                const container = scrollContainerRef.current;
+                if (container) {
+                  const slideWidth = 320; // w-80 = 320px
+                  const gap = 24; // gap-6 = 24px
+                  container.scrollBy({
+                    left: -(slideWidth + gap),
+                    behavior: "smooth",
+                  });
+                }
+              }}
+              className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-all duration-200 z-10"
+              aria-label="Previous slide"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+
+            <button
+              onClick={() => {
+                const container = scrollContainerRef.current;
+                if (container) {
+                  const slideWidth = 320; // w-80 = 320px
+                  const gap = 24; // gap-6 = 24px
+                  container.scrollBy({
+                    left: slideWidth + gap,
+                    behavior: "smooth",
+                  });
+                }
+              }}
+              className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-all duration-200 z-10"
+              aria-label="Next slide"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
           </div>
         </div>
 
-        {/* Pagination */}
-        <div
-          className="relative my-8 mt-12 flex h-7 w-full items-center justify-center gap-[21px] max-md:mt-10 2xl:mb-20 2xl:mt-4"
-          data-pagination-rail
-        >
-          {superpowerData.slides?.map((slide, i) => (
+        {/* Pagination Dots */}
+        <div className="flex justify-center items-center space-x-4 mt-8">
+          {/* Title Dot */}
+          <button
+            data-dot-ref="title"
+            onClick={() => handleDotClick(-1)}
+            className={`relative overflow-hidden transition-all duration-300 ease-in-out ${
+              activeSlide === -1
+                ? "px-4 py-2 rounded-full bg-white text-black text-sm font-medium min-w-[80px]"
+                : "w-3 h-3 rounded-full bg-white/20 hover:bg-white/30 min-w-[12px]"
+            }`}
+          >
+            <span
+              className={`inline-block transition-all duration-300 ease-in-out ${
+                activeSlide === -1
+                  ? "opacity-100 transform scale-100"
+                  : "opacity-0 transform scale-75 absolute"
+              }`}
+            >
+              Overview
+            </span>
+          </button>
+
+          {/* Feature Dots */}
+          {superpowerData.slides.map((slide, index) => (
             <button
-              key={`dot-${slide.title}-${i}`}
-              data-dot-ref={i}
-              className="relative flex cursor-pointer items-center justify-center border-none bg-transparent origin-center transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]"
-              onClick={() => handleDotClick(i)}
+              key={index}
+              data-dot-ref={index}
+              onClick={() => handleDotClick(index)}
+              className={`relative overflow-hidden transition-all duration-300 ease-in-out ${
+                activeSlide === index
+                  ? "px-4 py-2 rounded-full bg-white text-black text-sm font-medium min-w-[80px]"
+                  : "w-3 h-3 rounded-full bg-white/20 hover:bg-white/30 min-w-[12px]"
+              }`}
             >
               <span
-                className={clsx(
-                  "inline-flex items-center justify-center overflow-hidden whitespace-nowrap text-sm leading-none text-white origin-center transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]",
-                  activeSlide === i
-                    ? "min-h-[22px] min-w-[90px] scale-105 rounded-2xl bg-gradient-to-br from-white/20 to-white/10 px-4 py-1.5 opacity-100 shadow-[0_4px_16px_rgba(0,0,0,0.3),0_0_0_1px_rgba(255,255,255,0.1),inset_0_1px_0_rgba(255,255,255,0.2)] backdrop-blur-lg"
-                    : "h-2.5 w-2.5 scale-100 rounded-full bg-gray-400/40 p-0 text-transparent opacity-100 shadow-none"
-                )}
+                className={`inline-block transition-all duration-300 ease-in-out ${
+                  activeSlide === index
+                    ? "opacity-100 transform scale-100"
+                    : "opacity-0 transform scale-75 absolute"
+                }`}
               >
-                {activeSlide === i ? slide.dotTitle || slide.title : ""}
+                {slide.dotTitle || slide.title}
               </span>
             </button>
           ))}
         </div>
-
-        {/* Mobile CTA */}
-        <div className="my-8 hidden justify-center max-md:flex">
-          <Button
-            variant="primary"
-            icon={<img src="/homepage/east.svg" alt="arrow icon" />}
-            className="flex w-[250px] cursor-pointer items-center gap-2 rounded-full border-none bg-gradient-to-r from-[#6c6cff] to-[#ff66a9] px-6 py-3 font-semibold text-white"
-          >
-            {superpowerData.ctaLabel}
-          </Button>
-        </div>
       </div>
+
+      {/* Custom Scrollbar Styles */}
+      <style jsx>{`
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </div>
   );
 };
