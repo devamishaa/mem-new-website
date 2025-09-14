@@ -84,14 +84,14 @@ export function usePillTimeline(containerRef, sectionRef, styles, isMobile) {
     // Gradients - much faster transitions
     const stop1 = container.querySelector("[data-gradient-stop1]");
     const stop2 = container.querySelector("[data-gradient-stop2]");
-    tl.to(stop1, { stopColor: "#0F1417", duration: 0.6 }, 0)
-      .to(stop2, { stopColor: "#090C0D", duration: 0.6 }, 0)
-      .to(stop1, { stopColor: "#0F1417", duration: 0.6 }, 2)
-      .to(stop2, { stopColor: "#0F1417", duration: 0.6 }, 2)
+    tl.to(stop1, { stopColor: "#0F1417", duration: 0.9 }, 0)
+      .to(stop2, { stopColor: "#090C0D", duration: 0.9 }, 0)
+      .to(stop1, { stopColor: "#0F1417", duration: 0.9 }, 2)
+      .to(stop2, { stopColor: "#0F1417", duration: 0.9 }, 2)
       .to(stop1, { stopColor: "#481B34", duration: 0.8 }, 4)
-      .to(stop2, { stopColor: "#090C0D", duration: 0.8 }, 4)
-      .to(stop1, { stopColor: "#FF1A99", duration: 0.8 }, 6.5)
-      .to(stop2, { stopColor: "#8921CA", duration: 0.8 }, 6.5);
+      .to(stop2, { stopColor: "#090C0D", duration: 0.9 }, 4)
+      .to(stop1, { stopColor: "#FF1A99", duration: 0.9 }, 6.5)
+      .to(stop2, { stopColor: "#8921CA", duration: 0.9 }, 6.5);
 
     // Main image animation (emerge) - moved earlier
     const pillImage = container.querySelector("[data-pill-image]");
@@ -110,7 +110,7 @@ export function usePillTimeline(containerRef, sectionRef, styles, isMobile) {
 
     // Downward motion is now a separate, scrubbed animation
     const isMobile = window.innerWidth <= 768;
-    const yValue = isMobile ? "26vh" : "30vh";
+    const yValue = isMobile ? "26vh" : "32vh";
 
     // gsap.to(pillImage, {
     //   y: yValue,
@@ -184,6 +184,7 @@ export function usePillTimeline(containerRef, sectionRef, styles, isMobile) {
         scrub: 1.2,
         start: "top top",
         end: "center center",
+        fastScrollEnd: true,
         pin: true,
         pinSpacing: true,
         invalidateOnRefresh: true,

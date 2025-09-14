@@ -5,19 +5,19 @@ import { useMemo, useRef, useEffect } from "react";
 import clsx from "clsx"; // Recommended for conditional classes: npm install clsx
 import { useTranslation } from "@/hooks/useTranslation";
 
-// Deterministic gradient colors for border (index-based to avoid hydration issues)
+// Random gradient colors for border with radial gradient from bottom
 const getGradientColors = (index) => {
   const gradients = [
-    "#ff6b6b, #4ecdc4",
-    "#a8edea, #fed6e3",
-    "#ff9a9e, #fecfef",
-    "#ffecd2, #fcb69f",
-    "#a8c0ff, #3f2b96",
-    "#ff8a80, #ff80ab",
-    "#84fab0, #8fd3f4",
-    "#ffecd2, #fcb69f",
-    "#667eea, #764ba2",
-    "#f093fb, #f5576c",
+    "radial-gradient(50% 100% at 50% 100%, #946CF5 0%, rgba(79, 53, 79, 0.00) 100%)",
+    "radial-gradient(50% 100% at 50% 100%, #FF6B6B 0%, rgba(255, 107, 107, 0.00) 100%)",
+    "radial-gradient(50% 100% at 50% 100%, #4ECDC4 0%, rgba(78, 205, 196, 0.00) 100%)",
+    "radial-gradient(50% 100% at 50% 100%, #45B7D1 0%, rgba(69, 183, 209, 0.00) 100%)",
+    "radial-gradient(50% 100% at 50% 100%, #96CEB4 0%, rgba(150, 206, 180, 0.00) 100%)",
+    "radial-gradient(50% 100% at 50% 100%, #FECA57 0%, rgba(254, 202, 87, 0.00) 100%)",
+    "radial-gradient(50% 100% at 50% 100%, #FF9FF3 0%, rgba(255, 159, 243, 0.00) 100%)",
+    "radial-gradient(50% 100% at 50% 100%, #54A0FF 0%, rgba(84, 160, 255, 0.00) 100%)",
+    "radial-gradient(50% 100% at 50% 100%, #5F27CD 0%, rgba(95, 39, 205, 0.00) 100%)",
+    "radial-gradient(50% 100% at 50% 100%, #00D2D3 0%, rgba(0, 210, 211, 0.00) 100%)",
   ];
   return gradients[index % gradients.length];
 };
@@ -195,7 +195,7 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
   };
 
   return (
-    <div ref={containerRef} className="w-full bg-black py-16 h-[100vh]">
+    <div ref={containerRef} className="w-full bg-[#06101D] py-16 h-[100vh]">
       <div className="mx-auto px-4">
         {/* Main Content - Combined Title and Slider */}
         <div className="mb-12">
@@ -213,31 +213,29 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
                 className="group relative flex-shrink-0 w-80 md:w-96 h-80 md:h-96 overflow-hidden rounded-2xl p-5 md:p-7 text-white transition-all duration-300 hover:scale-105 snap-center flex flex-col justify-center bg-transparent"
               >
                 <div className="relative z-10">
-                  <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                  <h2 className="text-3xl md:text-4xl font-bold mb-8">
                     {superpowerData.title}
                   </h2>
-                  <p className="text-lg text-gray-200 mb-6">
-                    {superpowerData.ctaLabel}
-                  </p>
+                  <Button>{superpowerData.ctaLabel}</Button>
                 </div>
               </div>
               {superpowerData.slides.map((slide, index) => (
                 <div
                   key={index}
                   data-slide-ref={index}
-                  className="mt-10 group relative flex-shrink-0 w-80 md:w-96 h-80 md:h-96 overflow-hidden rounded-4xl p-5 md:p-7 text-white transition-all duration-300 hover:scale-105 snap-center bg-transparent"
+                  className="mt-10 group relative flex-shrink-0 w-80 md:w-96 h-80 md:h-120 overflow-hidden rounded-4xl p-5 md:p-7 text-white transition-all duration-300 hover:scale-105 snap-center"
                   style={{
+                    background: getGradientColors(index),
                     position: "relative",
+                    backgroundColor: "rgba(255, 255, 255, 0.05)",
                   }}
                 >
                   {/* Rounded Gradient Border Bottom */}
                   <div
-                    className="absolute bottom-0 left-0 right-0 h-2"
+                    className="absolute bottom-0 left-0 right-0 h-2 "
                     style={{
-                      background: `linear-gradient(90deg, ${getGradientColors(
-                        index
-                      )})`,
-                      borderRadius: "0 0 32px 32px",
+                      borderBottom: "2px solid",
+                      borderRadius: "758px",
                       height: "8px",
                       marginLeft: "8px",
                       marginRight: "8px",
@@ -253,51 +251,41 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
                     </p>
 
                     {/* Messages Section */}
-                    <div className="space-y-2 mt-auto">
-                      {slide.messages.map((message, msgIndex) => (
-                        <div
-                          key={msgIndex}
-                          className={`text-xs p-2 rounded-lg relative ${
-                            msgIndex % 2 === 0
-                              ? "bg-[#DCF7C5] text-left text-[#000]"
-                              : "bg-[#FAFAFA] text-right text-[#000]"
-                          }`}
-                        >
-                          {message}
-                          {/* Chat bubble tail using SVG */}
-                          <div
-                            className={`absolute top-1/2 -translate-y-1/2 ${
-                              msgIndex % 2 === 0
-                                ? "left-0 -ml-1"
-                                : "right-0 -mr-1"
-                            }`}
-                          >
-                            <svg
-                              width="10"
-                              height="17"
-                              viewBox="0 0 10 17"
-                              fill="none"
-                              className={`${
-                                msgIndex % 2 === 0
-                                  ? "scale-x-100"
-                                  : "scale-x-[-1]"
-                              }`}
-                            >
-                              <path
-                                d="M1.06952 12.0015C6.45536 9.8956 9.6814 6.12422 9.6814 0.838867V16.3095C5.44397 16.1029 2.37371 15.3483 0.470664 14.0454C0.285939 13.919 0.145062 13.7383 0.0674381 13.5283C-0.139564 12.9683 0.14653 12.3466 0.706477 12.1396L1.06952 12.0015Z"
-                                fill={
-                                  msgIndex % 2 === 0 ? "#DCF7C5" : "#FAFAFA"
-                                }
-                              />
-                            </svg>
-                          </div>
+                    <div
+                      className="mt-auto"
+                      style={{
+                        backgroundImage: "url('/SuperpowerCardBg.svg')",
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        backgroundRepeat: "no-repeat",
+                      }}
+                    >
+                      <div className="relative flex justify-center">
+                        <div className="relative rounded-lg overflow-hidden  w-full">
+                          <Image
+                            src={`/homepage/chat_${
+                              index === 0
+                                ? "one"
+                                : index === 1
+                                ? "two"
+                                : index === 2
+                                ? "three"
+                                : index === 3
+                                ? "four"
+                                : index === 4
+                                ? "five"
+                                : "two"
+                            }.svg`}
+                            alt="Chat message"
+                            width={200}
+                            height={120}
+                            className="w-full h-auto object-cover"
+                            unoptimized
+                          />
                         </div>
-                      ))}
+                      </div>
                     </div>
                   </div>
-
-                  {/* Hover Effect Overlay */}
-                  {/* <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" /> */}
                 </div>
               ))}
             </div>

@@ -125,7 +125,10 @@ const PricingView = ({
         plan.planData
       );
       return (
-        <div className="self-stretch relative text-sm sm:text-base leading-5 sm:leading-6 mt-1">
+        <div
+          data-savings
+          className="self-stretch relative text-sm sm:text-base leading-5 sm:leading-6 mt-1"
+        >
           {model.annually} {annualPrice} ({originalAnnualPrice})
         </div>
       );
@@ -133,7 +136,10 @@ const PricingView = ({
     if (planKey === "life") {
       const lifetimeSavings = priceUtils.getLifetimeSavings(plan.planData);
       return (
-        <div className="self-stretch relative text-sm sm:text-base leading-5 sm:leading-6 mt-1">
+        <div
+          data-savings
+          className="self-stretch relative text-sm sm:text-base leading-5 sm:leading-6 mt-1"
+        >
           {model.lifetimeSavings.replace("{{amount}}", lifetimeSavings)}
         </div>
       );
@@ -246,7 +252,64 @@ const PricingView = ({
 
   const onSelectPlan = (key) => () => setSelected(key);
   const handleBillingChange = (newBilling) => {
-    if (newBilling !== billing) setBilling(newBilling);
+    if (newBilling !== billing) {
+      // Animate price changes
+      animatePriceChange(() => {
+        setBilling(newBilling);
+      });
+    }
+  };
+
+  const animatePriceChange = (callback) => {
+    const priceElements =
+      containerRef.current?.querySelectorAll("[data-price]");
+    const oldPriceElements =
+      containerRef.current?.querySelectorAll("[data-old-price]");
+    const perElements = containerRef.current?.querySelectorAll("[data-per]");
+    const savingsElements =
+      containerRef.current?.querySelectorAll("[data-savings]");
+
+    if (!priceElements.length) {
+      callback();
+      return;
+    }
+
+    // Create timeline for smooth price transition
+    const tl = gsap.timeline({
+      onComplete: callback,
+    });
+
+    // Fade out current prices
+    tl.to(
+      [
+        ...priceElements,
+        ...oldPriceElements,
+        ...perElements,
+        ...savingsElements,
+      ],
+      {
+        opacity: 0,
+        y: -10,
+        duration: 0.2,
+        ease: "power2.out",
+      }
+    )
+      // Fade in new prices
+      .to(
+        [
+          ...priceElements,
+          ...oldPriceElements,
+          ...perElements,
+          ...savingsElements,
+        ],
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.3,
+          ease: "power2.out",
+        },
+        "-=0.1"
+      );
   };
 
   useEffect(() => {
@@ -314,12 +377,17 @@ const PricingView = ({
             )}
           </div>
           <div className="w-full flex flex-row items-baseline justify-start gap-2.5 text-3xl sm:text-4xl lg:text-[40px]">
-            <span key={billing} className="font-figtree relative font-semibold">
+            <span
+              key={billing}
+              data-price
+              className="font-figtree relative font-semibold"
+            >
               {p.price}
             </span>
             {p.old && (
               <span
                 key={`old-${billing}`}
+                data-old-price
                 className="relative text-lg sm:text-xl lg:text-2xl line-through font-semibold opacity-50"
               >
                 {p.old}
@@ -328,6 +396,7 @@ const PricingView = ({
             {p.per && (
               <span
                 key={`per-${billing}`}
+                data-per
                 className="w-12 sm:w-16 lg:w-[69px] relative text-sm sm:text-base lg:text-lg leading-5 sm:leading-6 flex items-end h-10 sm:h-12 lg:h-[52px] flex-shrink-0"
               >
                 {p.per}
@@ -388,12 +457,17 @@ const PricingView = ({
               </div>
               <div className="w-full flex flex-row items-end justify-start gap-2.5 text-3xl sm:text-4xl lg:text-5xl">
                 <div className="relative w-full flex flex-row items-baseline justify-start gap-2.5 text-left text-3xl sm:text-4xl lg:text-[40px] text-white font-figtree">
-                  <div key={billing} className="relative font-semibold">
+                  <div
+                    key={billing}
+                    data-price
+                    className="relative font-semibold"
+                  >
                     {p.price}
                   </div>
                   {p.old && (
                     <div
                       key={`old-${billing}`}
+                      data-old-price
                       className="relative text-lg sm:text-xl lg:text-2xl line-through font-semibold opacity-50"
                     >
                       {p.old}
@@ -402,6 +476,7 @@ const PricingView = ({
                   {p.per && (
                     <div
                       key={`per-${billing}`}
+                      data-per
                       className="w-12 sm:w-16 lg:w-[69px] relative text-sm sm:text-base lg:text-lg leading-5 sm:leading-6 flex items-end h-10 sm:h-12 lg:h-[52px] flex-shrink-0"
                     >
                       {p.per}
@@ -461,6 +536,7 @@ const PricingView = ({
           <div className="w-full flex flex-row items-baseline justify-start gap-2.5 text-3xl sm:text-4xl lg:text-[40px]">
             <span
               key={billing}
+              data-price
               className="font-figtree relative font-semibold text-3xl sm:text-4xl lg:text-[40px]"
             >
               {p.price}

@@ -183,6 +183,7 @@ function NavbarCTA({ model }) {
         href={model.cta.href}
         icon={<SvgIcon name="WhatsApp" width={18} height={18} />}
         iconPosition="before"
+        className="hover:animate-mainJelly"
       >
         {model.cta.label}
       </Button>
