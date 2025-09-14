@@ -290,10 +290,10 @@ function setupTextRevealTimeline(textElement, config) {
 
   // Responsive timing based on screen size
   const isMobile = window.innerWidth <= 768;
-  const wordDuration = isMobile ? 20 : 24;
-  const wordDelay = isMobile ? 12 : 16;
-  const descDuration = isMobile ? 12 : 16;
-  const descDelay = isMobile ? 8 : 10;
+  const wordDuration = isMobile ? 0.2 : 0.24;
+  const wordDelay = isMobile ? 0.12 : 0.16;
+  const descDuration = isMobile ? 0.12 : 0.16;
+  const descDelay = isMobile ? 0.08 : 0.1;
 
   // Initial state setup
   gsap.set(headingElement, {
@@ -332,7 +332,7 @@ function setupTextRevealTimeline(textElement, config) {
   // Handle description
   if (descriptionElement) {
     const headingDuration =
-      headingWordSpans.length * wordDelay + wordDuration + 20;
+      headingWordSpans.length * wordDelay + wordDuration + 0.2;
     const descriptionWordSpans = createWordSpans(descriptionElement);
 
     descriptionWordSpans.forEach((span, index) => {

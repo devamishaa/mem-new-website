@@ -25,7 +25,7 @@ export default function PillView({ model }) {
     breakpoint === "MOBILE_M" ||
     breakpoint === "MOBILE_L" ||
     breakpoint === "TABLET";
-  const isSmallScreen = breakpoint !== "LAPTOP_L";
+  const isSmallScreen = breakpoint === "MOBILE_L";
 
   useNavbarColor([
     {
@@ -215,7 +215,7 @@ export default function PillView({ model }) {
         {/* Extended spacer for longer scroll experience */}
         <div
           style={{
-            height: isSmallScreen ? "100vh" : "100vh",
+            height: isSmallScreen ? "50vh" : "100vh",
             background: "#001A3F",
             borderBottomLeftRadius: "20px",
             borderBottomRightRadius: "20px",

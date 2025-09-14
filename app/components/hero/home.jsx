@@ -10,9 +10,9 @@ export default function HomeView() {
     <>
       <DynamicPageRenderer pageId="HOME" suspense />
       {/* Motion path overlay animates the character along the current SVG path */}
-      <MotionPathOverlay />
+      {/* <MotionPathOverlay /> */}
       {/* Helper: click "Show Pen Tool" to draw/edit the path. It live-updates the motion. */}
-      <PathPenTool />
+      {/* <PathPenTool /> */}
     </>
   );
 }

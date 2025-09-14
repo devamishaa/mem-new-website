@@ -547,7 +547,7 @@ const PricingView = ({
             {getFeaturesByPlan(selected)[selected]?.map((feature, i) => (
               <div
                 key={i}
-                className="flex flex-col items-center gap-2 p-3 bg-white/5 rounded-xl border-2 border-transparent cursor-pointer transition-all duration-200 hover:bg-white/10 shrink-0 min-w-[50px] md:min-w-[50px]"
+                className="flex flex-col items-center gap-2 p-3 bg-[#0F1417] rounded-xl border-2 border-transparent cursor-pointer transition-all duration-200 hover:bg-white/10 shrink-0 min-w-[50px] md:min-w-[50px]"
                 onClick={() => openFeatureModal(feature)}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = planBorderColor[selected];
@@ -556,7 +556,7 @@ const PricingView = ({
                   e.currentTarget.style.borderColor = "transparent";
                 }}
               >
-                <div className="w-10 h-10 md:w-8 md:h-8 flex items-center justify-center">
+                <div className="w-8 h-8 md:w-8 md:h-8 flex items-center justify-center">
                   {feature.component}
                 </div>
                 <span className="text-xs sm:text-sm text-center text-white font-medium">
