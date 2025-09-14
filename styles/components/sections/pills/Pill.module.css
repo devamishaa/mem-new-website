@@ -1,276 +1,15 @@
-@import "tailwindcss";
-
-body {
-  font-family: "Figtree", "Campton", sans-serif;
-  font-optical-sizing: auto;
-  font-feature-settings: "kern" 1;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Ensure Figtree is applied to all text elements */
-* {
-  font-family: "Figtree", "Campton", sans-serif;
-}
-
-/* Specific overrides for common elements */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-span,
-div,
-button,
-input,
-textarea,
-select,
-label {
-  font-family: "Figtree", "Campton", sans-serif;
-}
-
-@layer utilities {
-  @keyframes gentleStarTwinkle {
-    0% {
-      opacity: 0.3;
-      transform: scale3d(1, 1, 1);
-    }
-    100% {
-      opacity: 1;
-      transform: scale3d(1.2, 1.2, 1);
-    }
-  }
-
-  @keyframes subtleGlow {
-    0% {
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.15),
-        0 0 20px rgba(255, 255, 255, 0.1);
-    }
-    100% {
-      text-shadow: 0 0 16px rgba(255, 255, 255, 0.25),
-        0 0 28px rgba(255, 255, 255, 0.15);
-    }
-  }
-
-  @keyframes shadowShift {
-    0% {
-      box-shadow: 0 -50px 100px -40px #ff9cd9,
-        0 -20px 60px -20px rgba(255, 156, 217, 0.5),
-        0 -10px 30px -10px rgba(255, 156, 217, 0.3);
-    }
-    50% {
-      box-shadow: 0 -50px 100px -40px #c2185b,
-        0 -20px 60px -20px rgba(194, 24, 91, 0.5),
-        0 -10px 30px -10px rgba(194, 24, 91, 0.3);
-    }
-    100% {
-      box-shadow: 0 -50px 100px -40px #673ab7,
-        0 -20px 60px -20px rgba(103, 58, 183, 0.5),
-        0 -10px 30px -10px rgba(103, 58, 183, 0.3);
-    }
-  }
-
-  @keyframes horizonGlow {
-    0% {
-      opacity: 0.3;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-    }
-    50% {
-      opacity: 0.8;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.4),
-        0 0 40px rgba(255, 255, 255, 0.2);
-    }
-    100% {
-      opacity: 0.3;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-    }
-  }
-
-  @keyframes slowBounce {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-20px);
-    }
-  }
-}
-
-@layer utilities {
-  @keyframes marquee {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-33.3333%);
-    }
-  }
-
-  .animate-marquee {
-    animation: marquee 60s linear infinite;
-  }
-}
-
-button {
-  cursor: pointer;
-}
-
-.modal-close {
-  position: absolute;
-  right: 9px;
-  top: 7px;
-  color: #fff;
-  background-color: transparent;
-  border: none;
-}
-
-.modal-content {
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  border-radius: 8px;
-  border: 1px solid #222;
-  background: linear-gradient(180deg, #121619 0%, #0c1013 100%);
-  justify-content: center;
-  height: 30vh;
-  width: 30vw;
-}
-
-.modal-title {
-  color: #fff;
-}
-
-.no-scroll {
-  overflow: hidden !important;
-}
-
-/* star */
-.horizonStar {
-  will-change: transform, opacity;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  contain: layout style;
-}
-
-/* Shooting stars */
-@keyframes animate {
-  0% {
-    transform: rotate(315deg) translateX(0);
-    opacity: 1;
-  }
-  70% {
-    opacity: 1;
-  }
-  100% {
-    transform: rotate(315deg) translateX(-1000px);
-    opacity: 0;
-  }
-}
-
-.shootingStar {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 4px;
-  height: 4px;
-  background: #fff;
-  border-radius: 50%;
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1),
-    0 0 0 8px rgba(255, 255, 255, 0.1), 0 0 20px rgba(255, 255, 255, 0.1);
-  animation: animate 13s linear infinite;
-}
-
-.shootingStar::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 300px;
-  height: 1px;
-  background: linear-gradient(90deg, #fff, transparent);
-}
-
-.shootingStar:nth-child(1) {
-  top: 0;
-  right: 0;
-  left: initial;
-  animation-delay: 0s;
-  animation-duration: 2s;
-}
-
-.shootingStar:nth-child(2) {
-  top: 0;
-  right: 80px;
-  left: initial;
-  animation-delay: 0.2s;
-  animation-duration: 6s;
-}
-
-.shootingStar:nth-child(3) {
-  top: 80px;
-  right: 0px;
-  left: initial;
-  animation-delay: 0.4s;
-  animation-duration: 4s;
-}
-
-.shootingStar:nth-child(4) {
-  top: 0;
-  right: 180px;
-  left: initial;
-  animation-delay: 0.6s;
-  animation-duration: 3s;
-}
-
-.shootingStar:nth-child(5) {
-  top: 0;
-  right: 400px;
-  left: initial;
-  animation-delay: 0.8s;
-  animation-duration: 5s;
-}
-
-.shootingStar:nth-child(6) {
-  top: 0;
-  right: 600px;
-  left: initial;
-  animation-delay: 1s;
-  animation-duration: 6s;
-}
-
-.shootingStar:nth-child(7) {
-  top: 300px;
-  right: 0px;
-  left: initial;
-  animation-delay: 1.2s;
-  animation-duration: 3.5s;
-}
-
-.shootingStar:nth-child(8) {
-  top: 0px;
-  right: 700px;
-  left: initial;
-  animation-delay: 1.4s;
-  animation-duration: 4.5s;
-}
-
-.shootingStar:nth-child(9) {
-  top: 0px;
-  right: 1000px;
-  left: initial;
-  animation-delay: 0.75s;
-  animation-duration: 7.5s;
-}
-/* star end */
 /* PillView.module.css */
+
+/* Ensure Figtree font is applied */
+.svgScrollWrapper,
+.waveText,
+.comparePlansBtn {
+  font-family: "Figtree", "Campton", sans-serif;
+}
 
 .svgScrollWrapper {
   width: 100%;
-  height: 200vh;
+  height: 100vh;
   display: grid;
   background: #001a3f;
   background: linear-gradient(
@@ -278,9 +17,9 @@ button {
     rgba(0, 26, 63, 1) 0%,
     rgba(9, 13, 16, 1) 100%
   );
-  place-items: start;
+  place-items: center;
   perspective: 1000px;
-
+  align-items: center;
   justify-content: center;
 }
 
@@ -572,7 +311,7 @@ button {
 @media (max-width: 600px) {
   .comparePlansBtn {
     display: flex !important
-;
+  ;
     bottom: -36%;
   }
   .waveText {
@@ -611,14 +350,13 @@ button {
   }
 
   .waveText.topLeft {
-    top: 50%;
+    bottom: 0%;
     left: -50%;
     text-align: left;
   }
 
   .waveText.bottomRight {
-    color: #fff !important;
-    bottom: 10%;
+    bottom: -70%;
     right: 10%;
     text-align: right;
   }

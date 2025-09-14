@@ -1,7 +1,6 @@
 "use client";
 import { useEffect } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { gsap, ScrollTrigger } from "@/utils/gsap";
 
 export function usePillTimeline(containerRef, sectionRef, styles, isMobile) {
   useEffect(() => {
@@ -39,7 +38,7 @@ export function usePillTimeline(containerRef, sectionRef, styles, isMobile) {
 
     // Set initial position of the image high up
     gsap.set(container.querySelector("[data-pill-image]"), {
-      y: "-80vh",
+      y: "-100vh",
     });
     gsap.set(`.${styles.floatingObject}`, {
       opacity: 0,
@@ -111,7 +110,7 @@ export function usePillTimeline(containerRef, sectionRef, styles, isMobile) {
 
     // Downward motion is now a separate, scrubbed animation
     const isMobile = window.innerWidth <= 768;
-    const yValue = isMobile ? "26vh" : "32vh";
+    const yValue = isMobile ? "26vh" : "30vh";
 
     // gsap.to(pillImage, {
     //   y: yValue,
@@ -132,9 +131,10 @@ export function usePillTimeline(containerRef, sectionRef, styles, isMobile) {
       scrollTrigger: {
         trigger: `.${styles.svgScrollWrapper}`,
         start: "center center",
-        end: "center top",
+        end: "bottom top",
         scrub: 1,
         onLeave: () => {
+          // जब image बैठ गई → waves शुरू करो
           waveAnims = gsap.utils.toArray(`.${styles.wave}`).map((wave, i) => {
             return gsap.fromTo(
               wave,
@@ -151,6 +151,7 @@ export function usePillTimeline(containerRef, sectionRef, styles, isMobile) {
           });
         },
         onEnterBack: () => {
+          // जब ऊपर लौटे → waves हटा दो
           waveAnims.forEach((anim) => anim.kill());
           waveAnims = [];
           gsap.set(`.${styles.wave}`, { opacity: 0 });
@@ -184,9 +185,8 @@ export function usePillTimeline(containerRef, sectionRef, styles, isMobile) {
         start: "top top",
         end: "center center",
         pin: true,
-        pinSpacing: false,
+        pinSpacing: true,
         invalidateOnRefresh: true,
-        anticipatePin: 1,
       },
     });
 

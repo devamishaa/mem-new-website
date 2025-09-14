@@ -23,11 +23,11 @@ export const COMPONENT_VARIANTS = {
       importer: () => import("@/app/components/pricing-view/PricingContainer"),
     },
   },
-  // pills: {
-  //   default: {
-  //     importer: () => import("@/app/components/pill-view/PillView"),
-  //   },
-  // },
+  pills: {
+    default: {
+      importer: () => import("@/app/components/pill-view/PillContainer"),
+    },
+  },
 
   testimonials: {
     default: {

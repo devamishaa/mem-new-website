@@ -25,6 +25,18 @@ export default function RootLayout({ children }) {
           crossOrigin="anonymous"
         />
 
+        {/* ✅ Google Fonts - Figtree */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap"
+          rel="stylesheet"
+        />
+
         {/* ✅ Preload Fonts (critical) */}
         <link
           rel="preload"
@@ -74,7 +86,7 @@ export default function RootLayout({ children }) {
                 src: url('https://fonts.cdnfonts.com/s/45240/CamptonBold.woff') format('woff');
               }
               body {
-                font-family: 'Campton', sans-serif;
+                font-family: 'Figtree', 'Campton', sans-serif;
               }
             `,
           }}
