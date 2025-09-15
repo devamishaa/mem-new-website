@@ -1,7 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import { useSuperpowerTimeline } from "./useSuperpowerTimeline";
 import SuperpowerContent from "./SuperpowerContent";
 import SuperpowerSlides from "./SuperpowerSlider";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const SuperpowerView = ({ model }) => {
   console.log(model, "model");
@@ -25,9 +29,42 @@ const SuperpowerView = ({ model }) => {
 
   // Sync local activeSlide with GSAP scroll progress
   useEffect(() => {
-    console.log("SuperpowerView - currentIndex changed:", currentIndex);
     setActiveSlide(currentIndex);
   }, [currentIndex]);
+
+  // StackedReveal animation
+  useLayoutEffect(() => {
+    if (!containerRef.current) return;
+
+    let ctx = gsap.context(() => {
+      const sections = gsap.utils.toArray(".panel:not(:first-child)");
+
+      // Set all panels below the viewport initially
+      gsap.set(sections, { yPercent: 101 });
+
+      // Create animation timeline
+      const animation = gsap.to(sections, {
+        yPercent: 0,
+        duration: 1,
+        stagger: 0.1, // Reduced stagger so first section stays visible longer
+        borderTopLeftRadius: "2rem",
+        borderTopRightRadius: "2rem",
+        ease: "none",
+      });
+
+      // ScrollTrigger to pin and scrub
+      ScrollTrigger.create({
+        trigger: containerRef.current,
+        start: "top top",
+        end: "+=" + 1000 + "%", // Increased scroll distance: 900% for 7 slides + 100% for section transition
+        pin: true,
+        animation: animation,
+        scrub: 1,
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
 
   // Debug activeSlide changes
   useEffect(() => {
@@ -47,23 +84,29 @@ const SuperpowerView = ({ model }) => {
   };
 
   return (
-    <section
+    <div
       ref={containerRef}
-      aria-label="Superpower section - Features showcase"
-      data-superpower
+      className="gallery relative w-full h-screen overflow-hidden"
     >
-      <SuperpowerContent
-        currentEmotionImage={currentEmotionImage}
-        emotionText={currentEmotionText}
-        activeSlide={activeSlide}
-        model={model}
-      />
-      <SuperpowerSlides
-        model={model}
-        activeSlide={activeSlide}
-        onDotClick={handleDotClick}
-      />
-    </section>
+      {/* Section 1 - SuperpowerContent */}
+      <section className="panel absolute inset-0 bg-gray-200 flex items-center justify-center">
+        <SuperpowerContent
+          currentEmotionImage={currentEmotionImage}
+          emotionText={currentEmotionText}
+          activeSlide={activeSlide}
+          model={model}
+        />
+      </section>
+
+      {/* Section 2 - SuperpowerSlides */}
+      <section className="panel absolute inset-0 bg-[#06101D] flex items-center justify-center">
+        <SuperpowerSlides
+          model={model}
+          activeSlide={activeSlide}
+          onDotClick={handleDotClick}
+        />
+      </section>
+    </div>
   );
 };
 

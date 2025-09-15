@@ -154,11 +154,12 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
       const slideWidth = 320; // w-80 = 320px
       const gap = 24; // gap-6 = 24px
       const scrollLeft = container.scrollLeft;
+      const totalSlides = superpowerData.slides.length + 1; // +1 for title card
 
-      // Calculate which slide is currently visible
-      // 0 = title card, 1+ = feature cards
-      const slideIndex = Math.round(scrollLeft / (slideWidth + gap));
-      const newActiveSlide = slideIndex === 0 ? -1 : slideIndex - 1;
+      // Calculate which slide is currently visible with better precision
+      const slideIndex = Math.floor(scrollLeft / (slideWidth + gap) + 0.5);
+      const clampedIndex = Math.max(0, Math.min(slideIndex, totalSlides - 1));
+      const newActiveSlide = clampedIndex === 0 ? -1 : clampedIndex - 1;
 
       if (onDotClick && newActiveSlide !== activeSlide) {
         onDotClick(newActiveSlide);
@@ -167,28 +168,45 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
 
     container.addEventListener("scroll", handleScroll);
     return () => container.removeEventListener("scroll", handleScroll);
-  }, [activeSlide, onDotClick]);
+  }, [activeSlide, onDotClick, superpowerData.slides.length]);
 
   // Scroll + sync state when dot clicked
   const handleDotClick = (i) => {
-    const slideElement = scrollContainerRef.current?.querySelector(
-      `[data-slide-ref="${i}"]`
-    );
     const container = scrollContainerRef.current;
+    if (!container) return;
 
-    if (container) {
-      const slideWidth = 320; // w-80 = 320px
-      const gap = 24; // gap-6 = 24px
-      // For title card (i = -1), scroll to position 0
-      // For feature cards (i >= 0), scroll to position (i + 1) * (slideWidth + gap)
-      const scrollPosition = i === -1 ? 0 : (i + 1) * (slideWidth + gap);
-      container.scrollTo({
-        left: scrollPosition,
-        behavior: "smooth",
-      });
+    const slideWidth = 320; // w-80 = 320px
+    const gap = 24; // gap-6 = 24px
+    const totalSlides = superpowerData.slides.length + 1; // +1 for title card
+
+    // Calculate scroll position with bounds checking
+    let scrollPosition;
+    if (i === -1) {
+      // Title card (first slide)
+      scrollPosition = 0;
+    } else if (i >= 0 && i < superpowerData.slides.length) {
+      // Feature cards
+      scrollPosition = (i + 1) * (slideWidth + gap);
+    } else {
+      // Invalid index, scroll to last slide
+      scrollPosition = (totalSlides - 1) * (slideWidth + gap);
     }
 
-    // Immediately update React state / GSAP sync
+    // Ensure scroll position doesn't exceed container width
+    const maxScroll = container.scrollWidth - container.clientWidth;
+    // For the last slide, allow scrolling to the very end to show the card fully
+    if (i === superpowerData.slides.length - 1) {
+      scrollPosition = maxScroll;
+    } else {
+      scrollPosition = Math.min(scrollPosition, maxScroll);
+    }
+
+    container.scrollTo({
+      left: scrollPosition,
+      behavior: "smooth",
+    });
+
+    // Immediately update React state
     if (onDotClick) {
       onDotClick(i);
     }
@@ -204,7 +222,7 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
             {/* Slider Track with Title and Cards */}
             <div
               ref={scrollContainerRef}
-              className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-6 pb-4"
+              className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-6 pb-4 pr-132"
               style={{ scrollBehavior: "smooth" }}
             >
               {/* Title Card - First Slide */}
@@ -294,14 +312,19 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
             <button
               onClick={() => {
                 const container = scrollContainerRef.current;
-                if (container) {
-                  const slideWidth = 320; // w-80 = 320px
-                  const gap = 24; // gap-6 = 24px
-                  container.scrollBy({
-                    left: -(slideWidth + gap),
-                    behavior: "smooth",
-                  });
-                }
+                if (!container) return;
+
+                const slideWidth = 320; // w-80 = 320px
+                const gap = 24; // gap-6 = 24px
+                const currentScroll = container.scrollLeft;
+                const slideStep = slideWidth + gap;
+
+                // Calculate previous slide position
+                const prevPosition = Math.max(0, currentScroll - slideStep);
+                container.scrollTo({
+                  left: prevPosition,
+                  behavior: "smooth",
+                });
               }}
               className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-all duration-200 z-10"
               aria-label="Previous slide"
@@ -324,14 +347,29 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
             <button
               onClick={() => {
                 const container = scrollContainerRef.current;
-                if (container) {
-                  const slideWidth = 320; // w-80 = 320px
-                  const gap = 24; // gap-6 = 24px
-                  container.scrollBy({
-                    left: slideWidth + gap,
-                    behavior: "smooth",
-                  });
+                if (!container) return;
+
+                const slideWidth = 320; // w-80 = 320px
+                const gap = 24; // gap-6 = 24px
+                const currentScroll = container.scrollLeft;
+                const slideStep = slideWidth + gap;
+                const maxScroll = container.scrollWidth - container.clientWidth;
+
+                // Calculate next slide position
+                let nextPosition = Math.min(
+                  maxScroll,
+                  currentScroll + slideStep
+                );
+
+                // If we're near the end, scroll to the very end to show the last card fully
+                if (nextPosition >= maxScroll * 0.8) {
+                  nextPosition = maxScroll;
                 }
+
+                container.scrollTo({
+                  left: nextPosition,
+                  behavior: "smooth",
+                });
               }}
               className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-all duration-200 z-10"
               aria-label="Next slide"
@@ -359,21 +397,13 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
           <button
             data-dot-ref="title"
             onClick={() => handleDotClick(-1)}
-            className={`relative overflow-hidden transition-all duration-300 ease-in-out ${
+            className={`transition-colors duration-200 ${
               activeSlide === -1
-                ? "px-4 py-2 rounded-full bg-white text-black text-sm font-medium min-w-[80px]"
-                : "w-3 h-3 rounded-full bg-white/20 hover:bg-white/30 min-w-[12px]"
+                ? "px-4 py-2 rounded-full bg-white text-black text-sm font-medium"
+                : "w-3 h-3 rounded-full bg-white/20 hover:bg-white/30"
             }`}
           >
-            <span
-              className={`inline-block transition-all duration-300 ease-in-out ${
-                activeSlide === -1
-                  ? "opacity-100 transform scale-100"
-                  : "opacity-0 transform scale-75 absolute"
-              }`}
-            >
-              Overview
-            </span>
+            {activeSlide === -1 && "Overview"}
           </button>
 
           {/* Feature Dots */}
@@ -382,21 +412,13 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
               key={index}
               data-dot-ref={index}
               onClick={() => handleDotClick(index)}
-              className={`relative overflow-hidden transition-all duration-300 ease-in-out ${
+              className={`transition-colors duration-200 ${
                 activeSlide === index
-                  ? "px-4 py-2 rounded-full bg-white text-black text-sm font-medium min-w-[80px]"
-                  : "w-3 h-3 rounded-full bg-white/20 hover:bg-white/30 min-w-[12px]"
+                  ? "px-4 py-2 rounded-full bg-white text-black text-sm font-medium"
+                  : "w-3 h-3 rounded-full bg-white/20 hover:bg-white/30"
               }`}
             >
-              <span
-                className={`inline-block transition-all duration-300 ease-in-out ${
-                  activeSlide === index
-                    ? "opacity-100 transform scale-100"
-                    : "opacity-0 transform scale-75 absolute"
-                }`}
-              >
-                {slide.dotTitle || slide.title}
-              </span>
+              {activeSlide === index && (slide.dotTitle || slide.title)}
             </button>
           ))}
         </div>
