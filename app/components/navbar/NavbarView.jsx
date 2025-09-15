@@ -230,9 +230,6 @@ function NavbarCTA({ model }) {
           />
           {model.cta.label}
         </span>
-
-        {/* border outline */}
-        <span className="absolute inset-0 border-2 border-white rounded-full" />
       </Button>
     </div>
   );

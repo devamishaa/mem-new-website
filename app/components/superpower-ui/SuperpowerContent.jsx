@@ -35,46 +35,41 @@ const SuperpowerContent = () => {
   const { t } = useTranslation();
 
   const [activeSlide, setActiveSlide] = useState(0);
+  const [isClient, setIsClient] = useState(false);
 
-  // number of slides — keep in sync with panels rendered below
   const slides = useMemo(() => Array.from({ length: 7 }), []);
 
-  // Use ScrollTrigger to control slide progression
+  // mark as client after hydration
   useEffect(() => {
-    if (!containerRef.current) return;
+    setIsClient(true);
+  }, []);
 
+  // ScrollTrigger
+  useEffect(() => {
+    if (!containerRef.current || !isClient) return;
     const totalSlides = 7;
     let currentSlide = 0;
 
-    // Create a ScrollTrigger for this section
     const scrollTrigger = ScrollTrigger.create({
       trigger: containerRef.current,
-      start: "top top", // Start when section reaches top of viewport
-      end: "bottom top", // End when section bottom reaches top of viewport
+      start: "top top",
+      end: "bottom top",
       scrub: 1,
       onUpdate: (self) => {
-        // Calculate slide index based on scroll progress with better distribution
         const progress = self.progress;
-
-        // Give more time to slides 1-6 by using a different distribution
-        // Reserve only 2% for the last slide, give 98% to first 6 slides
         const lastSlideReserve = 0.01;
         const availableProgress = 1 - lastSlideReserve;
 
         let slideIndex;
         if (progress <= availableProgress) {
-          // For first 6 slides, distribute evenly across 98% of progress
-          // This gives each slide ~16% of progress
           slideIndex = Math.floor(
             (progress / availableProgress) * (totalSlides - 1)
           );
         } else {
-          // For the last slide, use only 2% of progress
           slideIndex = totalSlides - 1;
         }
 
         const clampedIndex = Math.max(0, Math.min(slideIndex, totalSlides - 1));
-
         if (clampedIndex !== currentSlide) {
           currentSlide = clampedIndex;
           setActiveSlide(clampedIndex);
@@ -82,64 +77,45 @@ const SuperpowerContent = () => {
       },
     });
 
-    return () => {
-      scrollTrigger.kill();
-    };
-  }, []);
+    return () => scrollTrigger.kill();
+  }, [isClient]);
 
-  // Bubble animation effect
+  // Bubble animations
   useEffect(() => {
-    if (!bubbleRef.current) return;
-
-    // Set initial position (off-screen left)
+    if (!bubbleRef.current || !isClient) return;
     gsap.set(bubbleRef.current, { x: -100, y: "50%" });
-
-    // Animate from left to right slowly
     gsap.to(bubbleRef.current, {
-      x: "100vw", // Move to right edge of viewport
-      duration: 18, // Slow animation (18 seconds)
-      ease: "none", // Linear movement
-      repeat: -1, // Infinite repeat
-      yoyo: false, // Don't reverse, just restart
+      x: "100vw",
+      duration: 18,
+      ease: "none",
+      repeat: -1,
     });
-  }, []);
+  }, [isClient]);
 
-  // Second bubble animation effect
   useEffect(() => {
-    if (!bubble2Ref.current) return;
-
-    // Set initial position (off-screen bottom)
+    if (!bubble2Ref.current || !isClient) return;
     gsap.set(bubble2Ref.current, { x: "70%", y: "100vh" });
-
-    // Animate from bottom to top slowly
     gsap.to(bubble2Ref.current, {
-      y: -100, // Move to top edge of viewport
-      duration: 15, // Different duration for variety
-      ease: "none", // Linear movement
-      repeat: -1, // Infinite repeat
-      yoyo: false, // Don't reverse, just restart
+      y: -100,
+      duration: 15,
+      ease: "none",
+      repeat: -1,
     });
-  }, []);
+  }, [isClient]);
 
-  // Third bubble animation effect
   useEffect(() => {
-    if (!bubble3Ref.current) return;
-
-    // Set initial position (off-screen right bottom)
+    if (!bubble3Ref.current || !isClient) return;
     gsap.set(bubble3Ref.current, { x: "100vw", y: "100vh" });
-
-    // Animate from right bottom to top slowly
     gsap.to(bubble3Ref.current, {
-      x: "20%", // Move to left side
-      y: -100, // Move to top edge
-      duration: 20, // Different duration for variety
-      ease: "none", // Linear movement
-      repeat: -1, // Infinite repeat
-      yoyo: false, // Don't reverse, just restart
+      x: "20%",
+      y: -100,
+      duration: 20,
+      ease: "none",
+      repeat: -1,
     });
-  }, []);
+  }, [isClient]);
 
-  // speech text from your translations JSON (emotions.slide1..)
+  // speech text
   const speechBubbleText = useMemo(() => {
     const slideKeys = {
       0: "emotions.slide1",
@@ -157,7 +133,7 @@ const SuperpowerContent = () => {
       : translated;
   }, [activeSlide, t]);
 
-  // emotion image mapping
+  // emotion image
   const emotionImage = useMemo(() => {
     const images = {
       0: "/homepage/memorae_emotions/Happy_memeorae.svg",
@@ -171,12 +147,18 @@ const SuperpowerContent = () => {
     return images[activeSlide] || "/homepage/Memorae_Character.png";
   }, [activeSlide]);
 
+  // ✅ Hooks always run → but render only when client
+  if (!isClient) {
+    return <div style={{ height: "100vh", width: "100vw" }} />; // placeholder (no mismatch)
+  }
+
   return (
     <div
       ref={containerRef}
       className="relative w-screen h-screen overflow-hidden"
     >
       <SpeechBubbleTailStyle />
+
       {/* background */}
       <CdnImage
         className="absolute inset-0 z-[1] w-full h-full"
@@ -187,36 +169,36 @@ const SuperpowerContent = () => {
         style={{ objectFit: "cover", objectPosition: "center" }}
       />
 
-      {/* bubble overlay */}
+      {/* bubbles */}
       <div className="absolute inset-0 z-[1] w-full h-full">
         <img
           ref={bubbleRef}
           src="/homepage/bubble.svg"
-          alt="Bubble overlay"
+          alt="Bubble"
           className="w-20 h-20 absolute"
         />
         <img
           ref={bubble2Ref}
           src="/homepage/bubble.svg"
-          alt="Bubble overlay 2"
+          alt="Bubble 2"
           className="w-16 h-16 absolute"
         />
         <img
           ref={bubble3Ref}
           src="/homepage/bubble.svg"
-          alt="Bubble overlay 3"
+          alt="Bubble 3"
           className="w-14 h-14 absolute"
         />
       </div>
 
-      {/* fixed content */}
+      {/* speech + character */}
       <div className="sm:mt-30 relative z-[2] text-center text-white h-full flex flex-col justify-center items-center">
         <div className="mb-6 relative bg-white text-slate-800 text-lg font-medium px-6 py-3 rounded-xl shadow-md">
           {speechBubbleText}
           <div
             className="absolute left-1/2 -bottom-2 w-0 h-0 -translate-x-1/2 
-          border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-white"
-          ></div>
+            border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-white"
+          />
         </div>
 
         <img
@@ -224,12 +206,10 @@ const SuperpowerContent = () => {
           src={emotionImage}
           alt="Emotion character"
           className="animate-[slowBounce_5s_ease-in-out_infinite]"
-          data-emotion-image
-          data-hydrated
         />
       </div>
 
-      {/* panels for horizontal scroll — width computed from slides length */}
+      {/* slides */}
       <div
         className="flex h-full"
         style={{ width: `${slides.length * 100}vw` }}
