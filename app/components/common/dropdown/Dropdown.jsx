@@ -327,7 +327,7 @@ function DropdownContent(props) {
       aria-hidden={mode === "inline" ? !isOpen : undefined}
       role={mode === "inline" ? "region" : undefined}
     >
-      <div className="absolute inset-0 -z-10 rounded-inherit pointer-events-none bg-gradient-to-b from-white/35 to-transparent [mix-blend-mode:overlay]" />
+      <div className="absolute inset-0 -z-10 rounded-inherit pointer-events-none  [mix-blend-mode:overlay]" />
       <div className="flex flex-col gap-2">
         {items.map((item) => (
           <DropdownItem

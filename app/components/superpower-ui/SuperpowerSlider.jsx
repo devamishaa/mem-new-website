@@ -1,9 +1,13 @@
 import Image from "next/image";
 import Button from "../common/Button";
 import FeatureCard from "./FeatureCard";
-import { useMemo, useRef, useEffect } from "react";
+import { useMemo, useRef, useEffect, useState } from "react";
 import clsx from "clsx"; // Recommended for conditional classes: npm install clsx
 import { useTranslation } from "@/hooks/useTranslation";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 // Random gradient colors for border with radial gradient from bottom
 const getGradientColors = (index) => {
@@ -22,10 +26,28 @@ const getGradientColors = (index) => {
   return gradients[index % gradients.length];
 };
 
-const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
+// Get darker border color based on card gradient
+const getBorderColor = (index) => {
+  const borderColors = [
+    "#7C5AE8", // Darker purple for #946CF5
+    "#E55A5A", // Darker red for #FF6B6B
+    "#3FB8B0", // Darker teal for #4ECDC4
+    "#3A9BB8", // Darker blue for #45B7D1
+    "#7FB89A", // Darker green for #96CEB4
+    "#E6B847", // Darker yellow for #FECA57
+    "#E68AD6", // Darker pink for #FF9FF3
+    "#4A8FE6", // Darker blue for #54A0FF
+    "#4E1FA8", // Darker purple for #5F27CD
+    "#00B3B4", // Darker cyan for #00D2D3
+  ];
+  return borderColors[index % borderColors.length];
+};
+
+const SuperpowerSlides = () => {
   const scrollContainerRef = useRef(null);
   const containerRef = useRef(null);
   const { t } = useTranslation();
+  const [activeSlide, setActiveSlide] = useState(-1); // Start with title card
 
   const superpowerData = useMemo(() => {
     console.log("SuperpowerSlider - Building superpowerData with translations");
@@ -140,9 +162,42 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
       // Ensure we start at the title card (scroll position 0)
       container.scrollLeft = 0;
     }
-    if (onDotClick && activeSlide !== -1) {
-      onDotClick(-1);
-    }
+    setActiveSlide(-1); // Set to title card
+  }, []);
+
+  // Border radius and scale animation effect
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    // Set initial state (small and rounded)
+    gsap.set(containerRef.current, {
+      borderRadius: "34px 34px 0px 0px",
+      scale: 0.8,
+      transformOrigin: "center top",
+    });
+
+    // Create ScrollTrigger for border radius and scale animation
+    const scrollTrigger = ScrollTrigger.create({
+      trigger: containerRef.current,
+      start: "top bottom-=100",
+      end: "top center",
+      scrub: 1,
+      onUpdate: (self) => {
+        // Gradually reduce border radius and increase scale as it comes into view
+        const progress = self.progress;
+        const borderRadius = 34 - progress * 34; // From 34px to 0px
+        const scale = 0.8 + progress * 0.2; // From 0.8 to 1.0
+
+        gsap.set(containerRef.current, {
+          borderRadius: `${borderRadius}px ${borderRadius}px 0px 0px`,
+          scale: scale,
+        });
+      },
+    });
+
+    return () => {
+      scrollTrigger.kill();
+    };
   }, []);
 
   // Handle scroll events to update active slide
@@ -161,14 +216,14 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
       const clampedIndex = Math.max(0, Math.min(slideIndex, totalSlides - 1));
       const newActiveSlide = clampedIndex === 0 ? -1 : clampedIndex - 1;
 
-      if (onDotClick && newActiveSlide !== activeSlide) {
-        onDotClick(newActiveSlide);
+      if (newActiveSlide !== activeSlide) {
+        setActiveSlide(newActiveSlide);
       }
     };
 
     container.addEventListener("scroll", handleScroll);
     return () => container.removeEventListener("scroll", handleScroll);
-  }, [activeSlide, onDotClick, superpowerData.slides.length]);
+  }, [activeSlide, superpowerData.slides.length]);
 
   // Scroll + sync state when dot clicked
   const handleDotClick = (i) => {
@@ -207,9 +262,7 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
     });
 
     // Immediately update React state
-    if (onDotClick) {
-      onDotClick(i);
-    }
+    setActiveSlide(i);
   };
 
   return (
@@ -228,7 +281,7 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
               {/* Title Card - First Slide */}
               <div
                 data-slide-ref="title"
-                className="group relative flex-shrink-0 w-80 md:w-96 h-80 md:h-96 overflow-hidden rounded-2xl p-5 md:p-7 text-white transition-all duration-300 hover:scale-105 snap-center flex flex-col justify-center bg-transparent"
+                className="group relative flex-shrink-0 w-80 md:w-96 h-80 md:h-96 overflow-hidden rounded-2xl p-5 md:p-7 text-white snap-center flex flex-col justify-center bg-transparent"
               >
                 <div className="relative z-10">
                   <h2 className="text-3xl md:text-4xl font-bold mb-8">
@@ -241,24 +294,14 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
                 <div
                   key={index}
                   data-slide-ref={index}
-                  className="mt-10 group relative flex-shrink-0 w-80 md:w-96 h-80 md:h-120 overflow-hidden rounded-4xl p-5 md:p-7 text-white transition-all duration-300 hover:scale-105 snap-center"
+                  className="mt-10 group relative flex-shrink-0 w-80 md:w-96 h-100 md:h-120 overflow-hidden rounded-4xl p-5 md:p-7 text-white transition-all duration-300 hover:scale-105 snap-center"
                   style={{
                     background: getGradientColors(index),
                     position: "relative",
                     backgroundColor: "rgba(255, 255, 255, 0.05)",
+                    borderBottom: `2px solid ${getBorderColor(index)}`,
                   }}
                 >
-                  {/* Rounded Gradient Border Bottom */}
-                  <div
-                    className="absolute bottom-0 left-0 right-0 h-2 "
-                    style={{
-                      borderBottom: "2px solid",
-                      borderRadius: "758px",
-                      height: "8px",
-                      marginLeft: "8px",
-                      marginRight: "8px",
-                    }}
-                  ></div>
                   {/* Card Content */}
                   <div className="relative z-10 h-full flex flex-col bg-transparent">
                     <h3 className="text-xl font-semibold mb-3">
@@ -309,7 +352,7 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
             </div>
 
             {/* Navigation Arrows */}
-            <button
+            {/* <button
               onClick={() => {
                 const container = scrollContainerRef.current;
                 if (!container) return;
@@ -321,12 +364,18 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
 
                 // Calculate previous slide position
                 const prevPosition = Math.max(0, currentScroll - slideStep);
+
                 container.scrollTo({
                   left: prevPosition,
                   behavior: "smooth",
                 });
               }}
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-all duration-200 z-10"
+              className={`absolute ml-80 left-4 top-1/2 -translate-y-1/2 p-3 rounded-full transition-all duration-200 z-10 ${
+                activeSlide === -1
+                  ? "bg-white/10 text-white/50 cursor-not-allowed"
+                  : "bg-white/20 hover:bg-white/30 text-white"
+              }`}
+              disabled={activeSlide === -1}
               aria-label="Previous slide"
             >
               <svg
@@ -387,7 +436,7 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
                   d="M9 5l7 7-7 7"
                 />
               </svg>
-            </button>
+            </button> */}
           </div>
         </div>
 

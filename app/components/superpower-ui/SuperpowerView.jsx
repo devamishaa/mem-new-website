@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState, useLayoutEffect } from "react";
-import { useSuperpowerTimeline } from "./useSuperpowerTimeline";
 import SuperpowerContent from "./SuperpowerContent";
 import SuperpowerSlides from "./SuperpowerSlider";
 import { gsap } from "gsap";
@@ -20,43 +19,57 @@ const SuperpowerView = ({ model }) => {
   const [currentEmotionText, setCurrentEmotionText] = useState(
     model?.emotions?.slides?.[0]?.text || ""
   );
-  const { currentIndex } = useSuperpowerTimeline(
-    containerRef,
-    model,
-    (img) => setCurrentEmotionImage(img),
-    (text) => setCurrentEmotionText(text) // let GSAP update emotion text too
-  );
-
-  // Sync local activeSlide with GSAP scroll progress
-  useEffect(() => {
-    setActiveSlide(currentIndex);
-  }, [currentIndex]);
 
   // StackedReveal animation
   useLayoutEffect(() => {
     if (!containerRef.current) return;
 
     let ctx = gsap.context(() => {
-      const sections = gsap.utils.toArray(".panel:not(:first-child)");
+      const sections = gsap.utils.toArray(".panel");
 
-      // Set all panels below the viewport initially
+      console.log("SuperpowerView - Found sections:", sections.length);
+      console.log("SuperpowerView - Sections:", sections);
+
+      // Set all panels below the viewport initially (except first one)
       gsap.set(sections, { yPercent: 101 });
+      gsap.set(sections[0], { yPercent: 0 }); // First section visible initially
 
-      // Create animation timeline
-      const animation = gsap.to(sections, {
-        yPercent: 0,
-        duration: 1,
-        stagger: 0.1, // Reduced stagger so first section stays visible longer
-        borderTopLeftRadius: "2rem",
-        borderTopRightRadius: "2rem",
-        ease: "none",
-      });
+      // Create animation timeline with more time for first section
+      const animation = gsap.timeline();
+
+      // First section (SuperpowerContent) stays visible for 7 slides duration
+      animation.to(
+        sections[0],
+        {
+          yPercent: 0, // Already visible, just maintain
+          duration: 7, // 7x duration for 7 emotion slides
+          borderTopLeftRadius: "2rem",
+          borderTopRightRadius: "2rem",
+          ease: "none",
+        },
+        0
+      );
+
+      // Second section (SuperpowerSlider) starts after first section completes
+      if (sections[1]) {
+        animation.to(
+          sections[1],
+          {
+            yPercent: 0,
+            duration: 2, // Increased duration for smoother transition
+            borderTopLeftRadius: "2rem",
+            borderTopRightRadius: "2rem",
+            ease: "none",
+          },
+          6 // Start a bit earlier for smoother transition
+        );
+      }
 
       // ScrollTrigger to pin and scrub
       ScrollTrigger.create({
         trigger: containerRef.current,
         start: "top top",
-        end: "+=" + 1000 + "%", // Increased scroll distance: 900% for 7 slides + 100% for section transition
+        end: "+=" + 500 + "%", // Increased scroll distance for slower, more controlled scrolling
         pin: true,
         animation: animation,
         scrub: 1,
@@ -71,18 +84,6 @@ const SuperpowerView = ({ model }) => {
     console.log("SuperpowerView - activeSlide changed:", activeSlide);
   }, [activeSlide]);
 
-  // Handle dot click (manual navigation)
-  const handleDotClick = (i) => {
-    setActiveSlide(i);
-    // Map first dot to emotion slide 1 to skip blank slide 0
-    const emotionIndex = i + 1;
-    const nextSlide = model?.emotions?.slides?.[emotionIndex];
-    if (nextSlide) {
-      if (nextSlide.image) setCurrentEmotionImage(nextSlide.image);
-      if (nextSlide.text) setCurrentEmotionText(nextSlide.text);
-    }
-  };
-
   return (
     <div
       ref={containerRef}
@@ -90,21 +91,12 @@ const SuperpowerView = ({ model }) => {
     >
       {/* Section 1 - SuperpowerContent */}
       <section className="panel absolute inset-0 bg-gray-200 flex items-center justify-center">
-        <SuperpowerContent
-          currentEmotionImage={currentEmotionImage}
-          emotionText={currentEmotionText}
-          activeSlide={activeSlide}
-          model={model}
-        />
+        <SuperpowerContent />
       </section>
 
       {/* Section 2 - SuperpowerSlides */}
       <section className="panel absolute inset-0 bg-[#06101D] flex items-center justify-center">
-        <SuperpowerSlides
-          model={model}
-          activeSlide={activeSlide}
-          onDotClick={handleDotClick}
-        />
+        <SuperpowerSlides />
       </section>
     </div>
   );

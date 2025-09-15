@@ -110,7 +110,7 @@ export function usePillTimeline(containerRef, sectionRef, styles, isMobile) {
 
     // Downward motion is now a separate, scrubbed animation
     const isMobile = window.innerWidth <= 768;
-    const yValue = isMobile ? "26vh" : "32vh";
+    const yValue = isMobile ? "20vh" : "32vh";
 
     // gsap.to(pillImage, {
     //   y: yValue,

@@ -340,14 +340,14 @@ export default function CosmicLanding({ model }) {
 
         <h1
           data-cosmic-text-1
-          className="text-5xl font-bold text-white font-figtree"
+          className="sm:text-7xl text-5xl font-bold text-white font-figtree"
         >
           {model?.cosmic?.title || "Tu caos"}
         </h1>
 
         <h1
           data-cosmic-text-2
-          className="mt-4 text-5xl font-bold text-white font-figtree"
+          className="mt-4 sm:text-7xl text-5xl font-bold text-white font-figtree"
         >
           {model?.cosmic?.subtitle || "Tu plan"}
         </h1>

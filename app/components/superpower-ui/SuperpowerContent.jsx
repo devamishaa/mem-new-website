@@ -29,6 +29,9 @@ const SpeechBubbleTailStyle = () => (
 const SuperpowerContent = () => {
   const containerRef = useRef(null);
   const imgRef = useRef(null);
+  const bubbleRef = useRef(null);
+  const bubble2Ref = useRef(null);
+  const bubble3Ref = useRef(null);
   const { t } = useTranslation();
 
   const [activeSlide, setActiveSlide] = useState(0);
@@ -36,70 +39,105 @@ const SuperpowerContent = () => {
   // number of slides — keep in sync with panels rendered below
   const slides = useMemo(() => Array.from({ length: 7 }), []);
 
-  // GSAP horizontal scroll setup (scoped with gsap.context)
+  // Use ScrollTrigger to control slide progression
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const ctx = gsap.context(() => {
-      const panels = gsap.utils.toArray(".slide-panel");
-      const slidesCount = panels.length;
+    const totalSlides = 7;
+    let currentSlide = 0;
 
-      // compute total scroll distance properly (width * (n-1))
-      const getTotalScroll = () =>
-        (containerRef.current ? containerRef.current.offsetWidth : 0) *
-        (slidesCount - 1);
+    // Create a ScrollTrigger for this section
+    const scrollTrigger = ScrollTrigger.create({
+      trigger: containerRef.current,
+      start: "top top", // Start when section reaches top of viewport
+      end: "bottom top", // End when section bottom reaches top of viewport
+      scrub: 1,
+      onUpdate: (self) => {
+        // Calculate slide index based on scroll progress with better distribution
+        const progress = self.progress;
 
-      // main horizontal tween
-      const tween = gsap.to(panels, {
-        xPercent: -100 * (slidesCount - 1),
-        ease: "none",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: () => "+=" + window.innerWidth * 1,
-          pin: true,
-          scrub: 0.5,
-          // snap to exact slide fractions
-          snap: {
-            snapTo: 1 / Math.max(1, slidesCount - 1),
-            duration: 0.25,
-            ease: "power2.inOut",
-          },
-          // update activeSlide on every update (clamped + rounded)
-          onUpdate(self) {
-            const progress = gsap.utils.clamp(0, 1, self.progress);
-            const rawIndex = progress * (slidesCount - 1);
-            const newIndex = Math.round(rawIndex);
-            setActiveSlide((prev) => (prev !== newIndex ? newIndex : prev));
-          },
-          // ensure final index after snapping completes
-          onSnapComplete(self) {
-            const snapped = Math.round(self.progress * (slidesCount - 1));
-            setActiveSlide(snapped);
-          },
-          // when refresh (resize), recompute end
-          onRefresh(self) {
-            // onRefresh will be called by ScrollTrigger.refresh(); ensure end remains correct
-            self.vars.end = `+=${getTotalScroll()}`;
-          },
-        },
-      });
+        // Give more time to slides 1-6 by using a different distribution
+        // Reserve only 2% for the last slide, give 98% to first 6 slides
+        const lastSlideReserve = 0.01;
+        const availableProgress = 1 - lastSlideReserve;
 
-      // Force a refresh once so end is calculated correctly initialy
-      ScrollTrigger.refresh();
-    }, containerRef);
+        let slideIndex;
+        if (progress <= availableProgress) {
+          // For first 6 slides, distribute evenly across 98% of progress
+          // This gives each slide ~16% of progress
+          slideIndex = Math.floor(
+            (progress / availableProgress) * (totalSlides - 1)
+          );
+        } else {
+          // For the last slide, use only 2% of progress
+          slideIndex = totalSlides - 1;
+        }
 
-    // refresh on resize (keeps end / pin behaviour correct)
-    const handleResize = () => {
-      ScrollTrigger.refresh();
-    };
-    window.addEventListener("resize", handleResize);
+        const clampedIndex = Math.max(0, Math.min(slideIndex, totalSlides - 1));
+
+        if (clampedIndex !== currentSlide) {
+          currentSlide = clampedIndex;
+          setActiveSlide(clampedIndex);
+        }
+      },
+    });
 
     return () => {
-      window.removeEventListener("resize", handleResize);
-      ctx.revert(); // kills tweens & ScrollTriggers scoped to this context
+      scrollTrigger.kill();
     };
-  }, []); // run once
+  }, []);
+
+  // Bubble animation effect
+  useEffect(() => {
+    if (!bubbleRef.current) return;
+
+    // Set initial position (off-screen left)
+    gsap.set(bubbleRef.current, { x: -100, y: "50%" });
+
+    // Animate from left to right slowly
+    gsap.to(bubbleRef.current, {
+      x: "100vw", // Move to right edge of viewport
+      duration: 18, // Slow animation (18 seconds)
+      ease: "none", // Linear movement
+      repeat: -1, // Infinite repeat
+      yoyo: false, // Don't reverse, just restart
+    });
+  }, []);
+
+  // Second bubble animation effect
+  useEffect(() => {
+    if (!bubble2Ref.current) return;
+
+    // Set initial position (off-screen bottom)
+    gsap.set(bubble2Ref.current, { x: "70%", y: "100vh" });
+
+    // Animate from bottom to top slowly
+    gsap.to(bubble2Ref.current, {
+      y: -100, // Move to top edge of viewport
+      duration: 15, // Different duration for variety
+      ease: "none", // Linear movement
+      repeat: -1, // Infinite repeat
+      yoyo: false, // Don't reverse, just restart
+    });
+  }, []);
+
+  // Third bubble animation effect
+  useEffect(() => {
+    if (!bubble3Ref.current) return;
+
+    // Set initial position (off-screen right bottom)
+    gsap.set(bubble3Ref.current, { x: "100vw", y: "100vh" });
+
+    // Animate from right bottom to top slowly
+    gsap.to(bubble3Ref.current, {
+      x: "20%", // Move to left side
+      y: -100, // Move to top edge
+      duration: 20, // Different duration for variety
+      ease: "none", // Linear movement
+      repeat: -1, // Infinite repeat
+      yoyo: false, // Don't reverse, just restart
+    });
+  }, []);
 
   // speech text from your translations JSON (emotions.slide1..)
   const speechBubbleText = useMemo(() => {
@@ -133,24 +171,12 @@ const SuperpowerContent = () => {
     return images[activeSlide] || "/homepage/Memorae_Character.png";
   }, [activeSlide]);
 
-  // fade animation when image changes
-  useEffect(() => {
-    if (imgRef.current) {
-      gsap.fromTo(
-        imgRef.current,
-        { autoAlpha: 0, scale: 0.95 },
-        { autoAlpha: 1, scale: 1, duration: 0.35, ease: "power2.out" }
-      );
-    }
-  }, [emotionImage]);
-
   return (
     <div
       ref={containerRef}
       className="relative w-screen h-screen overflow-hidden"
     >
       <SpeechBubbleTailStyle />
-
       {/* background */}
       <CdnImage
         className="absolute inset-0 z-[1] w-full h-full"
@@ -161,12 +187,36 @@ const SuperpowerContent = () => {
         style={{ objectFit: "cover", objectPosition: "center" }}
       />
 
+      {/* bubble overlay */}
+      <div className="absolute inset-0 z-[1] w-full h-full">
+        <img
+          ref={bubbleRef}
+          src="/homepage/bubble.svg"
+          alt="Bubble overlay"
+          className="w-20 h-20 absolute"
+        />
+        <img
+          ref={bubble2Ref}
+          src="/homepage/bubble.svg"
+          alt="Bubble overlay 2"
+          className="w-16 h-16 absolute"
+        />
+        <img
+          ref={bubble3Ref}
+          src="/homepage/bubble.svg"
+          alt="Bubble overlay 3"
+          className="w-14 h-14 absolute"
+        />
+      </div>
+
       {/* fixed content */}
       <div className="sm:mt-30 relative z-[2] text-center text-white h-full flex flex-col justify-center items-center">
-        <div className="speech-bubble-tail mb-[25px] rounded-xl bg-white/85 px-6 py-3 text-base font-medium text-[#333] shadow-md max-sm:max-w-[320px]">
-          <p className="text-[20px] font-medium leading-snug max-sm:text-lg">
-            {speechBubbleText}
-          </p>
+        <div className="mb-6 relative bg-white text-slate-800 text-lg font-medium px-6 py-3 rounded-xl shadow-md">
+          {speechBubbleText}
+          <div
+            className="absolute left-1/2 -bottom-2 w-0 h-0 -translate-x-1/2 
+          border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-white"
+          ></div>
         </div>
 
         <img

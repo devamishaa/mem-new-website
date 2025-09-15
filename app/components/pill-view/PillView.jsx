@@ -215,7 +215,7 @@ export default function PillView({ model }) {
         {/* Extended spacer for longer scroll experience */}
         <div
           style={{
-            height: isSmallScreen ? "50vh" : "100vh",
+            height: isSmallScreen ? "40vh" : "100vh",
             background: "#001A3F",
             borderBottomLeftRadius: "20px",
             borderBottomRightRadius: "20px",
