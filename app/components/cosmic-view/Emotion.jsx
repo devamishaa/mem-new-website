@@ -4,6 +4,7 @@ import memorae from "../../../public/homepage/smily_memorae.png";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useTranslation } from "@/hooks/useTranslation";
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -14,6 +15,7 @@ export default function CosmicLanding({ model }) {
   const [isInView, setIsInView] = useState(false);
   const [animationsReady, setAnimationsReady] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  const { t } = useTranslation();
 
   //   useCosmicTimeline(containerRef, model);
   // Horizon stars using data attribute (disabled for mobile)
@@ -117,133 +119,143 @@ export default function CosmicLanding({ model }) {
 
   // Arc and text scroll trigger animations
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || typeof window === "undefined") return;
 
-    const arcElement = containerRef.current.querySelector("[data-cosmic-arc]");
-    const text1Element = containerRef.current.querySelector(
-      "[data-cosmic-text-1]"
-    );
-    const text2Element = containerRef.current.querySelector(
-      "[data-cosmic-text-2]"
-    );
+    // Wait for next tick to avoid hydration mismatch
+    const timer = setTimeout(() => {
+      const arcElement =
+        containerRef.current.querySelector("[data-cosmic-arc]");
+      const text1Element = containerRef.current.querySelector(
+        "[data-cosmic-text-1]"
+      );
+      const text2Element = containerRef.current.querySelector(
+        "[data-cosmic-text-2]"
+      );
 
-    // Set initial states
-    gsap.set(arcElement, {
-      scaleY: 0,
-      transformOrigin: "bottom center",
-    });
+      if (!arcElement || !text1Element || !text2Element) return;
 
-    gsap.set(text1Element, {
-      x: -200,
-      opacity: 0,
-    });
+      // Set initial states
+      gsap.set(arcElement, {
+        scaleY: 0,
+        transformOrigin: "bottom center",
+      });
 
-    gsap.set(text2Element, {
-      x: 200,
-      opacity: 0,
-    });
+      gsap.set(text1Element, {
+        x: -200,
+        opacity: 0,
+      });
 
-    // Create scroll trigger animations
-    ScrollTrigger.create({
-      trigger: containerRef.current,
-      start: "top 80%",
-      end: "bottom 20%",
-      scrub: 1,
-      onEnter: () => {
-        // Arc animation
-        gsap.to(arcElement, {
-          scaleY: 1,
-          duration: 1.5,
-          ease: "power2.out",
-        });
+      gsap.set(text2Element, {
+        x: 200,
+        opacity: 0,
+      });
 
-        // Text 1 animation (from left)
-        gsap.to(text1Element, {
-          x: 0,
-          opacity: 1,
-          duration: 1.2,
-          ease: "power2.out",
-          delay: 0.3,
-        });
+      // Create scroll trigger animations
+      const scrollTrigger = ScrollTrigger.create({
+        trigger: containerRef.current,
+        start: "top 80%",
+        end: "bottom 20%",
+        scrub: 1,
+        onEnter: () => {
+          // Arc animation
+          gsap.to(arcElement, {
+            scaleY: 1,
+            duration: 1.5,
+            ease: "power2.out",
+          });
 
-        // Text 2 animation (from right)
-        gsap.to(text2Element, {
-          x: 0,
-          opacity: 1,
-          duration: 1.2,
-          ease: "power2.out",
-          delay: 0.6,
-        });
-      },
-      onLeave: () => {
-        gsap.to(arcElement, {
-          scaleY: 0,
-          duration: 1,
-          ease: "power2.in",
-        });
+          // Text 1 animation (from left)
+          gsap.to(text1Element, {
+            x: -30, // Move slightly left from center
+            opacity: 1,
+            duration: 1.2,
+            ease: "power2.out",
+            delay: 0.3,
+          });
 
-        gsap.to(text1Element, {
-          x: -200,
-          opacity: 0,
-          duration: 0.8,
-          ease: "power2.in",
-        });
+          // Text 2 animation (from right)
+          gsap.to(text2Element, {
+            x: 30, // Move slightly right from center
+            opacity: 1,
+            duration: 1.2,
+            ease: "power2.out",
+            delay: 0.6,
+          });
+        },
+        onLeave: () => {
+          gsap.to(arcElement, {
+            scaleY: 0,
+            duration: 1,
+            ease: "power2.in",
+          });
 
-        gsap.to(text2Element, {
-          x: 200,
-          opacity: 0,
-          duration: 0.8,
-          ease: "power2.in",
-        });
-      },
-      onEnterBack: () => {
-        gsap.to(arcElement, {
-          scaleY: 1,
-          duration: 1.5,
-          ease: "power2.out",
-        });
+          gsap.to(text1Element, {
+            x: -200,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power2.in",
+          });
 
-        gsap.to(text1Element, {
-          x: 0,
-          opacity: 1,
-          duration: 1.2,
-          ease: "power2.out",
-          delay: 0.3,
-        });
+          gsap.to(text2Element, {
+            x: 200,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power2.in",
+          });
+        },
+        onEnterBack: () => {
+          gsap.to(arcElement, {
+            scaleY: 1,
+            duration: 1.5,
+            ease: "power2.out",
+          });
 
-        gsap.to(text2Element, {
-          x: 0,
-          opacity: 1,
-          duration: 1.2,
-          ease: "power2.out",
-          delay: 0.6,
-        });
-      },
-      onLeaveBack: () => {
-        gsap.to(arcElement, {
-          scaleY: 0,
-          duration: 1,
-          ease: "power2.in",
-        });
+          gsap.to(text1Element, {
+            x: -30, // Move slightly left from center
+            opacity: 1,
+            duration: 1.2,
+            ease: "power2.out",
+            delay: 0.3,
+          });
 
-        gsap.to(text1Element, {
-          x: -200,
-          opacity: 0,
-          duration: 0.8,
-          ease: "power2.in",
-        });
+          gsap.to(text2Element, {
+            x: 30, // Move slightly right from center
+            opacity: 1,
+            duration: 1.2,
+            ease: "power2.out",
+            delay: 0.6,
+          });
+        },
+        onLeaveBack: () => {
+          gsap.to(arcElement, {
+            scaleY: 0,
+            duration: 1,
+            ease: "power2.in",
+          });
 
-        gsap.to(text2Element, {
-          x: 200,
-          opacity: 0,
-          duration: 0.8,
-          ease: "power2.in",
-        });
-      },
-    });
+          gsap.to(text1Element, {
+            x: -200,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power2.in",
+          });
+
+          gsap.to(text2Element, {
+            x: 200,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power2.in",
+          });
+        },
+      });
+
+      return () => {
+        scrollTrigger.kill();
+      };
+    }, 0);
 
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      clearTimeout(timer);
     };
   }, []);
 
@@ -326,30 +338,28 @@ export default function CosmicLanding({ model }) {
       >
         <div className="absolute inset-0 w-[150vw] h-[90vh] left-1/2 -translate-x-1/2 rounded-t-[30%] sm:rounded-t-[40%] lg:rounded-t-[60%] bg-[#090d10] shadow-[0_-50px_100px_-40px_#ff9cd9,0_-20px_60px_-20px_rgba(255,102,196,0.5),0_-10px_30px_-10px_rgba(2,1,1,0.3)] animate-[shadowShift_6s_ease-in-out_infinite_alternate]" />
       </div>
-
+      <div className="mb-8 absolute mt-10 left-[50%]">
+        <Image
+          src={memorae}
+          alt="Memorae"
+          data-cosmic-image
+          className="mx-auto animate-[slowBounce_3s_ease-in-out_infinite]"
+        />
+      </div>
       {/* Content */}
       <div className="relative z-20 flex min-h-screen flex-col items-center justify-center px-4 pt-12 pb-20 text-center">
-        <div className="mb-8">
-          <Image
-            src={memorae}
-            alt="Memorae"
-            data-cosmic-image
-            className="mx-auto animate-[slowBounce_3s_ease-in-out_infinite]"
-          />
-        </div>
-
         <h1
           data-cosmic-text-1
           className="sm:text-7xl text-5xl font-bold text-white font-figtree"
         >
-          {model?.cosmic?.title || "Tu caos"}
+          {t("cosmic.title")}
         </h1>
 
         <h1
           data-cosmic-text-2
           className="mt-4 sm:text-7xl text-5xl font-bold text-white font-figtree"
         >
-          {model?.cosmic?.subtitle || "Tu plan"}
+          {t("cosmic.subtitle")}
         </h1>
 
         <p
@@ -357,9 +367,7 @@ export default function CosmicLanding({ model }) {
           className="mt-6 text-lg leading-relaxed font-figtree"
         >
           {(() => {
-            const desc =
-              model?.cosmic?.description ||
-              "Elige cómo quieres que Memorae te ayude a no perder la cabeza.";
+            const desc = t("cosmic.description");
             const parts = desc.split(" ");
             const midPoint = Math.ceil(parts.length / 2);
             return (

@@ -482,35 +482,13 @@ function mountMotionPath(overlay, ghost) {
         }
       }
     } else {
-      // Normal state - ghost visible, emotion image visibility depends on progress
+      // Normal state: ghost is visible, emotion image is hidden.
+      // The emotion image will be faded in at the end of the path.
       ghost.style.opacity = "1";
       if (emotionImg) {
-        // Show emotion image when in early stages (emotions section) or when scrolling back
-        if (progress < 0.1 || reversing) {
-          emotionImg.style.opacity = "1";
-          emotionImg.style.visibility = "visible";
-          emotionImg.style.transition = "opacity 0.05s linear";
-        } else if (progress < 0.95) {
-          emotionImg.style.opacity = "0";
-          // keep transitions ultra-fast to avoid visible reverse-fade
-          emotionImg.style.transition = "opacity 0.05s linear";
-          // do not touch animation/transform here; Superpower manages those
-        }
-      }
-
-      // Reverse scroll: snap states to avoid visible fading while scrubbing back
-      if (reversing && progress < transitionStart) {
-        ghost.style.opacity = "1";
-        if (emotionImg) {
-          emotionImg.style.transition = "none";
-          // Keep emotion image visible when scrolling back to emotions section
-          if (progress < 0.1) {
-            emotionImg.style.opacity = "1";
-            emotionImg.style.visibility = "visible";
-          } else {
-            emotionImg.style.opacity = "0";
-          }
-        }
+        emotionImg.style.opacity = "0";
+        emotionImg.style.visibility = "hidden";
+        emotionImg.style.transition = "opacity 0.05s linear";
       }
     }
     // Restore bounce animation after crossfade completes (tighter window)

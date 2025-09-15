@@ -224,6 +224,8 @@ const SuperpowerContent = () => {
           src={emotionImage}
           alt="Emotion character"
           className="animate-[slowBounce_5s_ease-in-out_infinite]"
+          data-emotion-image
+          data-hydrated
         />
       </div>
 

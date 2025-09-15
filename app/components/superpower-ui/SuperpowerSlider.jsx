@@ -167,36 +167,43 @@ const SuperpowerSlides = () => {
 
   // Border radius and scale animation effect
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || typeof window === "undefined") return;
 
-    // Set initial state (small and rounded)
-    gsap.set(containerRef.current, {
-      borderRadius: "34px 34px 0px 0px",
-      scale: 0.8,
-      transformOrigin: "center top",
-    });
+    // Wait for next tick to avoid hydration mismatch
+    const timer = setTimeout(() => {
+      // Set initial state (small and rounded)
+      gsap.set(containerRef.current, {
+        borderRadius: "34px 34px 0px 0px",
+        scale: 0.8,
+        transformOrigin: "center top",
+      });
 
-    // Create ScrollTrigger for border radius and scale animation
-    const scrollTrigger = ScrollTrigger.create({
-      trigger: containerRef.current,
-      start: "top bottom-=100",
-      end: "top center",
-      scrub: 1,
-      onUpdate: (self) => {
-        // Gradually reduce border radius and increase scale as it comes into view
-        const progress = self.progress;
-        const borderRadius = 34 - progress * 34; // From 34px to 0px
-        const scale = 0.8 + progress * 0.2; // From 0.8 to 1.0
+      // Create ScrollTrigger for border radius and scale animation
+      const scrollTrigger = ScrollTrigger.create({
+        trigger: containerRef.current,
+        start: "top bottom-=100",
+        end: "top center",
+        scrub: 1,
+        onUpdate: (self) => {
+          // Gradually reduce border radius and increase scale as it comes into view
+          const progress = self.progress;
+          const borderRadius = 34 - progress * 34; // From 34px to 0px
+          const scale = 0.8 + progress * 0.2; // From 0.8 to 1.0
 
-        gsap.set(containerRef.current, {
-          borderRadius: `${borderRadius}px ${borderRadius}px 0px 0px`,
-          scale: scale,
-        });
-      },
-    });
+          gsap.set(containerRef.current, {
+            borderRadius: `${borderRadius}px ${borderRadius}px 0px 0px`,
+            scale: scale,
+          });
+        },
+      });
+
+      return () => {
+        scrollTrigger.kill();
+      };
+    }, 0);
 
     return () => {
-      scrollTrigger.kill();
+      clearTimeout(timer);
     };
   }, []);
 
@@ -209,15 +216,30 @@ const SuperpowerSlides = () => {
       const slideWidth = 320; // w-80 = 320px
       const gap = 24; // gap-6 = 24px
       const scrollLeft = container.scrollLeft;
-      const totalSlides = superpowerData.slides.length + 1; // +1 for title card
 
-      // Calculate which slide is currently visible with better precision
-      const slideIndex = Math.floor(scrollLeft / (slideWidth + gap) + 0.5);
-      const clampedIndex = Math.max(0, Math.min(slideIndex, totalSlides - 1));
-      const newActiveSlide = clampedIndex === 0 ? -1 : clampedIndex - 1;
+      // Check if we're on small screen (< 600px)
+      const isSmallScreen = window.innerWidth < 600;
 
-      if (newActiveSlide !== activeSlide) {
-        setActiveSlide(newActiveSlide);
+      if (isSmallScreen) {
+        // On small screens, only cards are in the scroll container
+        const totalSlides = superpowerData.slides.length;
+        const slideIndex = Math.floor(scrollLeft / (slideWidth + gap) + 0.5);
+        const clampedIndex = Math.max(0, Math.min(slideIndex, totalSlides - 1));
+        const newActiveSlide = clampedIndex;
+
+        if (newActiveSlide !== activeSlide) {
+          setActiveSlide(newActiveSlide);
+        }
+      } else {
+        // On larger screens, title card + feature cards are in the scroll container
+        const totalSlides = superpowerData.slides.length + 1; // +1 for title card
+        const slideIndex = Math.floor(scrollLeft / (slideWidth + gap) + 0.5);
+        const clampedIndex = Math.max(0, Math.min(slideIndex, totalSlides - 1));
+        const newActiveSlide = clampedIndex === 0 ? -1 : clampedIndex - 1;
+
+        if (newActiveSlide !== activeSlide) {
+          setActiveSlide(newActiveSlide);
+        }
       }
     };
 
@@ -232,19 +254,33 @@ const SuperpowerSlides = () => {
 
     const slideWidth = 320; // w-80 = 320px
     const gap = 24; // gap-6 = 24px
-    const totalSlides = superpowerData.slides.length + 1; // +1 for title card
 
-    // Calculate scroll position with bounds checking
+    // Check if we're on small screen (< 600px)
+    const isSmallScreen = window.innerWidth < 600;
+
     let scrollPosition;
-    if (i === -1) {
-      // Title card (first slide)
-      scrollPosition = 0;
-    } else if (i >= 0 && i < superpowerData.slides.length) {
-      // Feature cards
-      scrollPosition = (i + 1) * (slideWidth + gap);
+
+    if (isSmallScreen) {
+      // On small screens, only cards are in the scroll container
+      if (i >= 0 && i < superpowerData.slides.length) {
+        scrollPosition = i * (slideWidth + gap);
+      } else {
+        scrollPosition = 0;
+      }
     } else {
-      // Invalid index, scroll to last slide
-      scrollPosition = (totalSlides - 1) * (slideWidth + gap);
+      // On larger screens, title card + feature cards are in the scroll container
+      const totalSlides = superpowerData.slides.length + 1; // +1 for title card
+
+      if (i === -1) {
+        // Title card (first slide)
+        scrollPosition = 0;
+      } else if (i >= 0 && i < superpowerData.slides.length) {
+        // Feature cards
+        scrollPosition = (i + 1) * (slideWidth + gap);
+      } else {
+        // Invalid index, scroll to last slide
+        scrollPosition = (totalSlides - 1) * (slideWidth + gap);
+      }
     }
 
     // Ensure scroll position doesn't exceed container width
@@ -266,22 +302,33 @@ const SuperpowerSlides = () => {
   };
 
   return (
-    <div ref={containerRef} className="w-full bg-[#06101D] py-16 h-[100vh]">
-      <div className="mx-auto px-4">
-        {/* Main Content - Combined Title and Slider */}
+    <div
+      ref={containerRef}
+      className="w-full bg-[#06101D] py-16 sm:h-[100vh] h-[130vh]"
+    >
+      <div className="mx-auto px-0">
+        {/* Main Content - Responsive Layout */}
         <div className="mb-12">
-          {/* Combined Slider Container */}
+          {/* Title Section - Above cards on small screens */}
+          <div className="block max-[600px]:block min-[600px]:hidden mb-4 mt-10 text-center">
+            <h2 className="text-3xl font-bold mb-6 text-white">
+              {superpowerData.title}
+            </h2>
+            <Button>{superpowerData.ctaLabel}</Button>
+          </div>
+
+          {/* Slider Container */}
           <div className="relative">
-            {/* Slider Track with Title and Cards */}
+            {/* Slider Track - Only Cards on small screens, Title + Cards on larger screens */}
             <div
               ref={scrollContainerRef}
-              className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-6 pb-4 pr-132"
+              className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-6 pb-4 pr-152"
               style={{ scrollBehavior: "smooth" }}
             >
-              {/* Title Card - First Slide */}
+              {/* Title Card - Only visible on screens >= 600px */}
               <div
                 data-slide-ref="title"
-                className="group relative flex-shrink-0 w-80 md:w-96 h-80 md:h-96 overflow-hidden rounded-2xl p-5 md:p-7 text-white snap-center flex flex-col justify-center bg-transparent"
+                className="hidden min-[600px]:block group relative flex-shrink-0 w-80 md:w-96 h-80 md:h-96 overflow-hidden rounded-2xl p-5 md:p-7 text-white snap-center flex flex-col justify-center bg-transparent"
               >
                 <div className="relative z-10">
                   <h2 className="text-3xl md:text-4xl font-bold mb-8">
@@ -307,7 +354,7 @@ const SuperpowerSlides = () => {
                     <h3 className="text-xl font-semibold mb-3">
                       {slide.title}
                     </h3>
-                    <p className="text-sm mb-4 opacity-90 flex-grow">
+                    <p className="text-sm mb-0 opacity-90 flex-grow">
                       {slide.description}
                     </p>
 
@@ -442,11 +489,11 @@ const SuperpowerSlides = () => {
 
         {/* Pagination Dots */}
         <div className="flex justify-center items-center space-x-4 mt-8">
-          {/* Title Dot */}
+          {/* Title Dot - Only show on larger screens */}
           <button
             data-dot-ref="title"
             onClick={() => handleDotClick(-1)}
-            className={`transition-colors duration-200 ${
+            className={`hidden min-[600px]:block transition-colors duration-200 ${
               activeSlide === -1
                 ? "px-4 py-2 rounded-full bg-white text-black text-sm font-medium"
                 : "w-3 h-3 rounded-full bg-white/20 hover:bg-white/30"
