@@ -249,13 +249,13 @@ function placeGhostAt(setX, setY, ghost, viewportPt) {
   setY(viewportPt.y - gh / 2);
 }
 
-export function useMotionPath(overlayRef, ghostRef) {
+export function useMotionPath(overlayRef, ghostRef, enabled = true) {
   useLayoutEffect(() => {
     const overlay = overlayRef.current;
     const ghost = ghostRef.current;
-    if (!overlay || !ghost) return;
+    if (!overlay || !ghost || !enabled) return;
     return mountMotionPath(overlay, ghost);
-  }, [overlayRef, ghostRef]);
+  }, [overlayRef, ghostRef, enabled]);
 }
 
 // Mount routine extracted to reduce complexity of the hook

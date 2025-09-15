@@ -28,10 +28,8 @@ export default function MotionPathOverlay() {
     };
   }, []);
 
-  // Only use motion path on larger screens
-  if (!isSmallScreen) {
-    useMotionPath(overlayRef, ghostRef);
-  }
+  // Always call the hook, but pass the screen size condition
+  useMotionPath(overlayRef, ghostRef, !isSmallScreen);
 
   // Don't render on small screens
   if (isSmallScreen) {

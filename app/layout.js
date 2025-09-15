@@ -1,17 +1,25 @@
 // app/layout.jsx
 import "@/styles/globals.css";
 import Script from "next/script";
+import { Figtree } from "next/font/google";
 import SmoothScroll from "@/components/SmoothScroll";
 import { NavbarThemeProvider } from "@/contexts/NavbarThemeContext";
 import { AnimationProvider } from "@/contexts/AnimationContext";
 import AnimationInitializer from "@/app/components/AnimationInitializer";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
+const figtree = Figtree({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  display: "swap",
+  variable: "--font-figtree",
+});
+
 export const metadata = {};
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="es-ES">
+    <html lang="es-ES" className={figtree.variable}>
       <head>
         {/* ✅ Favicon */}
         <link rel="icon" href="/favicon.ico" sizes="any" />
@@ -23,18 +31,6 @@ export default function RootLayout({ children }) {
           rel="preconnect"
           href="https://fonts.cdnfonts.com"
           crossOrigin="anonymous"
-        />
-
-        {/* ✅ Google Fonts - Figtree */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap"
-          rel="stylesheet"
         />
 
         {/* ✅ Preload Fonts (critical) */}
@@ -86,7 +82,7 @@ export default function RootLayout({ children }) {
                 src: url('https://fonts.cdnfonts.com/s/45240/CamptonBold.woff') format('woff');
               }
               body {
-                font-family: 'Figtree', 'Campton', sans-serif;
+                font-family: var(--font-figtree), 'Campton', sans-serif;
               }
             `,
           }}
