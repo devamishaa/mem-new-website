@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "@/hooks/useTranslation";
-import HeroView from "./HeroView";
+import HeroView from "@/app/components/hero/HeroView";
 
 /**
  * HeroContainer:

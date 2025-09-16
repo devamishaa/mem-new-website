@@ -25,14 +25,14 @@ export default function PathPenTool() {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <Button
+      {/* <Button
         data-pen-toggle
         onClick={() => setOpen((v) => !v)}
         style={{ position: "fixed", top: 20, right: 20, zIndex: 200000, padding: "8px 12px", borderRadius: 24 }}
         title="Toggle Pen Tool Overlay"
       >
         {open ? "Hide Pen Tool" : "Show Pen Tool"}
-      </Button>
+      </Button> */}
       {open && <PathPenOverlay />}
     </>
   );

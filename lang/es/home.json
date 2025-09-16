@@ -531,5 +531,104 @@
     "topText": "Si no te tiembla la mano al pagar 5€ por un café \"artesanal\"",
     "bottomText": "¿por qué no invertir en recordarlo todo?",
     "comparePlansButton": "Comparar Planes"
+  },
+  "comparePlans": {
+    "title": "Comparar Planes",
+    "functionality": "Funcionalidad",
+    "pro": "Pro",
+    "supernova": "Supernova",
+    "supernovaLifetime": "Supernova Lifetime",
+    "features": [
+      {
+        "name": "Recordatorios únicos ilimitados",
+        "pro": true,
+        "supernova": true,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "Recordatorios recurrentes ilimitados",
+        "pro": true,
+        "supernova": true,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "Soporte en 100+ idiomas",
+        "pro": true,
+        "supernova": true,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "Notas de voz ilimitadas",
+        "pro": true,
+        "supernova": true,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "Sincronización multi-calendarios",
+        "pro": true,
+        "supernova": true,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "Crear y añadir listas",
+        "pro": true,
+        "supernova": true,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "Dashboard avanzado",
+        "pro": false,
+        "supernova": true,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "ChatGPT integrado (uso ilimitado)",
+        "pro": false,
+        "supernova": true,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "Análisis de imágenes ilimitado",
+        "pro": false,
+        "supernova": true,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "Búsqueda ilimitada en Internet",
+        "pro": false,
+        "supernova": true,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "Soporte Premium",
+        "pro": false,
+        "supernova": true,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "Sin suscripciones ni pagos recurrentes",
+        "pro": false,
+        "supernova": false,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "Prioridad en Soporte Premium",
+        "pro": false,
+        "supernova": false,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "Acceso garantizado a futuras funciones",
+        "pro": false,
+        "supernova": false,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "Prioridad en petición de nuevas funcionalidades",
+        "pro": false,
+        "supernova": false,
+        "supernovaLifetime": true
+      }
+    ]
   }
 }

@@ -1,5 +1,7 @@
+"use client";
+
+import Card from "../common/Card";
 import styles from "./hero.module.css";
-import Card from "@/app/components/common/Card";
 
 const HeroFloatingCards = ({ model }) => {
   return (

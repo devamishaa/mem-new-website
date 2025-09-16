@@ -1,19 +1,31 @@
-import styles from "./hero.module.css";
+"use client";
+
 import CdnImage from "@/app/components/common/CdnImage";
 
 const HeroDecorativeElements = ({ imageDimensions }) => {
   return (
     <>
-      {/* <img
-        className={styles.memoraeCharacter2Icon}
-        alt="Memorae AI assistant character"
-        src="/homepage/Memorae_Character 2.svg"
-        data-parallax="0.22"
-        data-reveal="scale"
-        data-reveal-delay="0.90"
-      /> */}
+      {/* This element was commented out, but its classes are converted below.
+        <img
+          className="absolute top-[550.13px] right-[59.57px] z-50 m-0 h-auto w-[99.7px] max-h-full object-contain 
+                     max-[432px]:right-[42.57px] 
+                     max-[375px]:right-[17.57px] 
+                     max-[320px]:right-[-9.57px] 
+                     md:top-[689px] md:right-[160px] md:w-[125px] 
+                     lg:top-[680px] lg:right-[232px] lg:w-[170px] 
+                     xl:top-[826px] xl:right-[370.7px] xl:w-[206.3px]"
+          alt="Memorae AI assistant character"
+          src="/homepage/Memorae_Character 2.svg"
+          data-parallax="0.22"
+          data-reveal="scale"
+          data-reveal-delay="0.90"
+        /> 
+      */}
       <CdnImage
-        className={styles.icon3}
+        className="absolute top-[186px] left-[-17px] z-20 m-0 max-h-full object-cover 
+                   md:top-[233px] md:left-[-21px] 
+                   lg:top-[430px] lg:left-[85px] 
+                   xl:top-[521px] xl:left-[104px]"
         decorative
         src="/homepage/7.png"
         priority
@@ -24,7 +36,13 @@ const HeroDecorativeElements = ({ imageDimensions }) => {
         data-float
       />
       <CdnImage
-        className={styles.icon4}
+        className="absolute top-[229px] right-[15px] z-20 m-0 max-h-full object-cover 
+                   max-[432px]:right-[-17px] 
+                   max-[375px]:right-[-25px] 
+                   max-[320px]:right-[-22px] 
+                   md:top-[287px] md:right-[-16px] 
+                   lg:top-[295px] lg:right-[-23px] 
+                   xl:top-[358px] xl:right-[-23px]"
         decorative
         src="/homepage/8.png"
         priority
@@ -35,7 +53,10 @@ const HeroDecorativeElements = ({ imageDimensions }) => {
         data-float
       />
       <CdnImage
-        className={styles.icon5}
+        className="absolute top-[350px] left-[-11px] z-20 m-0 max-h-full object-cover 
+                   md:top-[438px] md:left-[-14px] 
+                   lg:top-[720px] lg:left-[225px] 
+                   xl:top-[871px] xl:left-[273px]"
         decorative
         src="/homepage/6.png"
         priority

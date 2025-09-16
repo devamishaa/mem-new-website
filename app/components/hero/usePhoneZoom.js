@@ -102,7 +102,7 @@ const getResponsiveSettings = () => {
       start: "30% 50%",
       end: "200% 50%",
       scrub: true,
-      textScale: 2,
+      textScale: 1,
       textStartScale: 0.5,
     };
   }

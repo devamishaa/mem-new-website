@@ -455,5 +455,104 @@
     "topText": "If your hand doesn't tremble when paying €5 for an 'artisanal' coffee",
     "bottomText": "why not invest in remembering everything?",
     "comparePlansButton": "Compare Plans"
+  },
+  "comparePlans": {
+    "title": "Compare Plans",
+    "functionality": "Functionality",
+    "pro": "Pro",
+    "supernova": "Supernova",
+    "supernovaLifetime": "Supernova Lifetime",
+    "features": [
+      {
+        "name": "Unlimited unique reminders",
+        "pro": true,
+        "supernova": true,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "Unlimited recurring reminders",
+        "pro": true,
+        "supernova": true,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "Support in 100+ languages",
+        "pro": true,
+        "supernova": true,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "Unlimited voice notes",
+        "pro": true,
+        "supernova": true,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "Multi-calendar synchronization",
+        "pro": true,
+        "supernova": true,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "Create and add lists",
+        "pro": true,
+        "supernova": true,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "Advanced Dashboard",
+        "pro": false,
+        "supernova": true,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "Integrated ChatGPT (unlimited use)",
+        "pro": false,
+        "supernova": true,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "Unlimited image analysis",
+        "pro": false,
+        "supernova": true,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "Unlimited Internet search",
+        "pro": false,
+        "supernova": true,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "Premium Support",
+        "pro": false,
+        "supernova": true,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "No subscriptions or recurring payments",
+        "pro": false,
+        "supernova": false,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "Priority in Premium Support",
+        "pro": false,
+        "supernova": false,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "Guaranteed access to future features",
+        "pro": false,
+        "supernova": false,
+        "supernovaLifetime": true
+      },
+      {
+        "name": "Priority in requesting new features",
+        "pro": false,
+        "supernova": false,
+        "supernovaLifetime": true
+      }
+    ]
   }
 }
