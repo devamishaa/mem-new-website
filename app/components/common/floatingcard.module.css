@@ -1,0 +1,78 @@
+/* Floating card variant (extracted from Card.module.css)
+   Mirrors the original .variant-floating and related styles */
+
+.variant {
+  /* Visual styling */
+  margin: 0 !important;
+  box-shadow: 0px 7.734778881072998px 9.28px -1.55px rgba(0, 0, 0, 0.08),
+    0px 3.093911647796631px 3.09px -1.55px rgba(0, 0, 0, 0.03);
+  border-radius: 3.09px;
+  background-color: #fff;
+  border: 0.4px solid #fff;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: 6.2px;
+
+  /* Typography defaults */
+  text-align: left;
+  font-size: 4.25px;
+  color: #ff377a;
+  font-family: "Figtree", sans-serif;
+}
+
+/* Title */
+.title {
+  font-weight: 600;
+}
+
+/* Meta */
+.meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0px;
+  font-size: 6.19px;
+  color: #898f91;
+  font-family: "Inter Tight", sans-serif;
+}
+.metaItem {
+}
+
+/* List */
+.list {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  padding-left: 8px;
+}
+.listItem {
+  margin-bottom: 0px;
+}
+
+/* Pill */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7px;
+}
+.pillIcon {
+  width: 12px;
+  height: 12px;
+}
+.pillText {
+  font-weight: 600;
+  font-size: 8px;
+}
+
+/* Optional sections (kept for API compatibility) */
+.subtitle {
+}
+.content {
+}
+.listTitle {
+}
+.whatsappContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

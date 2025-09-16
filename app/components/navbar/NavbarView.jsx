@@ -12,6 +12,7 @@ import clsx from "clsx";
 // Hook for managing navbar state (no changes needed)
 function useNavbarState() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [hovered, setHovered] = useState(null);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const handleDropdownToggle = (linkId) =>
     setActiveDropdown(activeDropdown === linkId ? null : linkId);
@@ -76,7 +77,7 @@ function DropdownLink({ link, isActive, onToggle, superpowersRef }) {
           width={9}
           height={5}
           className={clsx(
-            "transition-transform duration-300 ease-out",
+            "transition-transform duration-700 ease-out",
             isActive && "rotate-180"
           )}
         />
@@ -103,18 +104,16 @@ function ChevronLink({ link, isDisabled }) {
 }
 
 // Component for rendering regular navigation links
-function RegularLink({ link, isDisabled }) {
+function RegularLink({ link, isDisabled, onHover, onLeave }) {
   const linkClasses =
-    "font-figtree text-sm font-medium leading-tight whitespace-nowrap no-underline transition-colors";
-  if (isDisabled) {
-    return (
-      <span className={clsx(linkClasses, "cursor-not-allowed opacity-45")}>
-        {link.label}
-      </span>
-    );
-  }
+    "relative font-figtree text-sm font-medium leading-tight whitespace-nowrap no-underline transition-colors";
   return (
-    <Link href={link.href} className={linkClasses}>
+    <Link
+      href={link.href}
+      className={`${linkClasses} group px-1`}
+      onMouseEnter={onHover}
+      onMouseLeave={onLeave}
+    >
       {link.label}
     </Link>
   );
@@ -128,15 +127,32 @@ function DesktopNavigation({
   superpowersRef,
 }) {
   const { shouldShowChevron, isDisabledPath } = useLinkUtils();
+  const [underlineStyle, setUnderlineStyle] = React.useState({});
+  const underlineRef = React.useRef(null);
+
   const getLinkKind = (link) => {
     if (link.id === "superpowers" && link.dropdown) return "dropdown";
     if (shouldShowChevron(link)) return "chevron";
     return "regular";
   };
 
+  const handleHover = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const parentRect = e.currentTarget.parentElement.getBoundingClientRect();
+    setUnderlineStyle({
+      width: rect.width,
+      left: rect.left - parentRect.left,
+      opacity: 1,
+    });
+  };
+
+  const handleLeave = () => {
+    setUnderlineStyle((prev) => ({ ...prev, opacity: 0 }));
+  };
+
   return (
-    <nav className="hidden min-[860px]:block">
-      <div className="inline-flex items-center gap-6">
+    <nav className="hidden min-[860px]:block relative">
+      <div className="inline-flex items-center gap-6 relative">
         {model.links.map((link) => {
           const kind = getLinkKind(link);
           const isDisabled = isDisabledPath(link.href);
@@ -165,10 +181,22 @@ function DesktopNavigation({
                   key={link.id}
                   link={link}
                   isDisabled={isDisabled}
+                  onHover={handleHover}
+                  onLeave={handleLeave}
                 />
               );
           }
         })}
+        {/* Shared underline */}
+        <span
+          ref={underlineRef}
+          className="absolute -bottom-1 h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent transition-all duration-300 ease-out"
+          style={{
+            width: underlineStyle.width || 0,
+            left: underlineStyle.left || 0,
+            opacity: underlineStyle.opacity || 0,
+          }}
+        />
       </div>
     </nav>
   );
@@ -180,12 +208,28 @@ function NavbarCTA({ model }) {
     <div className="hidden min-[860px]:block">
       <Button
         variant="navbar"
-        href={model.cta.href}
-        icon={<SvgIcon name="WhatsApp" width={18} height={18} />}
+        href="https://api.whatsapp.com/message/UIF5BT6RJTSVA1?autoload=1&app_absent=0"
+        // icon={<SvgIcon name="WhatsApp" width={18} height={18} />}
         iconPosition="before"
-        className="hover:animate-mainJelly"
+        className={`
+          relative inline-flex items-center justify-start px-5 py-3 overflow-hidden font-bold rounded-full group
+          hover:animate-mainJelly
+        `}
       >
-        {model.cta.label}
+        {/* background hover layers */}
+        <span className="w-32 h-32 rotate-45 translate-x-12 -translate-y-2 absolute left-0 top-0 bg-white opacity-[3%]" />
+        <span className="absolute top-0 left-0 w-48 h-48 -mt-1 transition-all duration-500 ease-in-out rotate-45 -translate-x-56 -translate-y-24 bg-green-700 opacity-100 group-hover:-translate-x-8" />
+
+        {/* button icon only */}
+        <span className="relative w-full flex items-center justify-center">
+          <SvgIcon
+            name="WhatsApp"
+            width={18}
+            height={18}
+            className="text-white transition-colors duration-200 group-hover:text-green-400 mr-2"
+          />
+          {model.cta.label}
+        </span>
       </Button>
     </div>
   );
@@ -269,7 +313,7 @@ function MobileDropdown({
     {
       id: "cta",
       label: model.cta.label,
-      href: model.cta.href,
+      href: "https://api.whatsapp.com/message/UIF5BT6RJTSVA1?autoload=1&app_absent=0",
       icon: "WhatsApp",
     },
   ];

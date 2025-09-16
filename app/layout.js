@@ -2,7 +2,7 @@
 import "@/styles/globals.css";
 import Script from "next/script";
 import { Figtree } from "next/font/google";
-import SmoothScroll from "@/components/SmoothScroll";
+import SmoothScroll from "@/constants/SmoothScroll";
 import { NavbarThemeProvider } from "@/contexts/NavbarThemeContext";
 import { AnimationProvider } from "@/contexts/AnimationContext";
 import AnimationInitializer from "@/app/components/AnimationInitializer";

@@ -11,7 +11,7 @@ const buttonVariants = {
   variants: {
     primary: {
       base: "bg-gradient-to-r from-[#557bf4] to-[#ff66c4] rounded-full gap-2.5",
-      text: "font-figtree font-medium text-white whitespace-nowrap leading-snug",
+      text: "font-figtree text-xl text-white whitespace-nowrap leading-snug",
       icon: "flex items-center justify-center aspect-square",
       sizes: {
         sm: "h-10 min-w-[120px] px-4 py-[8px_9px] text-lg",

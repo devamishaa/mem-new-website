@@ -38,12 +38,14 @@ export function usePillTimeline(containerRef, sectionRef, styles, isMobile) {
 
     // Set initial position of the image high up
     gsap.set(container.querySelector("[data-pill-image]"), {
-      y: "-100vh",
+      y: "-10vh",
     });
+
+    // Set initial state for floating objects - hide them initially
     gsap.set(`.${styles.floatingObject}`, {
       opacity: 0,
-      scale: 0,
-      y: -50,
+      scale: 0.5,
+      y: 30,
     });
 
     // Floating animation for continuous looping
@@ -55,6 +57,8 @@ export function usePillTimeline(containerRef, sectionRef, styles, isMobile) {
       ease: "sine.inOut",
       paused: true,
     });
+
+    // Floating animation will be triggered when image settles down
 
     let waveAnims = [];
     const tl = gsap.timeline({
@@ -108,70 +112,196 @@ export function usePillTimeline(containerRef, sectionRef, styles, isMobile) {
       6 // Changed from 9 to 6 - appears much earlier
     );
 
+    // Floating objects will be animated when image settles down
+
     // Downward motion is now a separate, scrubbed animation
-    const isMobile = window.innerWidth <= 768;
-    const yValue = isMobile ? "26vh" : "32vh";
+    const yValue = isMobile ? "20vh" : "32vh";
 
-    // gsap.to(pillImage, {
-    //   y: yValue,
-    //   scale: 1.2,
-    //   ease: "none",
-    //   scrollTrigger: {
-    //     trigger: `.${styles.svgScrollWrapper}`,
-    //     start: "center center",
-    //     end: "bottom top",
-    //     scrub: 1,
-    //   },
-    // });
     // Downward motion for pill image + wave trigger
-    gsap.to(pillImage, {
-      y: yValue,
-      scale: 1.2,
-      ease: "none",
-      scrollTrigger: {
-        trigger: `.${styles.svgScrollWrapper}`,
-        start: "center center",
-        end: "bottom top",
-        scrub: 1,
-        onLeave: () => {
-          // जब image बैठ गई → waves शुरू करो
-          waveAnims = gsap.utils.toArray(`.${styles.wave}`).map((wave, i) => {
-            return gsap.fromTo(
-              wave,
-              { scale: 0.5, opacity: 0.6 },
-              {
-                scale: isMobile ? 2 : 4,
-                opacity: 0,
-                duration: 4,
-                delay: i * 2,
-                repeat: -1,
-                ease: "power2.out",
-              }
-            );
-          });
-        },
-        onEnterBack: () => {
-          // जब ऊपर लौटे → waves हटा दो
-          waveAnims.forEach((anim) => anim.kill());
-          waveAnims = [];
-          gsap.set(`.${styles.wave}`, { opacity: 0 });
-        },
-      },
-    });
+    gsap.fromTo(
+      pillImage,
+      { y: "-100vh", scale: 1 }, // start
+      {
+        y: yValue, // end (dynamic)
+        scale: 1.2,
+        ease: "none",
+        scrollTrigger: {
+          trigger: `.${styles.svgScrollWrapper}`,
+          start: "center center",
+          end: "bottom top",
+          scrub: 1,
+          onLeave: () => {
+            // जब image बैठ गई → waves शुरू करो
+            const vw = typeof window !== "undefined" ? window.innerWidth : 1440;
+            const waveScale = vw <= 600 ? 2.3 : vw <= 1024 ? 1.8 : 4; // mobile / tablet / desktop
+            waveAnims = gsap.utils.toArray(`.${styles.wave}`).map((wave, i) => {
+              return gsap.fromTo(
+                wave,
+                { scale: 0.5, opacity: 0.6 },
+                {
+                  scale: waveScale,
+                  opacity: 0,
+                  duration: 4,
+                  delay: i * 2,
+                  repeat: -1,
+                  ease: "power2.out",
+                }
+              );
+            });
 
-    // Wave text animation
-    const waveTextElements = container.querySelectorAll(`.${styles.waveText}`);
-    gsap.to(waveTextElements, {
-      opacity: 1,
-      y: 0,
-      stagger: 0.2,
-      scrollTrigger: {
-        trigger: `.${styles.svgScrollWrapper}`,
-        start: "center center",
-        end: "center center+=20%",
-        scrub: true,
-      },
-    });
+            // जब image बैठ गई → floating objects भी दिखाओ
+            gsap.to(`.${styles.floatingObject}`, {
+              opacity: 1,
+              scale: 1,
+              y: 0,
+              rotate: 0,
+              duration: 1.5,
+              stagger: 0.2,
+              ease: "back.out(1.7)",
+              onComplete: () => {
+                // Start floating animation after objects appear
+                floatTl.play();
+              },
+            });
+
+            // जब image बैठ गई → text भी दिखाओ with beautiful animations
+            const waveTextElements = container.querySelectorAll(
+              `.${styles.waveText}`
+            );
+            waveTextElements.forEach((textEl, index) => {
+              // Animate text appearance with fade effects
+              if (index === 0) {
+                // First text: Fade in with slide from left
+                gsap.fromTo(
+                  textEl,
+                  {
+                    opacity: 0,
+                    x: -80,
+                    y: 20,
+                    scale: 0.9,
+                    filter: "blur(10px)",
+                  },
+                  {
+                    opacity: 1,
+                    x: 0,
+                    y: 0,
+                    scale: 1,
+                    filter: "blur(0px)",
+                    duration: 2,
+                    ease: "power2.out",
+                    delay: 0.5 + index * 0.3,
+                  }
+                );
+              } else if (index === 1) {
+                // Second text: Fade in with slide from right
+                gsap.fromTo(
+                  textEl,
+                  {
+                    opacity: 0,
+                    x: 80,
+                    y: 20,
+                    scale: 0.9,
+                    filter: "blur(10px)",
+                  },
+                  {
+                    opacity: 1,
+                    x: 0,
+                    y: 0,
+                    scale: 1,
+                    filter: "blur(0px)",
+                    duration: 2,
+                    ease: "power2.out",
+                    delay: 0.5 + index * 0.3,
+                  }
+                );
+              } else {
+                // Other texts: Fade in with scale up
+                gsap.fromTo(
+                  textEl,
+                  {
+                    opacity: 0,
+                    y: 30,
+                    scale: 0.8,
+                    filter: "blur(8px)",
+                    transformOrigin: "center center",
+                  },
+                  {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    filter: "blur(0px)",
+                    duration: 2,
+                    ease: "power2.out",
+                    delay: 0.5 + index * 0.3,
+                  }
+                );
+              }
+
+              // Add word-by-word reveal animation with fade effects
+              const textContent = textEl.querySelector("p");
+              if (textContent) {
+                // Split text into words and wrap each word in a span with fade effects
+                const words = textContent.textContent.split(" ");
+                textContent.innerHTML = words
+                  .map(
+                    (word) =>
+                      `<span style="display: inline-block; opacity: 0; transform: translateY(20px) scale(0.8); filter: blur(5px);">${word}</span>`
+                  )
+                  .join(" ");
+
+                // Animate each word with fade and scale effects
+                const wordSpans = textContent.querySelectorAll("span");
+                gsap.to(wordSpans, {
+                  opacity: 1,
+                  y: 0,
+                  scale: 1,
+                  filter: "blur(0px)",
+                  duration: 0.8,
+                  stagger: 0.15,
+                  ease: "power2.out",
+                  delay: 1.5 + index * 0.3, // Start after text element appears
+                });
+              }
+
+              // Add continuous subtle floating animation after text appears
+              gsap.to(textEl, {
+                y: "+=10",
+                duration: 2,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut",
+                delay: 2.5 + index * 0.3, // Start after text and words appear
+              });
+            });
+          },
+          onEnterBack: () => {
+            // when going back → waves also hide
+            waveAnims.forEach((anim) => anim.kill());
+            waveAnims = [];
+            gsap.set(`.${styles.wave}`, { opacity: 0 });
+
+            // when going back → floating objects also hide
+            floatTl.pause();
+            gsap.set(`.${styles.floatingObject}`, {
+              opacity: 0,
+              scale: 0.5,
+              y: 30,
+            });
+
+            // when going back → text also hide
+            gsap.set(`.${styles.waveText}`, {
+              opacity: 0,
+              x: 0,
+              y: 0,
+              scale: 1,
+              filter: "blur(0px)",
+            });
+          },
+        },
+      }
+    );
+
+    // Text animations are now handled when image settles down
 
     // Section scaling animation (moved from PillView component)
     const sectionScaleTl = gsap.timeline({
@@ -196,19 +326,6 @@ export function usePillTimeline(containerRef, sectionRef, styles, isMobile) {
       { scale: 1, transformOrigin: "center top" },
       { scale: 0.942, transformOrigin: "center top", ease: "power2.in" }
     );
-    // Animate section scale
-    // sectionScaleTl.fromTo(
-    //   section,
-    //   { scale: 1, transformOrigin: "center top" },
-    //   { scale: 1, duration: 1.2, ease: "power2.out" },
-    //   0
-    // );
-
-    // sectionScaleTl.to(section, {
-    //   scale: 0.942,
-    //   transformOrigin: "center top",
-    //   ease: "power2.in",
-    // });
 
     // Cursor-following hover effect for floating objects
     const cleanupFunctions = [];

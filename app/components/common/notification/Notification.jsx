@@ -69,7 +69,7 @@ const Notification = ({
             // Add staggered delay based on index
             setTimeout(() => {
               setIsVisible(true);
-            }, index * 200); // 200ms delay between each notification
+            }, index * 100); // 200ms delay between each notification
           }
         });
       },

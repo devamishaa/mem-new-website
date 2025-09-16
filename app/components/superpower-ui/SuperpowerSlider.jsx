@@ -1,9 +1,13 @@
 import Image from "next/image";
 import Button from "../common/Button";
 import FeatureCard from "./FeatureCard";
-import { useMemo, useRef, useEffect } from "react";
+import { useMemo, useRef, useEffect, useState } from "react";
 import clsx from "clsx"; // Recommended for conditional classes: npm install clsx
 import { useTranslation } from "@/hooks/useTranslation";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 // Random gradient colors for border with radial gradient from bottom
 const getGradientColors = (index) => {
@@ -22,10 +26,28 @@ const getGradientColors = (index) => {
   return gradients[index % gradients.length];
 };
 
-const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
+// Get darker border color based on card gradient
+const getBorderColor = (index) => {
+  const borderColors = [
+    "#7C5AE8", // Darker purple for #946CF5
+    "#E55A5A", // Darker red for #FF6B6B
+    "#3FB8B0", // Darker teal for #4ECDC4
+    "#3A9BB8", // Darker blue for #45B7D1
+    "#7FB89A", // Darker green for #96CEB4
+    "#E6B847", // Darker yellow for #FECA57
+    "#E68AD6", // Darker pink for #FF9FF3
+    "#4A8FE6", // Darker blue for #54A0FF
+    "#4E1FA8", // Darker purple for #5F27CD
+    "#00B3B4", // Darker cyan for #00D2D3
+  ];
+  return borderColors[index % borderColors.length];
+};
+
+const SuperpowerSlides = () => {
   const scrollContainerRef = useRef(null);
   const containerRef = useRef(null);
   const { t } = useTranslation();
+  const [activeSlide, setActiveSlide] = useState(-1); // Start with title card
 
   const superpowerData = useMemo(() => {
     console.log("SuperpowerSlider - Building superpowerData with translations");
@@ -140,9 +162,58 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
       // Ensure we start at the title card (scroll position 0)
       container.scrollLeft = 0;
     }
-    if (onDotClick && activeSlide !== -1) {
-      onDotClick(-1);
-    }
+    setActiveSlide(-1); // Set to title card
+  }, []);
+
+  // Border radius and scale animation effect
+  useEffect(() => {
+    if (!containerRef.current || typeof window === "undefined") return;
+
+    // Wait for next tick to avoid hydration mismatch
+    const timer = setTimeout(() => {
+      // Set initial state (small and rounded)
+      console.log("Setting initial state - scale: 0.2"); // Debug log
+      gsap.set(containerRef.current, {
+        borderRadius: "34px 34px 0px 0px",
+        scale: 0.2,
+        transformOrigin: "center top",
+      });
+
+      // Create ScrollTrigger for border radius and scale animation
+      const scrollTrigger = ScrollTrigger.create({
+        trigger: containerRef.current,
+        start: "top bottom-=200",
+        end: "top center+=100",
+        scrub: 1,
+        onUpdate: (self) => {
+          // Gradually reduce border radius and increase scale as it comes into view
+          const progress = self.progress;
+          const borderRadius = 34 - progress * 10; // From 34px to 24px (keeping some radius)
+          const scale = 0.2 + progress * 0.8; // From 0.2 to 1.0 (dramatic scale change)
+
+          console.log("ScrollTrigger progress:", progress, "scale:", scale); // Debug log
+
+          gsap.set(containerRef.current, {
+            borderRadius: `${borderRadius}px ${borderRadius}px 0px 0px`,
+            scale: scale,
+          });
+        },
+        onEnter: () => {
+          console.log("ScrollTrigger entered"); // Debug log
+        },
+        onLeave: () => {
+          console.log("ScrollTrigger left"); // Debug log
+        },
+      });
+
+      return () => {
+        scrollTrigger.kill();
+      };
+    }, 0);
+
+    return () => {
+      clearTimeout(timer);
+    };
   }, []);
 
   // Handle scroll events to update active slide
@@ -155,98 +226,154 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
       const gap = 24; // gap-6 = 24px
       const scrollLeft = container.scrollLeft;
 
-      // Calculate which slide is currently visible
-      // 0 = title card, 1+ = feature cards
-      const slideIndex = Math.round(scrollLeft / (slideWidth + gap));
-      const newActiveSlide = slideIndex === 0 ? -1 : slideIndex - 1;
+      // Check if we're on small screen (< 600px)
+      const isSmallScreen = window.innerWidth < 600;
 
-      if (onDotClick && newActiveSlide !== activeSlide) {
-        onDotClick(newActiveSlide);
+      if (isSmallScreen) {
+        // On small screens, only cards are in the scroll container
+        const totalSlides = superpowerData.slides.length;
+        const slideIndex = Math.floor(scrollLeft / (slideWidth + gap) + 0.5);
+        const clampedIndex = Math.max(0, Math.min(slideIndex, totalSlides - 1));
+        const newActiveSlide = clampedIndex;
+
+        if (newActiveSlide !== activeSlide) {
+          setActiveSlide(newActiveSlide);
+        }
+      } else {
+        // On larger screens, title card + feature cards are in the scroll container
+        const totalSlides = superpowerData.slides.length + 1; // +1 for title card
+        const slideIndex = Math.floor(scrollLeft / (slideWidth + gap) + 0.5);
+        const clampedIndex = Math.max(0, Math.min(slideIndex, totalSlides - 1));
+        const newActiveSlide = clampedIndex === 0 ? -1 : clampedIndex - 1;
+
+        if (newActiveSlide !== activeSlide) {
+          setActiveSlide(newActiveSlide);
+        }
       }
     };
 
     container.addEventListener("scroll", handleScroll);
     return () => container.removeEventListener("scroll", handleScroll);
-  }, [activeSlide, onDotClick]);
+  }, [activeSlide, superpowerData.slides.length]);
 
   // Scroll + sync state when dot clicked
   const handleDotClick = (i) => {
-    const slideElement = scrollContainerRef.current?.querySelector(
-      `[data-slide-ref="${i}"]`
-    );
     const container = scrollContainerRef.current;
+    if (!container) return;
 
-    if (container) {
-      const slideWidth = 320; // w-80 = 320px
-      const gap = 24; // gap-6 = 24px
-      // For title card (i = -1), scroll to position 0
-      // For feature cards (i >= 0), scroll to position (i + 1) * (slideWidth + gap)
-      const scrollPosition = i === -1 ? 0 : (i + 1) * (slideWidth + gap);
-      container.scrollTo({
-        left: scrollPosition,
-        behavior: "smooth",
-      });
+    const slideWidth = 320; // w-80 = 320px
+    const gap = 24; // gap-6 = 24px
+
+    // Check if we're on small screen (< 600px)
+    const isSmallScreen = window.innerWidth < 600;
+
+    let scrollPosition;
+
+    if (isSmallScreen) {
+      // On small screens, only cards are in the scroll container
+      if (i >= 0 && i < superpowerData.slides.length) {
+        scrollPosition = i * (slideWidth + gap);
+      } else {
+        scrollPosition = 0;
+      }
+    } else {
+      // On larger screens, title card + feature cards are in the scroll container
+      const totalSlides = superpowerData.slides.length + 1; // +1 for title card
+
+      if (i === -1) {
+        // Title card (first slide)
+        scrollPosition = 0;
+      } else if (i >= 0 && i < superpowerData.slides.length) {
+        // Feature cards
+        scrollPosition = (i + 1) * (slideWidth + gap);
+      } else {
+        // Invalid index, scroll to last slide
+        scrollPosition = (totalSlides - 1) * (slideWidth + gap);
+      }
     }
 
-    // Immediately update React state / GSAP sync
-    if (onDotClick) {
-      onDotClick(i);
+    // Ensure scroll position doesn't exceed container width
+    const maxScroll = container.scrollWidth - container.clientWidth;
+    // For the last slide, allow scrolling to the very end to show the card fully
+    if (i === superpowerData.slides.length - 1) {
+      scrollPosition = maxScroll;
+    } else {
+      scrollPosition = Math.min(scrollPosition, maxScroll);
     }
+
+    container.scrollTo({
+      left: scrollPosition,
+      behavior: "smooth",
+    });
+
+    // Immediately update React state
+    setActiveSlide(i);
   };
 
   return (
-    <div ref={containerRef} className="w-full bg-[#06101D] py-16 h-[100vh]">
-      <div className="mx-auto px-4">
-        {/* Main Content - Combined Title and Slider */}
+    <div
+      ref={containerRef}
+      className="w-full bg-[#06101D] py-16 sm:h-[100vh] md:h-[60vh] lg:h-[100vh] h-[150vh]"
+      style={{
+        borderTopLeftRadius: "24px",
+        borderTopRightRadius: "24px",
+      }}
+    >
+      <div className="mx-auto px-0">
+        {/* Main Content - Responsive Layout */}
         <div className="mb-12">
-          {/* Combined Slider Container */}
+          {/* Title Section - Above cards on small screens */}
+          <div className="block max-[600px]:block min-[600px]:hidden mb-4 mt-50 md:mt-0 text-center">
+            <h2 className="sm:text-2xl text-xl md:px-0 px-4 text-left font-bold mb-6 text-white">
+              {superpowerData.title}
+            </h2>
+            <Button icon={<img src="/homepage/east.svg" alt="arrow icon" />}>
+              {superpowerData.ctaLabel}
+            </Button>
+          </div>
+
+          {/* Slider Container */}
           <div className="relative">
-            {/* Slider Track with Title and Cards */}
+            {/* Slider Track - Only Cards on small screens, Title + Cards on larger screens */}
             <div
               ref={scrollContainerRef}
-              className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-6 pb-4"
+              className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-6 pb-4 pr-152"
               style={{ scrollBehavior: "smooth" }}
             >
-              {/* Title Card - First Slide */}
+              {/* Title Card - Only visible on screens >= 600px */}
               <div
                 data-slide-ref="title"
-                className="group relative flex-shrink-0 w-80 md:w-96 h-80 md:h-96 overflow-hidden rounded-2xl p-5 md:p-7 text-white transition-all duration-300 hover:scale-105 snap-center flex flex-col justify-center bg-transparent"
+                className="hidden min-[600px]:block group relative flex-shrink-0 w-80 md:w-96 h-80 md:h-96 overflow-hidden rounded-2xl p-5 md:p-7 text-white snap-center flex flex-col justify-center bg-transparent"
               >
                 <div className="relative z-10">
-                  <h2 className="text-3xl md:text-4xl font-bold mb-8">
+                  <h2 className="text-xl md:text-2xl font-bold mb-8">
                     {superpowerData.title}
                   </h2>
-                  <Button>{superpowerData.ctaLabel}</Button>
+                  <Button
+                    icon={<img src="/homepage/east.svg" alt="arrow icon" />}
+                  >
+                    {superpowerData.ctaLabel}
+                  </Button>
                 </div>
               </div>
               {superpowerData.slides.map((slide, index) => (
                 <div
                   key={index}
                   data-slide-ref={index}
-                  className="mt-10 group relative flex-shrink-0 w-80 md:w-96 h-80 md:h-120 overflow-hidden rounded-4xl p-5 md:p-7 text-white transition-all duration-300 hover:scale-105 snap-center"
+                  className="mt-10 group relative flex-shrink-0 w-80 md:w-96 h-100 md:h-120 overflow-hidden rounded-4xl p-5 md:p-7 text-white transition-all duration-300 hover:scale-105 snap-center"
                   style={{
                     background: getGradientColors(index),
                     position: "relative",
                     backgroundColor: "rgba(255, 255, 255, 0.05)",
+                    borderBottom: `2px solid ${getBorderColor(index)}`,
                   }}
                 >
-                  {/* Rounded Gradient Border Bottom */}
-                  <div
-                    className="absolute bottom-0 left-0 right-0 h-2 "
-                    style={{
-                      borderBottom: "2px solid",
-                      borderRadius: "758px",
-                      height: "8px",
-                      marginLeft: "8px",
-                      marginRight: "8px",
-                    }}
-                  ></div>
                   {/* Card Content */}
                   <div className="relative z-10 h-full flex flex-col bg-transparent">
                     <h3 className="text-xl font-semibold mb-3">
                       {slide.title}
                     </h3>
-                    <p className="text-sm mb-4 opacity-90 flex-grow">
+                    <p className="text-sm mb-0 opacity-90 flex-grow">
                       {slide.description}
                     </p>
 
@@ -291,19 +418,30 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
             </div>
 
             {/* Navigation Arrows */}
-            <button
+            {/* <button
               onClick={() => {
                 const container = scrollContainerRef.current;
-                if (container) {
-                  const slideWidth = 320; // w-80 = 320px
-                  const gap = 24; // gap-6 = 24px
-                  container.scrollBy({
-                    left: -(slideWidth + gap),
-                    behavior: "smooth",
-                  });
-                }
+                if (!container) return;
+
+                const slideWidth = 320; // w-80 = 320px
+                const gap = 24; // gap-6 = 24px
+                const currentScroll = container.scrollLeft;
+                const slideStep = slideWidth + gap;
+
+                // Calculate previous slide position
+                const prevPosition = Math.max(0, currentScroll - slideStep);
+
+                container.scrollTo({
+                  left: prevPosition,
+                  behavior: "smooth",
+                });
               }}
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-all duration-200 z-10"
+              className={`absolute ml-80 left-4 top-1/2 -translate-y-1/2 p-3 rounded-full transition-all duration-200 z-10 ${
+                activeSlide === -1
+                  ? "bg-white/10 text-white/50 cursor-not-allowed"
+                  : "bg-white/20 hover:bg-white/30 text-white"
+              }`}
+              disabled={activeSlide === -1}
               aria-label="Previous slide"
             >
               <svg
@@ -324,14 +462,29 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
             <button
               onClick={() => {
                 const container = scrollContainerRef.current;
-                if (container) {
-                  const slideWidth = 320; // w-80 = 320px
-                  const gap = 24; // gap-6 = 24px
-                  container.scrollBy({
-                    left: slideWidth + gap,
-                    behavior: "smooth",
-                  });
+                if (!container) return;
+
+                const slideWidth = 320; // w-80 = 320px
+                const gap = 24; // gap-6 = 24px
+                const currentScroll = container.scrollLeft;
+                const slideStep = slideWidth + gap;
+                const maxScroll = container.scrollWidth - container.clientWidth;
+
+                // Calculate next slide position
+                let nextPosition = Math.min(
+                  maxScroll,
+                  currentScroll + slideStep
+                );
+
+                // If we're near the end, scroll to the very end to show the last card fully
+                if (nextPosition >= maxScroll * 0.8) {
+                  nextPosition = maxScroll;
                 }
+
+                container.scrollTo({
+                  left: nextPosition,
+                  behavior: "smooth",
+                });
               }}
               className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-all duration-200 z-10"
               aria-label="Next slide"
@@ -349,31 +502,23 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
                   d="M9 5l7 7-7 7"
                 />
               </svg>
-            </button>
+            </button> */}
           </div>
         </div>
 
         {/* Pagination Dots */}
-        <div className="flex justify-center items-center space-x-4 mt-8">
-          {/* Title Dot */}
+        <div className="flex justify-center items-center space-x-4 -mt-6 md:mt-6">
+          {/* Title Dot - Only show on larger screens */}
           <button
             data-dot-ref="title"
             onClick={() => handleDotClick(-1)}
-            className={`relative overflow-hidden transition-all duration-300 ease-in-out ${
+            className={`hidden min-[600px]:block transition-colors duration-200 ${
               activeSlide === -1
-                ? "px-4 py-2 rounded-full bg-white text-black text-sm font-medium min-w-[80px]"
-                : "w-3 h-3 rounded-full bg-white/20 hover:bg-white/30 min-w-[12px]"
+                ? "px-4 py-2 rounded-full bg-white text-black text-sm font-medium"
+                : "w-3 h-3 rounded-full bg-white/20 hover:bg-white/30"
             }`}
           >
-            <span
-              className={`inline-block transition-all duration-300 ease-in-out ${
-                activeSlide === -1
-                  ? "opacity-100 transform scale-100"
-                  : "opacity-0 transform scale-75 absolute"
-              }`}
-            >
-              Overview
-            </span>
+            {activeSlide === -1 && "Overview"}
           </button>
 
           {/* Feature Dots */}
@@ -382,21 +527,13 @@ const SuperpowerSlides = ({ activeSlide, onDotClick }) => {
               key={index}
               data-dot-ref={index}
               onClick={() => handleDotClick(index)}
-              className={`relative overflow-hidden transition-all duration-300 ease-in-out ${
+              className={`transition-colors duration-200 ${
                 activeSlide === index
-                  ? "px-4 py-2 rounded-full bg-white text-black text-sm font-medium min-w-[80px]"
-                  : "w-3 h-3 rounded-full bg-white/20 hover:bg-white/30 min-w-[12px]"
+                  ? "px-4 py-2 rounded-full bg-white text-black text-sm font-medium"
+                  : "w-3 h-3 rounded-full bg-white/20 hover:bg-white/30"
               }`}
             >
-              <span
-                className={`inline-block transition-all duration-300 ease-in-out ${
-                  activeSlide === index
-                    ? "opacity-100 transform scale-100"
-                    : "opacity-0 transform scale-75 absolute"
-                }`}
-              >
-                {slide.dotTitle || slide.title}
-              </span>
+              {activeSlide === index && (slide.dotTitle || slide.title)}
             </button>
           ))}
         </div>

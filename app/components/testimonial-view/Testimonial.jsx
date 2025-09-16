@@ -159,7 +159,7 @@ export default function TestimonialsView({ model }) {
   return (
     <div
       ref={containerRef}
-      className="mt-0 flex min-h-screen flex-col items-center justify-center bg-white font-figtree"
+      className="mt-10 flex min-h-screen flex-col items-center justify-center bg-white font-figtree md:h-[60vh] h-[70vh] lg:min-h-screen"
       data-testimonial-container
     >
       <div className="mb-16 max-w-3xl text-center">

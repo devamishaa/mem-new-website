@@ -25,7 +25,7 @@ const getResponsiveSettings = () => {
       start: "60% 65%",
       end: "220% 65%",
       scrub: 1.2,
-      textScale: 1.2,
+      textScale: 1,
       textStartScale: 0.4,
     };
   }
@@ -36,18 +36,18 @@ const getResponsiveSettings = () => {
       start: "55% 60%",
       end: "200% 60%",
       scrub: 1,
-      textScale: 1.3,
+      textScale: 1,
       textStartScale: 0.45,
     };
   }
   // Medium mobile (426px - 600px)
   else if (width <= 600) {
     return {
-      scale: 3.5,
+      scale: 1.5,
       start: "50% 58%",
       end: "190% 58%",
       scrub: 1,
-      textScale: 1.35,
+      textScale: 1,
       textStartScale: 0.5,
     };
   }
@@ -58,7 +58,7 @@ const getResponsiveSettings = () => {
       start: "45% 55%",
       end: "180% 55%",
       scrub: 1,
-      textScale: 1.4,
+      textScale: 1,
       textStartScale: 0.5,
     };
   }
@@ -69,7 +69,7 @@ const getResponsiveSettings = () => {
       start: "40% 52%",
       end: "170% 52%",
       scrub: 0.8,
-      textScale: 1.45,
+      textScale: 1,
       textStartScale: 0.5,
     };
   }
@@ -80,7 +80,7 @@ const getResponsiveSettings = () => {
       start: "35% 50%",
       end: "160% 50%",
       scrub: 0.8,
-      textScale: 1.5,
+      textScale: 1.1,
       textStartScale: 0.5,
     };
   }
@@ -102,7 +102,7 @@ const getResponsiveSettings = () => {
       start: "30% 50%",
       end: "200% 50%",
       scrub: true,
-      textScale: 1,
+      textScale: 2,
       textStartScale: 0.5,
     };
   }

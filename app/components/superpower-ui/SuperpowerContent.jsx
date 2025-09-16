@@ -29,79 +29,83 @@ const SpeechBubbleTailStyle = () => (
 const SuperpowerContent = () => {
   const containerRef = useRef(null);
   const imgRef = useRef(null);
+  const bubbleRef = useRef(null);
+  const bubble2Ref = useRef(null);
+  const bubble3Ref = useRef(null);
   const { t } = useTranslation();
 
   const [activeSlide, setActiveSlide] = useState(0);
+  const [isClient, setIsClient] = useState(false);
 
-  // number of slides — keep in sync with panels rendered below
   const slides = useMemo(() => Array.from({ length: 7 }), []);
 
-  // GSAP horizontal scroll setup (scoped with gsap.context)
+  // mark as client after hydration
   useEffect(() => {
-    if (!containerRef.current) return;
+    setIsClient(true);
+  }, []);
 
-    const ctx = gsap.context(() => {
-      const panels = gsap.utils.toArray(".slide-panel");
-      const slidesCount = panels.length;
+  // ScrollTrigger
+  useEffect(() => {
+    if (!containerRef.current || !isClient) return;
+    const totalSlides = 7;
+    let currentSlide = 0;
 
-      // compute total scroll distance properly (width * (n-1))
-      const getTotalScroll = () =>
-        (containerRef.current ? containerRef.current.offsetWidth : 0) *
-        (slidesCount - 1);
+    const scrollTrigger = ScrollTrigger.create({
+      trigger: containerRef.current,
+      start: "top top",
+      end: "bottom top",
+      scrub: 1,
+      onUpdate: (self) => {
+        const progress = self.progress;
+        const slideIndex = Math.floor(progress * totalSlides);
+        const clampedIndex = Math.max(0, Math.min(slideIndex, totalSlides - 1));
 
-      // main horizontal tween
-      const tween = gsap.to(panels, {
-        xPercent: -100 * (slidesCount - 1),
-        ease: "none",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: () => "+=" + window.innerWidth * 1,
-          pin: true,
-          scrub: 0.5,
-          // snap to exact slide fractions
-          snap: {
-            snapTo: 1 / Math.max(1, slidesCount - 1),
-            duration: 0.25,
-            ease: "power2.inOut",
-          },
-          // update activeSlide on every update (clamped + rounded)
-          onUpdate(self) {
-            const progress = gsap.utils.clamp(0, 1, self.progress);
-            const rawIndex = progress * (slidesCount - 1);
-            const newIndex = Math.round(rawIndex);
-            setActiveSlide((prev) => (prev !== newIndex ? newIndex : prev));
-          },
-          // ensure final index after snapping completes
-          onSnapComplete(self) {
-            const snapped = Math.round(self.progress * (slidesCount - 1));
-            setActiveSlide(snapped);
-          },
-          // when refresh (resize), recompute end
-          onRefresh(self) {
-            // onRefresh will be called by ScrollTrigger.refresh(); ensure end remains correct
-            self.vars.end = `+=${getTotalScroll()}`;
-          },
-        },
-      });
+        if (clampedIndex !== currentSlide) {
+          currentSlide = clampedIndex;
+          setActiveSlide(clampedIndex);
+        }
+      },
+    });
 
-      // Force a refresh once so end is calculated correctly initialy
-      ScrollTrigger.refresh();
-    }, containerRef);
+    return () => scrollTrigger.kill();
+  }, [isClient]);
 
-    // refresh on resize (keeps end / pin behaviour correct)
-    const handleResize = () => {
-      ScrollTrigger.refresh();
-    };
-    window.addEventListener("resize", handleResize);
+  // Bubble animations
+  useEffect(() => {
+    if (!bubbleRef.current || !isClient) return;
+    gsap.set(bubbleRef.current, { x: -100, y: "50%" });
+    gsap.to(bubbleRef.current, {
+      x: "100vw",
+      duration: 18,
+      ease: "none",
+      repeat: -1,
+    });
+  }, [isClient]);
 
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      ctx.revert(); // kills tweens & ScrollTriggers scoped to this context
-    };
-  }, []); // run once
+  useEffect(() => {
+    if (!bubble2Ref.current || !isClient) return;
+    gsap.set(bubble2Ref.current, { x: "70%", y: "100vh" });
+    gsap.to(bubble2Ref.current, {
+      y: -100,
+      duration: 15,
+      ease: "none",
+      repeat: -1,
+    });
+  }, [isClient]);
 
-  // speech text from your translations JSON (emotions.slide1..)
+  useEffect(() => {
+    if (!bubble3Ref.current || !isClient) return;
+    gsap.set(bubble3Ref.current, { x: "100vw", y: "100vh" });
+    gsap.to(bubble3Ref.current, {
+      x: "20%",
+      y: -100,
+      duration: 20,
+      ease: "none",
+      repeat: -1,
+    });
+  }, [isClient]);
+
+  // speech text
   const speechBubbleText = useMemo(() => {
     const slideKeys = {
       0: "emotions.slide1",
@@ -119,7 +123,7 @@ const SuperpowerContent = () => {
       : translated;
   }, [activeSlide, t]);
 
-  // emotion image mapping
+  // emotion image
   const emotionImage = useMemo(() => {
     const images = {
       0: "/homepage/memorae_emotions/Happy_memeorae.svg",
@@ -133,16 +137,10 @@ const SuperpowerContent = () => {
     return images[activeSlide] || "/homepage/Memorae_Character.png";
   }, [activeSlide]);
 
-  // fade animation when image changes
-  useEffect(() => {
-    if (imgRef.current) {
-      gsap.fromTo(
-        imgRef.current,
-        { autoAlpha: 0, scale: 0.95 },
-        { autoAlpha: 1, scale: 1, duration: 0.35, ease: "power2.out" }
-      );
-    }
-  }, [emotionImage]);
+  // ✅ Hooks always run → but render only when client
+  if (!isClient) {
+    return <div style={{ height: "100vh", width: "100vw" }} />; // placeholder (no mismatch)
+  }
 
   return (
     <div
@@ -161,12 +159,36 @@ const SuperpowerContent = () => {
         style={{ objectFit: "cover", objectPosition: "center" }}
       />
 
-      {/* fixed content */}
-      <div className="sm:mt-30 relative z-[2] text-center text-white h-full flex flex-col justify-center items-center">
-        <div className="speech-bubble-tail mb-[25px] rounded-xl bg-white/85 px-6 py-3 text-base font-medium text-[#333] shadow-md max-sm:max-w-[320px]">
-          <p className="text-[20px] font-medium leading-snug max-sm:text-lg">
-            {speechBubbleText}
-          </p>
+      {/* bubbles */}
+      <div className="absolute inset-0 z-[1] w-full h-full">
+        <img
+          ref={bubbleRef}
+          src="/homepage/bubble.svg"
+          alt="Bubble"
+          className="w-20 h-20 absolute"
+        />
+        <img
+          ref={bubble2Ref}
+          src="/homepage/bubble.svg"
+          alt="Bubble 2"
+          className="w-16 h-16 absolute"
+        />
+        <img
+          ref={bubble3Ref}
+          src="/homepage/bubble.svg"
+          alt="Bubble 3"
+          className="w-14 h-14 absolute"
+        />
+      </div>
+
+      {/* speech + character */}
+      <div className="mt-30 relative z-[2] text-center text-white h-full flex flex-col justify-center items-center">
+        <div className="mb-6 relative bg-white text-slate-800 text-lg font-medium px-6 py-3 rounded-xl shadow-md">
+          {speechBubbleText}
+          <div
+            className="absolute left-1/2 -bottom-2 w-0 h-0 -translate-x-1/2 
+            border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-white"
+          />
         </div>
 
         <img
@@ -174,10 +196,11 @@ const SuperpowerContent = () => {
           src={emotionImage}
           alt="Emotion character"
           className="animate-[slowBounce_5s_ease-in-out_infinite]"
+          style={{ width: "220px", height: "230px" }}
         />
       </div>
 
-      {/* panels for horizontal scroll — width computed from slides length */}
+      {/* slides */}
       <div
         className="flex h-full"
         style={{ width: `${slides.length * 100}vw` }}

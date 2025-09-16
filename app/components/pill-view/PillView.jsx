@@ -8,7 +8,7 @@ import { usePillTimeline } from "./usePillTimeline";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 import { useScrollLock } from "@/hooks/useScrollLock";
 import { useNavbarColor } from "@/hooks/useNavbarColor";
-import CompareTable from "./CompareTable";
+import { CompareTable } from "@/app/components/common/compare-plans/ComparePlan";
 
 export default function PillView({ model }) {
   const containerRef = useRef(null);
@@ -25,7 +25,16 @@ export default function PillView({ model }) {
     breakpoint === "MOBILE_M" ||
     breakpoint === "MOBILE_L" ||
     breakpoint === "TABLET";
-  const isSmallScreen = breakpoint === "MOBILE_L";
+  const isSmallScreen =
+    breakpoint === "MOBILE_S" ||
+    breakpoint === "MOBILE_M" ||
+    breakpoint === "MOBILE_L" ||
+    breakpoint === "TABLET";
+
+  // Size for floating icons using manual pixel breakpoints (mobile ≤600, tablet ≤768)
+  const viewportWidth =
+    typeof window !== "undefined" ? window.innerWidth : 1200;
+  const iconSize = viewportWidth <= 600 ? 40 : viewportWidth <= 768 ? 60 : 80;
 
   useNavbarColor([
     {
@@ -86,7 +95,7 @@ export default function PillView({ model }) {
               height={200}
             />
 
-            {/* Floating Objects - Only visible on screens >= 1200px */}
+            {/* Floating Objects */}
             {!isSmallScreen && (
               <>
                 <div
@@ -95,14 +104,11 @@ export default function PillView({ model }) {
                   data-parallax="2.5"
                 >
                   <CdnImage
-                    className={styles.icon3}
                     decorative
                     src="/homepage/7.png"
                     priority
-                    width={80}
-                    height={80}
-                    // width={imageDimensions.icon3}
-                    // height={imageDimensions.icon3}
+                    width={iconSize}
+                    height={iconSize}
                     unoptimized
                     data-parallax="7.5"
                     data-float
@@ -116,47 +122,41 @@ export default function PillView({ model }) {
                   <CdnImage
                     src="/homepage/8.png"
                     alt="Floating 2"
-                    width={80}
-                    height={80}
+                    width={iconSize}
+                    height={iconSize}
                     decorative
                     unoptimized
                     data-parallax="10.0"
                     data-float
                   />
                 </div>
-                <div
-                  data-float-obj="2"
-                  className={`${styles.floatingObject} ${styles.obj3}`}
-                  data-parallax="4.5"
-                >
-                  <CdnImage
-                    className={styles.icon4}
-                    decorative
-                    src="/homepage/8.png"
-                    priority
-                    width={80}
-                    height={80}
-                    // width={imageDimensions.icon4}
-                    // height={imageDimensions.icon4}
-                    unoptimized
-                    data-parallax="10.0"
-                    data-float
-                  />
-                </div>
+                {/* <div
+                    data-float-obj="2"
+                    className={`${styles.floatingObject} ${styles.obj3}`}
+                    data-parallax="4.5"
+                  >
+                    <CdnImage
+                      decorative
+                      src="/homepage/8.png"
+                      priority
+                      width={isMobile ? 40 : 80}
+                      height={isMobile ? 40 : 80}
+                      unoptimized
+                      data-parallax="10.0"
+                      data-float
+                    />
+                  </div> */}
                 <div
                   data-float-obj="3"
                   className={`${styles.floatingObject} ${styles.obj4}`}
                   data-parallax="5.5"
                 >
                   <CdnImage
-                    className={styles.icon5}
                     decorative
                     src="/homepage/6.png"
                     priority
-                    width={80}
-                    height={80}
-                    // width={imageDimensions.icon5}
-                    // height={imageDimensions.icon5}
+                    width={iconSize}
+                    height={iconSize}
                     unoptimized
                     data-parallax="5.5"
                     data-float
@@ -165,17 +165,13 @@ export default function PillView({ model }) {
               </>
             )}
 
-            {/* Waves - Only visible on screens > 600px */}
-            {breakpoint !== "MOBILE_S" &&
-              breakpoint !== "MOBILE_M" &&
-              breakpoint !== "MOBILE_L" && (
-                <div className={styles.waves}>
-                  <div className={styles.wave}></div>
-                  <div className={styles.wave}></div>
-                  <div className={styles.wave}></div>
-                  <div className={styles.wave}></div>
-                </div>
-              )}
+            {/* Waves - Show on all screen sizes */}
+            <div className={styles.waves}>
+              <div className={styles.wave}></div>
+              <div className={styles.wave}></div>
+              <div className={styles.wave}></div>
+              <div className={styles.wave}></div>
+            </div>
           </div>
 
           {/* Text Elements - Only visible on screens >= 1200px */}

@@ -1,4 +1,4 @@
-import { IMAGE_BASE_URL } from "@/components/constants/index";
+import { IMAGE_BASE_URL } from "@/app/components/common/index";
 
 const CdnImage = ({
   name,

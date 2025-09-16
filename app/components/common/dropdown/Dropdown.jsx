@@ -7,6 +7,78 @@ import SvgIcon from "@/app/components/common/svg/SvgIcon";
 import DropdownErrorBoundary from "./DropdownErrorBoundary";
 import { useNavbarTheme } from "@/contexts/NavbarThemeContext";
 import clsx from "clsx";
+import { gsap } from "gsap";
+
+// Hook for GSAP dropdown animations
+function useDropdownAnimations(isOpen, mode, dropdownRef, items) {
+  const itemsRef = useRef([]);
+  const animationRef = useRef(null);
+
+  useEffect(() => {
+    if (mode !== "portal" || !dropdownRef.current) return;
+
+    const dropdown = dropdownRef.current;
+    const itemElements = itemsRef.current.filter(Boolean);
+
+    // Kill any existing animation
+    if (animationRef.current) {
+      animationRef.current.kill();
+    }
+
+    if (isOpen) {
+      // Set initial state for container only
+      gsap.set(dropdown, {
+        opacity: 0,
+        scale: 0.1,
+        y: -50,
+        transformOrigin: "top center",
+      });
+
+      // Set items to visible immediately (no animation)
+      gsap.set(itemElements, {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+      });
+
+      // Create timeline for container animation only
+      const tl = gsap.timeline();
+
+      // Animate only the dropdown container with smooth bouncy effect
+      tl.to(dropdown, {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        duration: 0.6,
+        ease: "back.out(2.5)",
+      });
+
+      animationRef.current = tl;
+    } else {
+      // Exit animation for container only
+      const tl = gsap.timeline();
+
+      // Animate only the dropdown container with smooth exit
+      tl.to(dropdown, {
+        opacity: 0,
+        scale: 0.8,
+        y: -30,
+        duration: 0.3,
+        ease: "power3.inOut",
+      });
+
+      animationRef.current = tl;
+    }
+
+    return () => {
+      if (animationRef.current) {
+        animationRef.current.kill();
+      }
+    };
+  }, [isOpen, mode, items.length]);
+
+  return { itemsRef };
+}
 
 // All hooks (useNestedDropdown, useDropdownPosition, etc.) remain unchanged as their logic is independent of the styling technology.
 function useNestedDropdown(isOpen, allowNested) {
@@ -177,14 +249,22 @@ function NestedDropdownContainer({ item, isExpanded, onToggle, onClose }) {
         className="mt-1 overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
         style={{
           maxHeight: isExpanded ? `${item.dropdown.length * 48 + 32}px` : "0px",
+          opacity: isExpanded ? 1 : 0,
         }}
       >
-        {item.dropdown.map((nestedItem) => (
-          <NestedDropdownItem
+        {item.dropdown.map((nestedItem, index) => (
+          <div
             key={nestedItem.id}
-            item={nestedItem}
-            onClose={onClose}
-          />
+            className={clsx(
+              "transition-all duration-200 ease-out",
+              isExpanded && "animate-in fade-in-0 slide-in-from-left-2"
+            )}
+            style={{
+              animationDelay: isExpanded ? `${index * 100}ms` : undefined,
+            }}
+          >
+            <NestedDropdownItem item={nestedItem} onClose={onClose} />
+          </div>
         ))}
       </div>
     </div>
@@ -302,6 +382,7 @@ function DropdownContent(props) {
     onClose,
   } = props;
   const { theme } = useNavbarTheme();
+  const { itemsRef } = useDropdownAnimations(isOpen, mode, dropdownRef, items);
 
   const themeClasses = {
     light:
@@ -316,28 +397,38 @@ function DropdownContent(props) {
     <div
       ref={dropdownRef}
       className={clsx(
-        "fixed z-50 min-w-[290px] rounded-[32px] border p-4 shadow-lg backdrop-blur-xl backdrop-saturate-125 isolate origin-top animate-fadeIn",
+        "fixed z-50 min-w-[290px] rounded-[32px] border p-4 shadow-lg backdrop-blur-xl backdrop-saturate-125 isolate origin-top",
         themeClasses[theme],
         mode === "inline" &&
-          "static w-full min-w-full transition-[max-height,padding] duration-300 ease-in-out",
+          "static w-full min-w-full transition-[max-height,padding,opacity,transform] duration-300 ease-out",
         isMobile && mobileClasses,
+        // GSAP animations will handle the visual effects
         className
       )}
       style={inlineStyles}
       aria-hidden={mode === "inline" ? !isOpen : undefined}
       role={mode === "inline" ? "region" : undefined}
     >
-      <div className="absolute inset-0 -z-10 rounded-inherit pointer-events-none bg-gradient-to-b from-white/35 to-transparent [mix-blend-mode:overlay]" />
+      <div className="absolute inset-0 -z-10 rounded-inherit pointer-events-none  [mix-blend-mode:overlay]" />
       <div className="flex flex-col gap-2">
-        {items.map((item) => (
-          <DropdownItem
+        {items.map((item, index) => (
+          <div
             key={item.id}
-            item={item}
-            allowNested={allowNested}
-            expandedItems={expandedItems}
-            onToggleNested={onToggleNested}
-            onClose={onClose}
-          />
+            ref={(el) => {
+              if (itemsRef.current) {
+                itemsRef.current[index] = el;
+              }
+            }}
+            className="transition-all duration-200 ease-out"
+          >
+            <DropdownItem
+              item={item}
+              allowNested={allowNested}
+              expandedItems={expandedItems}
+              onToggleNested={onToggleNested}
+              onClose={onClose}
+            />
+          </div>
         ))}
       </div>
     </div>

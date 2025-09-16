@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "@/hooks/useTranslation";
-import HeroView from "@/app/components/hero/HeroView";
+import HeroView from "./HeroView";
 
 /**
  * HeroContainer:
@@ -20,7 +20,7 @@ export default function HeroContainer(props) {
     return {
       large: { width: 856, height: 364 },
       icon3: 94,
-      icon4: 78,
+      icon4: 18,
       icon5: 116,
     };
   }, []);

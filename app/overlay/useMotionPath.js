@@ -104,17 +104,9 @@ function setupGhost(ghost) {
 
 // Breakpoint-specific motion paths for all screen sizes
 const MOTION_PATHS = {
-  // Mobile: 320px - 767px
-  MOBILE:
-    "M160,200 Q120,300 200,500 Q280,600 180,800 Q100,1000 220,1200 Q300,1400 200,1600 Q120,1800 240,2000 Q320,2200 200,2400 Q120,2600 240,2800",
-
-  // Tablet: 768px - 1023px
-  TABLET:
-    "M384,180 Q300,350 450,600 Q600,700 400,900 Q250,1100 420,1300 Q550,1500 400,1700 Q280,1900 450,2100 Q600,2300 400,2500 Q280,2700 450,2900",
-
   // Desktop: 1024px - 1439px - Fixed to ensure smooth curves
   DESKTOP:
-    "M512,147 Q380,350 709,708 Q950,800 684,1059 Q300,1150 203,1275 Q150,1550 823,1680 Q1100,1720 841,1841 Q600,1950 303,2276 Q180,2450 515,2956",
+    "M512,147 Q380,350 709,708 Q950,800 684,1059 Q300,1150 203,1275 Q150,1550 823,1680 Q1100,1720 841,1841 Q600,1950 303,2276 Q180,2450 515,3050",
 
   // Large Desktop: 1440px+ - Already smooth
   LARGE_DESKTOP:
@@ -331,7 +323,7 @@ function mountMotionPath(overlay, ghost) {
       // Tablet: 768px - 1023px
       TABLET: { x: 384, y: 300, tol: 25, z: 99999 },
       // Desktop: 1024px - 1439px (ghost at 675.32px, 377.758px when z-index should change)
-      DESKTOP: { x: 675.32, y: 377.758, tol: 25, z: 99999 },
+      DESKTOP: { x: 675.32, y: 450, tol: 25, z: 99999 },
       // Large Desktop: 1440px+ (ghost at 399.739px, 489.18px when z-index should change)
       LARGE_DESKTOP: { x: 399.739, y: 489.18, tol: 30, z: 99999 },
     };
@@ -385,9 +377,7 @@ function mountMotionPath(overlay, ghost) {
     const reversing = progress < prevProgress;
 
     // Get emotion image for precise targeting (only after hydration)
-    const emotionImg = document.querySelector(
-      "[data-emotion-image][data-hydrated]"
-    );
+    const emotionImg = document.querySelector('img[alt="Emotion character"]');
     let targetW = 220; // fallback
     let targetH = 230; // fallback
     let emotionRect = null;
@@ -455,68 +445,34 @@ function mountMotionPath(overlay, ghost) {
       const span = 1 - transitionStart;
       const transitionProgress = (progress - transitionStart) / (span || 1);
 
-      // Ultra-fast exponential ease for instant handoff
       const fadeProgress = Math.min(1, Math.max(0, transitionProgress));
-      const ultraFast = 1 - Math.pow(1 - fadeProgress, 5); // even faster exponential curve
 
-      // Perfect crossfade with minimal overlap - almost instant switch
-      const ghostOpacity = Math.max(0, 1 - ultraFast * 1.2);
-      const emotionOpacity = Math.min(1, ultraFast * 1.2);
+      // Smoother linear crossfade
+      const ghostOpacity = 1 - fadeProgress;
+      const emotionOpacity = fadeProgress;
 
       ghost.style.opacity = ghostOpacity.toString();
 
       if (emotionImg) {
-        emotionImg.style.opacity = emotionOpacity.toString();
-        // Ultra-fast transition for instant crossfade - no visible fade
-        emotionImg.style.transition = "opacity 0.05s linear";
-        // Temporarily disable bounce animation during crossfade
-        emotionImg.style.animation = "none";
-
-        // Ensure perfect positioning alignment during crossfade
-        if (ghostOpacity > 0.05 && emotionOpacity > 0.05) {
-          // Keep emotion in natural position for seamless transition
-          emotionImg.style.visibility = "visible";
-        } else {
-          emotionImg.style.transform = "none";
-          if (emotionOpacity <= 0) emotionImg.style.visibility = "hidden";
+        const container = emotionImg.parentElement;
+        if (container) {
+          container.style.opacity = emotionOpacity.toString();
+          container.style.visibility =
+            emotionOpacity > 0 ? "visible" : "hidden";
         }
+        // Temporarily disable bounce animation during crossfade, and restore it when visible
+        emotionImg.style.animation = emotionOpacity >= 1 ? "" : "none";
       }
     } else {
-      // Normal state - ghost visible, emotion image visibility depends on progress
+      // Normal state: ghost is visible, emotion image is hidden.
       ghost.style.opacity = "1";
       if (emotionImg) {
-        // Show emotion image when in early stages (emotions section) or when scrolling back
-        if (progress < 0.1 || reversing) {
-          emotionImg.style.opacity = "1";
-          emotionImg.style.visibility = "visible";
-          emotionImg.style.transition = "opacity 0.05s linear";
-        } else if (progress < 0.95) {
-          emotionImg.style.opacity = "0";
-          // keep transitions ultra-fast to avoid visible reverse-fade
-          emotionImg.style.transition = "opacity 0.05s linear";
-          // do not touch animation/transform here; Superpower manages those
+        const container = emotionImg.parentElement;
+        if (container) {
+          container.style.opacity = "0";
+          container.style.visibility = "hidden";
         }
-      }
-
-      // Reverse scroll: snap states to avoid visible fading while scrubbing back
-      if (reversing && progress < transitionStart) {
-        ghost.style.opacity = "1";
-        if (emotionImg) {
-          emotionImg.style.transition = "none";
-          // Keep emotion image visible when scrolling back to emotions section
-          if (progress < 0.1) {
-            emotionImg.style.opacity = "1";
-            emotionImg.style.visibility = "visible";
-          } else {
-            emotionImg.style.opacity = "0";
-          }
-        }
-      }
-    }
-    // Restore bounce animation after crossfade completes (tighter window)
-    if (emotionImg && progress > transitionStart + 0.01) {
-      if (emotionImg.style.opacity === "1") {
-        emotionImg.style.animation = "";
+        emotionImg.style.animation = "none";
       }
     }
 
