@@ -1,5 +1,12 @@
 "use client";
-import { useLayoutEffect, useRef, useMemo, useCallback } from "react";
+import {
+  useLayoutEffect,
+  useRef,
+  useMemo,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { gsap, ScrollTrigger } from "@/utils/gsap";
 
 // Memoized responsive settings function with SSR guard
@@ -405,6 +412,11 @@ function shouldSkipPhoneZoom(container) {
   if (!container || typeof window === "undefined") return true;
   if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches)
     return true;
+  // Check if GSAP and ScrollTrigger are properly initialized
+  if (!gsap || !ScrollTrigger || typeof ScrollTrigger.create !== "function") {
+    console.warn("GSAP/ScrollTrigger not ready, skipping phone zoom");
+    return true;
+  }
   return false;
 }
 
@@ -434,20 +446,29 @@ export function usePhoneZoom(containerRef) {
   const timelineRef = useRef();
   const scrollTriggerRef = useRef();
   const resizeTimeoutRef = useRef();
+  const [isClient, setIsClient] = useState(false);
+
+  // Set client-side flag to prevent hydration mismatch
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Memoize the setup function to prevent recreation
-  const setupPhoneZoom = useCallback((container) => {
-    // Early validation
-    if (shouldSkipPhoneZoom(container)) return null;
+  const setupPhoneZoom = useCallback(
+    (container) => {
+      // Early validation
+      if (shouldSkipPhoneZoom(container) || !isClient) return null;
 
-    // Find all required DOM elements
-    const elements = findPhoneElements(container);
-    if (!elements) {
-      return gsap.timeline({ paused: true });
-    }
+      // Find all required DOM elements
+      const elements = findPhoneElements(container);
+      if (!elements) {
+        return gsap.timeline({ paused: true });
+      }
 
-    return elements;
-  }, []);
+      return elements;
+    },
+    [isClient]
+  );
 
   // Handle window resize for responsive updates
   const handleResize = useCallback(() => {
@@ -463,87 +484,102 @@ export function usePhoneZoom(containerRef) {
   }, []);
 
   useLayoutEffect(() => {
-    const container = containerRef.current;
-    const elements = setupPhoneZoom(container);
+    // Don't run on server-side or before client hydration
+    if (!isClient) return;
 
-    if (!elements) {
-      timelineRef.current = gsap.timeline({ paused: true });
-      return;
-    }
+    // Wait for DOM to be ready
+    const initializeAnimation = () => {
+      const container = containerRef.current;
+      if (!container) {
+        // Retry after a short delay if container is not ready
+        setTimeout(initializeAnimation, 100);
+        return;
+      }
 
-    const {
-      phoneContainer,
-      phoneElements,
-      phoneScreen,
-      iphonePopupArea,
-      phoneScreenImage,
-      textElement,
-      gradientEllipse5,
-      gradientEllipse3,
-    } = elements;
+      const elements = setupPhoneZoom(container);
 
-    // Get responsive config inside useLayoutEffect (client-side only)
-    const config = getResponsiveSettings();
+      if (!elements) {
+        timelineRef.current = gsap.timeline({ paused: true });
+        return;
+      }
 
-    // Create master timeline with ScrollTrigger
-    const masterTimeline = createMasterTimeline(phoneContainer, config);
-
-    // Store references to master timeline
-    timelineRef.current = masterTimeline;
-    scrollTriggerRef.current = masterTimeline.scrollTrigger;
-
-    // Setup initial states for all elements
-    setupInitialStates(phoneElements, textElement, phoneScreenImage);
-
-    // Setup phone screen image animation
-    setupPhoneScreenAnimation(phoneScreenImage, phoneContainer);
-
-    // Create individual timelines
-    const popupTimeline = setupPopupTimeline(iphonePopupArea);
-    const textRevealTimeline = setupTextRevealTimeline(textElement, config);
-    const zoomTimeline = setupZoomTimeline(phoneElements, config);
-    const textScalingTimeline = setupTextScalingTimeline(textElement, config);
-
-    // ===========================================
-    // ORCHESTRATE TIMELINES WITH MASTER TIMELINE
-    // ===========================================
-
-    // Add screen content opacity to master timeline
-    if (phoneScreen) {
-      masterTimeline.to(
+      const {
+        phoneContainer,
+        phoneElements,
         phoneScreen,
-        {
-          opacity: 1,
-          duration: 0.3,
-          ease: "power2.out",
-        },
-        0.1
-      );
-    }
+        iphonePopupArea,
+        phoneScreenImage,
+        textElement,
+        gradientEllipse5,
+        gradientEllipse3,
+      } = elements;
 
-    // Add all sub-timelines to master timeline with 10x slower scaling
-    // Each sub-timeline is normalized (duration: 1), master timeline controls overall timing
-    masterTimeline.add(popupTimeline.duration(320.0), 20.0); // Popup takes 320s (10x slower), starts at 20s
-    masterTimeline.add(zoomTimeline.duration(410.0), 180.0); // Zoom takes 410s (10x slower), starts at 180s
-    masterTimeline.add(textScalingTimeline.duration(410.0), 200.0); // Text scaling takes 410s (10x slower), starts at 200s (20s after zoom)
-    masterTimeline.add(textRevealTimeline.duration(400.0), 190.0); // Text reveal takes 300s, starts at 190s
+      // Get responsive config inside useLayoutEffect (client-side only)
+      const config = getResponsiveSettings();
 
-    // Add gradient ellipses directly to master timeline (10x slower)
-    if (gradientEllipse5 && gradientEllipse3) {
-      masterTimeline.to(
-        [gradientEllipse5, gradientEllipse3],
-        {
-          opacity: 0.4,
-          duration: 50.0, // 10x slower duration
-          stagger: 10.0, // 10x slower stagger
-          ease: "power2.out",
-        },
-        300.0
-      ); // Gradients appear mid-zoom animation (10x slower timing)
-    }
+      // Create master timeline with ScrollTrigger
+      const masterTimeline = createMasterTimeline(phoneContainer, config);
 
-    // Add resize listener for responsive updates
-    window.addEventListener("resize", handleResize);
+      // Store references to master timeline
+      timelineRef.current = masterTimeline;
+      scrollTriggerRef.current = masterTimeline.scrollTrigger;
+
+      // Setup initial states for all elements
+      setupInitialStates(phoneElements, textElement, phoneScreenImage);
+
+      // Setup phone screen image animation
+      setupPhoneScreenAnimation(phoneScreenImage, phoneContainer);
+
+      // Create individual timelines
+      const popupTimeline = setupPopupTimeline(iphonePopupArea);
+      const textRevealTimeline = setupTextRevealTimeline(textElement, config);
+      const zoomTimeline = setupZoomTimeline(phoneElements, config);
+      const textScalingTimeline = setupTextScalingTimeline(textElement, config);
+
+      // ===========================================
+      // ORCHESTRATE TIMELINES WITH MASTER TIMELINE
+      // ===========================================
+
+      // Add screen content opacity to master timeline
+      if (phoneScreen) {
+        masterTimeline.to(
+          phoneScreen,
+          {
+            opacity: 1,
+            duration: 0.3,
+            ease: "power2.out",
+          },
+          0.1
+        );
+      }
+
+      // Add all sub-timelines to master timeline with 10x slower scaling
+      // Each sub-timeline is normalized (duration: 1), master timeline controls overall timing
+      masterTimeline.add(popupTimeline.duration(320.0), 20.0); // Popup takes 320s (10x slower), starts at 20s
+      masterTimeline.add(zoomTimeline.duration(410.0), 180.0); // Zoom takes 410s (10x slower), starts at 180s
+      masterTimeline.add(textScalingTimeline.duration(410.0), 200.0); // Text scaling takes 410s (10x slower), starts at 200s (20s after zoom)
+      masterTimeline.add(textRevealTimeline.duration(400.0), 190.0); // Text reveal takes 300s, starts at 190s
+
+      // Add gradient ellipses directly to master timeline (10x slower)
+      if (gradientEllipse5 && gradientEllipse3) {
+        masterTimeline.to(
+          [gradientEllipse5, gradientEllipse3],
+          {
+            opacity: 0.4,
+            duration: 50.0, // 10x slower duration
+            stagger: 10.0, // 10x slower stagger
+            ease: "power2.out",
+          },
+          300.0
+        ); // Gradients appear mid-zoom animation (10x slower timing)
+      }
+
+      // Add resize listener for responsive updates
+      window.addEventListener("resize", handleResize);
+    };
+
+    // Start initialization with a small delay to ensure DOM is ready
+    setTimeout(initializeAnimation, 50);
 
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -553,7 +589,7 @@ export function usePhoneZoom(containerRef) {
       scrollTriggerRef.current?.kill();
       timelineRef.current?.kill();
     };
-  }, [containerRef, setupPhoneZoom, handleResize]);
+  }, [containerRef, setupPhoneZoom, handleResize, isClient]);
 
   return {
     timeline: timelineRef.current,
