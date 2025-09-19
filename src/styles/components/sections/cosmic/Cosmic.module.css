@@ -396,12 +396,12 @@
     margin-top: 1em;
   }
 
-  /* Make the circle less curved on mobile but still full screen */
+  /* Make the arc much less curved on mobile */
   .cosmicArcCircle {
-    border-top-left-radius: 60%;
-    border-top-right-radius: 60%;
-    height: 100vh; /* Full screen on mobile too */
-    width: 120vw; /* Ensure full coverage */
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    height: 90vh;
+    width: 150vw;
   }
 }
 
