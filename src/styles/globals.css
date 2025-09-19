@@ -1,0 +1,48 @@
+@import url("https://fonts.googleapis.com/css2?family=Figtree:wght@500;600;700&display=swap")
+layer(fonts);
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400&display=swap")
+layer(fonts);
+@import url("https://fonts.googleapis.com/css2?family=Figtr&display=swap")
+layer(fonts);
+
+@import "./tokens.css";
+@import "./animations/gsap.css";
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  cursor: pointer;
+}
+
+.modal-close {
+  position: absolute;
+  right: 9px;
+  top: 7px;
+  color: #fff;
+  background-color: transparent;
+  border: none;
+}
+
+.modal-content {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  border: 1px solid #222;
+  background: linear-gradient(180deg, #121619 0%, #0c1013 100%);
+  justify-content: center;
+  height: 30vh;
+  width: 30vw;
+}
+
+.modal-title {
+  color: #fff;
+}
+
+.no-scroll {
+  overflow: hidden !important;
+}

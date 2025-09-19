@@ -1,0 +1,64 @@
+.logoContainer {
+  width: 100%;
+  transform: translate3d(0, 0, 0) scale3d(1, 0, 1);
+  transform-origin: bottom center;
+  transition: transform 0.3s ease-out;
+}
+
+.scalingLogoSvg {
+  width: 100%;
+  height: auto;
+  display: block;
+  color: #1e272d;
+}
+
+/* Hide SVG and show alternative image for screens 1200px and below */
+@media (max-width: 1200px) {
+  .scalingLogoSvg {
+    display: none;
+  }
+  .logoContainer img {
+    display: block;
+  }
+  .memorae {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .scalingLogoSvg {
+    display: none;
+  }
+  .logoContainer img {
+    display: block;
+  }
+  .memorae {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
+}
+
+/* Show SVG and hide alternative image for screens above 1200px */
+@media (min-width: 1201px) {
+  .scalingLogoSvg {
+    display: block;
+  }
+  .logoContainer img {
+    display: none;
+  }
+  .memorae {
+    display: none;
+  }
+}
+
+@media (min-width: 1800px) {
+  .logoContainer {
+    display: flex;
+    justify-content: center;
+  }
+}

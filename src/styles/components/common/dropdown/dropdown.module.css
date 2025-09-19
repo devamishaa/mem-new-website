@@ -1,0 +1,328 @@
+/* CSS Variables moved to tokens.css - using direct color value */
+
+/* Dropdown Container */
+.dropdown {
+  position: fixed;
+  z-index: var(--z-dropdown);
+  min-width: 290px;
+  border-radius: 32px;
+  overflow: hidden;
+  padding: 16px;
+  /* Glass effect to match navbar */
+  background-color: #ffffff33;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  -webkit-backdrop-filter: blur(1rem) saturate(120%);
+  backdrop-filter: blur(1rem) saturate(120%);
+  background-clip: padding-box;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  isolation: isolate;
+
+  animation: fadeIn 200ms ease-out;
+  transform-origin: center top;
+}
+
+/* Light theme styles */
+.light {
+  background-color: rgba(254, 254, 254, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.light::after {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.6),
+    rgba(255, 255, 255, 0) 42%
+  );
+}
+
+/* Dark theme styles */
+.dark {
+  background-color: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.dark::after {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0) 42%
+  );
+}
+
+/* Theme-specific text colors */
+.light .item {
+  color: #01214f;
+}
+
+.light .item:hover {
+  color: #557bf4;
+}
+
+.light .item.disabled {
+  color: #01214f;
+}
+
+.dark .item {
+  color: #ffffff;
+}
+
+.dark .item:hover {
+  color: #557bf4;
+}
+
+.dark .item.disabled {
+  color: #ffffff;
+}
+
+.inline {
+  position: static;
+  min-width: 100%;
+  width: 100%;
+  transition: max-height 260ms cubic-bezier(0.2, 0.6, 0, 0.9),
+    padding 220ms ease;
+}
+
+/* soft top overlay like navbar */
+.dropdown::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.35),
+    rgba(255, 255, 255, 0) 42%
+  );
+  mix-blend-mode: overlay;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.item {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 200ms ease;
+  width: 206px;
+  color: #01214f;
+  background: transparent;
+  text-align: left;
+}
+
+.item:hover {
+  background-color: rgba(85, 123, 244, 0.1);
+  color: #557bf4;
+  width: auto;
+  /* Expose color tokens for inline SVGs that honor CSS vars */
+  --svg-primary: var(--dropdown-item-fg-hover);
+  --svg-secondary: var(--dropdown-item-fg-hover);
+  --svg-stroke: var(--dropdown-item-fg-hover);
+}
+
+.highlighted {
+  background-color: rgba(85, 123, 244, 0.1);
+  border-radius: 12px;
+}
+
+.highlighted:hover {
+  background-color: rgba(85, 123, 244, 0.15);
+}
+
+.iconContainer {
+  position: relative;
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
+}
+
+.icon {
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 15px;
+  height: 15px;
+  /* Let icons that use currentColor tint on hover */
+  color: currentColor;
+}
+
+/* Blur fallback */
+@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+  .dropdown {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* Fallback tint for <image> based icons (temporary approximation) */
+.item:hover .icon image {
+  filter: brightness(0) saturate(100%) invert(38%) sepia(63%) saturate(1816%)
+    hue-rotate(202deg) brightness(96%) contrast(96%);
+}
+
+.label {
+  font-family: "Figtree-Medium", Helvetica;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+  color: inherit;
+}
+
+/* Disabled link styling to match desktop */
+.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.item.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.item.disabled:hover {
+  background-color: transparent;
+  color: #01214f;
+}
+
+/* CTA button styling to match desktop */
+.ctaItem {
+  background-color: #1ea952;
+  color: #ffffff;
+  border-radius: 41.94px;
+  padding: 10px 20px;
+  margin-top: 8px;
+  font-weight: 600;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.ctaItem:hover {
+  background-color: #178a43;
+  color: #ffffff;
+}
+
+.ctaItem .icon {
+  filter: brightness(0) invert(1); /* Make icon white */
+}
+
+.ctaItem:hover .icon {
+  filter: brightness(0) invert(1); /* Keep icon white on hover */
+}
+
+/* Nested dropdown styles */
+.nestedContainer {
+  width: 100%;
+}
+
+.nestedTrigger {
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  text-align: left;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  gap: 8px;
+}
+
+.nestedTrigger:focus {
+  outline: 2px solid #557bf4;
+  outline-offset: 2px;
+}
+
+.nestedDropdown {
+  overflow: hidden;
+  transition: all 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 4px;
+}
+
+.nestedItem {
+  width: 100%;
+}
+
+.chevronIcon {
+  transition: transform 200ms ease;
+  flex-shrink: 0;
+}
+
+.chevronUp {
+  transform: rotate(180deg);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale3d(0.95, 0.95, 1);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale3d(1, 1, 1);
+  }
+}
+
+/* Mobile specific styling */
+.mobile {
+  position: fixed !important; /* needed to override base dropdown positioning */
+  top: calc(100px) !important; /* needed to override base positioning */
+  left: 20px !important; /* needed to override base positioning */
+  right: 20px !important; /* needed to override base positioning */
+  min-width: auto;
+  overflow-y: auto;
+  width: auto;
+  transform: none !important; /* needed to override base transform */
+}
+
+.mobile .item {
+  width: 100%;
+  padding: 16px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.mobile .item:not(.ctaItem) .iconContainer {
+  display: none;
+}
+
+.mobile .ctaItem {
+  width: 100%;
+  align-self: stretch;
+  margin: 8px 0 0 0;
+  padding: 10px 16px;
+}
+
+.mobile .nestedItem {
+  width: 100%;
+}
+
+/* Responsive Design Fallback - only for cases where .mobile class isn't applied */
+@media (max-width: 768px) {
+  .dropdown:not(.mobile) {
+    position: fixed !important;
+    top: calc(120px + 16px) !important;
+    left: 16px !important;
+    right: 16px !important;
+    min-width: auto;
+    overflow-y: auto;
+    width: auto;
+    transform: none !important;
+  }
+}

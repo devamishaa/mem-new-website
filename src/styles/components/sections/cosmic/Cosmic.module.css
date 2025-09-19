@@ -1,0 +1,489 @@
+/* Cosmic.module.css - Following project architecture */
+
+/* Main container - Optimized for scroll performance */
+.cosmicContainer {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #0a0a0a, #1a1a2e, #16213e, #0f3460);
+  color: white;
+  contain: layout style paint;
+  will-change: background;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Stars layer - Performance optimized */
+.cosmicStarsLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  contain: layout style;
+  will-change: contents;
+  transform: translateZ(0);
+}
+
+.cosmicStar {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: white;
+  animation: gentleStarTwinkle 2s infinite ease-in-out alternate; /* Original speed */
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.star {
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  filter: drop-shadow(0 0 2px white);
+  animation: twinkle 2s infinite ease-in-out alternate;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Shooting stars */
+.shootingStar {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1),
+    0 0 0 8px rgba(255, 255, 255, 0.1), 0 0 20px rgba(255, 255, 255, 0.1);
+  animation: animate 13s linear infinite;
+}
+
+.shootingStar::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 300px;
+  height: 1px;
+  background: linear-gradient(90deg, #fff, transparent);
+}
+
+.shootingStar:nth-child(1) {
+  top: 0;
+  right: 0;
+  left: initial;
+  animation-delay: 0s;
+  animation-duration: 2s;
+}
+
+.shootingStar:nth-child(2) {
+  top: 0;
+  right: 80px;
+  left: initial;
+  animation-delay: 0.2s;
+  animation-duration: 6s;
+}
+
+.shootingStar:nth-child(3) {
+  top: 80px;
+  right: 0px;
+  left: initial;
+  animation-delay: 0.4s;
+  animation-duration: 4s;
+}
+
+.shootingStar:nth-child(4) {
+  top: 0;
+  right: 180px;
+  left: initial;
+  animation-delay: 0.6s;
+  animation-duration: 3s;
+}
+
+.shootingStar:nth-child(5) {
+  top: 0;
+  right: 400px;
+  left: initial;
+  animation-delay: 0.8s;
+  animation-duration: 5s;
+}
+
+.shootingStar:nth-child(6) {
+  top: 0;
+  right: 600px;
+  left: initial;
+  animation-delay: 1s;
+  animation-duration: 6s;
+}
+
+.shootingStar:nth-child(7) {
+  top: 300px;
+  right: 0px;
+  left: initial;
+  animation-delay: 1.2s;
+  animation-duration: 3.5s;
+}
+
+.shootingStar:nth-child(8) {
+  top: 0px;
+  right: 700px;
+  left: initial;
+  animation-delay: 1.4s;
+  animation-duration: 4.5s;
+}
+
+.shootingStar:nth-child(9) {
+  top: 0px;
+  right: 1000px;
+  left: initial;
+  animation-delay: 0.75s;
+  animation-duration: 7.5s;
+}
+
+/* Horizon stars */
+.horizonStar {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  contain: layout style;
+}
+
+/* Arc container - Full screen coverage */
+.cosmicArcContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 177vh;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.cosmicArcCircle {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120vw; /* Wider than viewport to ensure full coverage */
+  height: 100vh; /* Full viewport height */
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+  background: #090d10;
+  box-shadow: 0 -50px 100px -40px #ff9cd9,
+    0 -20px 60px -20px rgba(255, 102, 196, 0.5),
+    0 -10px 30px -10px rgba(2, 1, 1, 0.3);
+  z-index: 2;
+  animation: shadowShift 6s ease-in-out infinite alternate;
+}
+
+/* Content - Optimized for animations */
+.cosmicContent {
+  position: relative;
+  z-index: 3;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  contain: layout style;
+  will-change: contents;
+}
+
+.imageContainer {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  animation: bounce 4s infinite;
+}
+
+.glowText {
+  font-size: 4rem;
+  font-weight: bold;
+  color: white;
+  animation: subtleGlow 3s infinite alternate; /* Original speed */
+  margin-right: 2em;
+  will-change: text-shadow;
+  font-family: "Figtree", sans-serif;
+  transform: translateZ(0);
+}
+
+.glowTextTwo {
+  font-size: 4rem;
+  font-weight: bold;
+  color: white;
+  animation: subtleGlow 3s infinite alternate; /* Original speed */
+  margin-left: 2em;
+  will-change: text-shadow;
+  font-family: "Figtree", sans-serif;
+  transform: translateZ(0);
+}
+
+.glowTextThree {
+  font-size: 1.5em;
+  text-align: center;
+  line-height: 1.4;
+  margin-bottom: -4em;
+  font-family: "Figtree", sans-serif;
+  color: white;
+  will-change: transform, opacity;
+}
+
+.titleContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.orbFloating {
+  animation: floatAnimation 4s infinite alternate;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  contain: layout style;
+}
+
+/* Keyframe animations */
+@keyframes twinkle {
+  0% {
+    opacity: 0.3;
+    transform: scale3d(1, 1, 1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale3d(1.5, 1.5, 1);
+  }
+}
+
+@keyframes animate {
+  0% {
+    transform: rotate(315deg) translateX(0);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(315deg) translateX(-1000px);
+    opacity: 0;
+  }
+}
+
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5),
+      0 0 10px rgba(255, 255, 255, 0.5), 0 0 15px rgba(255, 255, 255, 0.5),
+      0 0 20px rgba(255, 102, 196, 0.5), 0 0 30px rgba(255, 102, 196, 0.5);
+  }
+  100% {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+      0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.8),
+      0 0 40px rgba(255, 102, 196, 0.8), 0 0 60px rgba(255, 102, 196, 0.8);
+  }
+}
+
+@keyframes gentleFloat {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes floatAnimation {
+  0% {
+    transform: translateY(0) scale3d(1, 1, 1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-30px) scale3d(1.1, 1.1, 1);
+    opacity: 0.9;
+  }
+}
+
+@keyframes gentleStarTwinkle {
+  0% {
+    opacity: 0.3;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale3d(1.2, 1.2, 1);
+  }
+}
+
+@keyframes subtleGlow {
+  0% {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.15),
+      0 0 20px rgba(255, 255, 255, 0.1);
+  }
+  100% {
+    text-shadow: 0 0 16px rgba(255, 255, 255, 0.25),
+      0 0 28px rgba(255, 255, 255, 0.15);
+  }
+}
+
+@keyframes shadowShift {
+  0% {
+    box-shadow: 0 -50px 100px -40px #ff9cd9,
+      0 -20px 60px -20px rgba(255, 156, 217, 0.5),
+      0 -10px 30px -10px rgba(255, 156, 217, 0.3);
+  }
+  25% {
+    box-shadow: 0 -50px 100px -40px #e91e63,
+      0 -20px 60px -20px rgba(233, 30, 99, 0.5),
+      0 -10px 30px -10px rgba(233, 30, 99, 0.3);
+  }
+  50% {
+    box-shadow: 0 -50px 100px -40px #c2185b,
+      0 -20px 60px -20px rgba(194, 24, 91, 0.5),
+      0 -10px 30px -10px rgba(194, 24, 91, 0.3);
+  }
+  75% {
+    box-shadow: 0 -50px 100px -40px #9c27b0,
+      0 -20px 60px -20px rgba(156, 39, 176, 0.5),
+      0 -10px 30px -10px rgba(156, 39, 176, 0.3);
+  }
+  100% {
+    box-shadow: 0 -50px 100px -40px #673ab7,
+      0 -20px 60px -20px rgba(103, 58, 183, 0.5),
+      0 -10px 30px -10px rgba(103, 58, 183, 0.3);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+  .cosmicContent {
+    margin-bottom: 2em;
+    padding: 1em;
+    margin-top: 2em;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .glowText,
+  .glowTextTwo {
+    font-size: 3.5em;
+    margin: 0;
+  }
+
+  .glowTextThree {
+    font-size: 20px;
+    margin-bottom: 0;
+  }
+
+  .imageContainer {
+    order: -1; /* Put image at the very top */
+    margin-bottom: 2rem;
+    margin-top: 1em;
+  }
+
+  /* Make the circle less curved on mobile but still full screen */
+  .cosmicArcCircle {
+    border-top-left-radius: 60%;
+    border-top-right-radius: 60%;
+    height: 100vh; /* Full screen on mobile too */
+    width: 120vw; /* Ensure full coverage */
+  }
+}
+
+/* Tablet styles - keep desktop layout */
+@media (min-width: 601px) and (max-width: 1023px) {
+  .cosmicContent {
+    margin-bottom: 2em;
+    padding: 1em;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .glowText,
+  .glowTextTwo {
+    font-size: 4.5em;
+    margin: 0;
+  }
+
+  .glowTextThree {
+    font-size: 24px;
+  }
+
+  .imageContainer {
+    order: -1; /* Put image at the top on tablets too */
+    margin-bottom: 2rem;
+    margin-top: 1em;
+  }
+
+  /* Make the circle more curved on tablets but still full screen */
+  .cosmicArcCircle {
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    height: 100vh; /* Full screen on tablets */
+    width: 120vw; /* Ensure full coverage */
+  }
+}
+
+@media (min-width: 800px) and (max-width: 1199px) {
+  .cosmicContent {
+    margin-bottom: 2em;
+    padding: 1em;
+  }
+
+  .glowText,
+  .glowTextTwo {
+    font-size: 4.5em;
+    margin: 0;
+  }
+
+  .glowTextThree {
+    font-size: 24px;
+  }
+
+  .imageContainer {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .cosmicArcCircle {
+    box-shadow: 0 -50px 100px -40px #ff9cd9,
+      0 -20px 60px -20px rgba(255, 102, 196, 0.5),
+      0 -10px 30px -10px rgba(2, 1, 1, 0.3);
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    height: 100vh; /* Full screen on desktop */
+    width: 120vw; /* Ensure full coverage */
+  }
+
+  .glowText,
+  .glowTextTwo {
+    font-size: 5.4rem;
+  }
+
+  .glowTextThree {
+    font-size: 1.5em;
+    margin-top: 1em;
+  }
+
+  .imageContainer {
+    position: absolute;
+    right: 25%;
+    top: 15%;
+  }
+}

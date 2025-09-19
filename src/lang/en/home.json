@@ -1,0 +1,463 @@
+{
+  "hero": {
+    "title": "Your second head, on WhatsApp",
+    "subtitle1": "Because living on the brink of collapse shouldn't be normal.",
+    "subtitle2": "And forgetting everything... either.",
+    "primaryCta": "Try for Free",
+    "secondaryCta": "Explore superpowers",
+    "security": "WhatsApp End-to-End Encrypted",
+    "uptime": "99.9% Uptime",
+    "support": "24/7 Support",
+    "cards": {
+      "reminder": {
+        "heading": "REMINDER",
+        "title": "Call the dentist and book an appointment",
+        "date": "Monday, 26",
+        "time": "8:00 AM"
+      },
+      "meeting": {
+        "heading": "MEETING",
+        "title": "Meeting with new client",
+        "date": "Tuesday, 27",
+        "time": "9:00 AM"
+      },
+      "lists": {
+        "heading": "LISTS",
+        "title": "Your pending tasks:",
+        "items": ["Walk Paco 🐶", "Do the grocery shopping", "Send quote"]
+      }
+    },
+    "phoneZoomText": {
+      "line1": "You're not becoming a mess:",
+      "line2": "you're trying to do everything by yourself."
+    },
+    "notifications": {
+      "whatsapp": {
+        "appName": "WhatsApp",
+        "message": "Memorae message",
+        "time": "34m ago"
+      },
+      "memoraeMeeting": {
+        "appName": "Memorae",
+        "message": "Reminder: Meeting at 3pm",
+        "time": "1h ago"
+      },
+      "calendar": {
+        "appName": "Calendar",
+        "message": "Event scheduled for tomorrow",
+        "time": "2h ago"
+      },
+      "memoraeTask": {
+        "appName": "Memorae",
+        "message": "New voice note saved",
+        "time": "3h ago"
+      }
+    }
+  },
+  "marquee": {
+    "lead": "You’re not making a mess of yourself: you’re trying to do it all yourself.",
+    "items": [
+      "No more post-its on the rear-view mirror",
+      "No more mental lists",
+      "No more napkin reminders",
+      "No more nameless alarms",
+      "No more dead plants",
+      "No more forgotten appointments",
+      "No more past deliveries"
+    ]
+  },
+  "features": {
+    "title": "Why choose",
+    "subtitle": "Designed to make your life easier with intelligent WhatsApp reminders, one message at a time.",
+    "exploreMore": "Explore More Features",
+    "items": {
+      "whatsappReminder": {
+        "title": "Unlimited automatic reminders",
+        "description": "One-off or recurring. Weekly, monthly, with excuses or without mercy. Whatever, whenever — as many times as needed."
+      },
+      "calendarSync": {
+        "title": "All your calendars in a single chat",
+        "description": "Google, Outlook, Apple. Your appointments, events and tasks connected so nothing slips through."
+      },
+      "voiceNotes": {
+        "title": "Unlimited voice notes → tasks",
+        "description": "Your voice is enough. Memorae listens, transcribes and organizes what you say."
+      },
+      "naturalLanguage": {
+        "title": "Natural-language AI",
+        "description": "Ask in WhatsApp and get thoughtful answers powered by integrated ChatGPT and DeepSeek."
+      },
+      "imageProcessing": {
+        "title": "From photo to reminder",
+        "description": "Snap a whiteboard, post-it or scribble. If you can read it, Memorae can too."
+      },
+      "recurring": {
+        "title": "Recurring events",
+        "description": "Daily, weekly or monthly reminders with zero friction."
+      }
+    }
+  },
+  "howItWorks": {
+    "title": "As simple as sending a",
+    "titleHighlight": "message",
+    "steps": {
+      "addWhatsapp": {
+        "title": "Add to WhatsApp",
+        "description": "Add our number and start chatting — no apps to download."
+      },
+      "chat": {
+        "title": "Chat naturally",
+        "description": "Tell us about your events just like you’d tell a friend."
+      },
+      "updates": {
+        "title": "Stay updated",
+        "description": "Get smart reminders at the perfect time, every time."
+      }
+    },
+    "aiPowered": {
+      "title": "AI-Powered",
+      "subtitle": "Always learning"
+    },
+    "cta": "Get Started Now"
+  },
+  "pricing": {
+    "header": "Compare plans",
+    "billingCycle": "Billing Cycle",
+    "interval": {
+      "monthly": "Monthly",
+      "annual": "Annual",
+      "discount": "-40%",
+      "perMonth": "/month"
+    },
+    "annually": "12 months for",
+    "lifetimeSavings": "Save more than {{amount}} in 5 years compared to monthly subscription",
+    "guarantee": "14 risk-free days: 7 free + 7 with money-back guarantee.",
+    "planPrefix": "Memorae",
+    "unlockWithPlan": "Everything you can unlock with the",
+    "selectPlanFeatures": "Select a plan to see features",
+    "refundGuaranteeTitle": "100% Money-Back Guarantee:",
+    "refundGuaranteeDescription": "Try Memorae risk-free for 7 days. If it's not for you, we'll give you your money back, no questions asked.",
+    "plans": {
+      "pro": {
+        "name": "Pro",
+        "badge": "5 MONTHS FREE",
+        "cta": {
+          "viewDemo": "View Pro demo",
+          "try": "Try for Free"
+        },
+        "features": {
+          "floatingReminders": "Unlimited unique reminders",
+          "remainVisible": "Create unlimited reminders so you never miss anything important. Organize your day your way.",
+          "unlimitedReminders": "Unlimited recurring reminders",
+          "createManageReminders": "Set up daily, weekly, or custom reminders for your routines and commitments.",
+          "support50Languages": "Support 100+ Languages",
+          "interfaceAvailable": "Interface available in multiple languages",
+          "calendarSync": "Calendar Sync",
+          "calendarDescription": "Sync with Google, Outlook & Apple Calendar",
+          "voiceNotes": "Unlimited voice notes",
+          "voiceDescription": "Talk to Memorae via WhatsApp and convert your voice into tasks, reminders, and organized notes automatically.",
+          "imageAnalysis": "Image Analysis",
+          "imageDescription": "Extract text from photos & documents",
+          "multiCalendarSync": "Multi-Calendar Sync",
+          "multiCalendarDescription": "Sync your reminders and notes with all your calendars from WhatsApp.",
+          "supportedLanguages": "Support in 100+ languages",
+          "supportedLanguagesDescription": "Interact and receive reminders in your preferred language, without border limits.",
+          "languagesDescription": "Available in 50+ languages worldwide",
+          "mirrorMode": "Custom lists",
+          "mirrorDescription": "Create and organize your task lists, shopping lists, and notes without limits.",
+          "dashboard": "Advanced Dashboard",
+          "dashboardDescription": "Clearly visualize your reminders, notes, and statistics in one place.",
+          "search": "Unlimited Internet Search",
+          "searchDescription": "Perform unlimited internet searches to find the information you need.",
+          "premiumSupport": "Premium Support",
+          "supportDescription": "Priority 24/7 customer support"
+        }
+      },
+      "supernova": {
+        "name": "Supernova",
+        "badge": "5 MONTHS FREE",
+        "mostPopular": "Most Popular",
+        "cta": {
+          "viewDemo": "View Supernova Plan demo",
+          "try": "Try for Free"
+        },
+        "features": {
+          "floatingReminders": "Unlimited unique reminders",
+          "remainVisible": "Create unlimited reminders so you never miss anything important. Organize your day your way.",
+          "unlimitedReminders": "Unlimited recurring reminders",
+          "createManageReminders": "Set up daily, weekly, or custom reminders for your routines and commitments.",
+          "supportedLanguages": "Support in 100+ languages",
+          "supportedLanguagesDescription": "Interact and receive reminders in your preferred language, without border limits.",
+          "voiceNotes": "Unlimited voice notes",
+          "voiceDescription": "Talk to Memorae via WhatsApp and convert your voice into tasks, reminders, and organized notes automatically.",
+          "multiCalendarSync": "Multi-Calendar Sync",
+          "multiCalendarDescription": "Sync your reminders and notes with all your calendars from WhatsApp.",
+          "mirrorMode": "Custom lists",
+          "mirrorDescription": "Create and organize your task lists, shopping lists, and notes without limits."
+        }
+      },
+      "lifetime": {
+        "name": "Lifetime",
+        "badge": "ONE-TIME PAYMENT",
+        "cta": {
+          "viewDemo": "View Lifetime demo",
+          "try": "Try for Free"
+        },
+        "features": {
+          "floatingReminders": "Unlimited unique reminders",
+          "remainVisible": "Create unlimited reminders so you never miss anything important. Organize your day your way.",
+          "unlimitedReminders": "Unlimited recurring reminders",
+          "createManageReminders": "Set up daily, weekly, or custom reminders for your routines and commitments.",
+          "supportedLanguages": "Support in 100+ languages",
+          "supportedLanguagesDescription": "Interact and receive reminders in your preferred language, without border limits.",
+          "voiceNotes": "Unlimited voice notes",
+          "voiceDescription": "Talk to Memorae via WhatsApp and convert your voice into tasks, reminders, and organized notes automatically.",
+          "multiCalendarSync": "Multi-Calendar Sync",
+          "multiCalendarDescription": "Sync your reminders and notes with all your calendars from WhatsApp.",
+         "mirrorMode": "Custom lists",
+          "mirrorDescription": "Create and organize your task lists, shopping lists, and notes without limits.",
+          "dashboard": "Advanced Dashboard",
+          "dashboardDescription": "Clearly visualize your reminders, notes, and statistics in one place.",
+          "chatGptIntegrated": "Integrated ChatGPT",
+          "aiAssistantDescription": "Get instant answers to your questions and personalized assistance.",
+          "imageAnalysis": "Image Analysis",
+          "imageDescription": "Analyze images and documents to extract valuable information and maintain your focus.",
+          "search": "Unlimited Internet Search",
+          "searchDescription": "Perform unlimited internet searches to find the information you need.",
+          "premiumSupport": "Premium Support",
+          "premiumSupportDescription": "Receive personalized attention and 24/7 technical support for any issue.",
+          "recurringPayments": "No subscriptions or recurring payments",
+          "recurringPaymentsDescription": "One payment and lifetime access. No automatic renewals, no surprises, no worries.",
+          "guaranteedAccess": "Guaranteed Access to Future Features",
+          "guaranteedAccessDescription": "All new features and improvements we launch will be yours automatically, at no additional cost.",
+         "lifetimeAccess": "Priority for new feature requests",
+          "lifetimeDescription": "Your voice has priority. Lifetime user feature suggestions are considered first in our development."
+          }
+      }
+    }
+  },
+
+  "compare": {
+    "title": "Goodbye stress",
+    "subtitle": "With Memorae vs. without Memorae",
+    "readyText": "Ready to simplify?",
+    "description": "One WhatsApp chat versus a thousand scattered options. It’s that easy.",
+    "headers": {
+      "features": "Features",
+      "withMemorae": "Memorae",
+      "withoutMemorae": "Without Memorae"
+    },
+    "showMore": "See more"
+  },
+  "comparePlan": {
+    "table": {
+      "headerFeature": "Feature",
+      "headerPro": "Pro",
+      "headerSupernova": "Supernova",
+      "headerSupernovaLifetime": "Supernova Lifetime",
+      "features": [
+        "Unlimited unique reminders",
+        "Unlimited recurring reminders",
+        "Support in 100+ languages",
+        "Unlimited voice notes",
+        "Multi-calendar sync",
+        "Create and add custom lists",
+        "Advanced dashboard",
+        "Integrated ChatGPT (unlimited)",
+        "Unlimited image analysis",
+        "Unlimited Internet search",
+        "Premium support",
+        "No subscriptions or recurring payments",
+        "Priority Premium Support",
+        "Guaranteed access to future features",
+        "Priority on new feature requests"
+      ]
+    }
+  },
+  "wordScroll": {
+    "mobile": {
+      "line1": "Memorae is not here to make you perfect",
+      "line2": "It’s here to make you feel that, despite",
+      "line3": "everything, you’re doing well."
+    },
+    "desktop": {
+      "line1": "Memorae is not here to make you perfect. It’s here to",
+      "line2": "make you feel that, despite everything, you’re doing well."
+    }
+  },
+  "callToAction": {
+    "aiPowered": "AI-Powered WhatsApp Assistant",
+    "title": "Ready to transform your reminders with",
+    "subtitle": "Join thousands of users who trust our WhatsApp-first platform to keep track of what matters.",
+    "cta": "Start Chatting Now",
+    "trialText": "No credit card required • 14-day free trial"
+  },
+  "whatsappCTA": {
+    "title": {
+      "desktop": "Write me on WhatsApp and I’ll start organizing your life",
+      "mobile": "Ping me on WhatsApp"
+    },
+    "button": {
+      "desktop": "Chat on WhatsApp",
+      "mobile": "Chat now"
+    }
+  },
+  "footer": {
+    "tagline": "Your only Memorae remembers for you",
+    "copyright": "© 2024 Genera Capital SLU. All rights reserved.",
+    "links": {
+      "privacy": "Privacy Policy",
+      "terms": "Terms & Conditions",
+      "cookies": "Cookie Settings"
+    }
+  },
+  "emotions": {
+    "slide1": "No more post-its on the rearview mirror",
+    "slide2": "No more mental lists",
+    "slide3": "No more reminders on napkins",
+    "slide4": "No more nameless alarms",
+    "slide5": "No more missed appointments",
+    "slide6": "No more late deliveries",
+    "slide7": "No more dead plants"
+  },
+  "cosmic": {
+    "title": "Your chaos",
+    "subtitle": "Your plan",
+    "description": "You mess up you plan Choose how you want Memorae to help you stay sane.’"
+  },
+  "superpowers": {
+    "title": "Superpowers for people who can't keep up with everything",
+    "ctaLabel": "Explore superpowers",
+    "slides": {
+      "reminders": {
+        "title": "Unlimited automatic reminders",
+        "description": "One-time or recurring. Weekly, monthly, with excuses or relentless. For anything, anytime, as many times as needed.",
+        "dotTitle": "Reminders",
+        "messages": {
+          "sender": "Memorae, remind me tomorrow at 8 a.m. that I have to take my medication",
+          "receiver": "I've created your reminder for tomorrow at 8 a.m. so you don't forget your medication. Don't forget to dedicate that moment to taking care of yourself!🧘"
+        }
+      },
+      "calendars": {
+        "title": "All your calendars in one chat",
+        "description": "Google, Outlook. Your appointments, events and tasks connected. So nothing escapes you. Even if you try.",
+        "dotTitle": "Calendars",
+        "messages": {
+          "sender": "Memorae, cancel any events scheduled from Thursday at 6:00 PM in all my calendars.",
+          "receiver": "I've canceled all events scheduled after Thursday at 6:00 PM in all your calendars."
+        }
+      },
+      "focus": {
+        "title": "Lists that don't get lost",
+        "description": "Tasks, errands, ideas or whatever. You can dictate them, write them or just drop them. No matter how you do it, your list gets saved.",
+        "dotTitle": "Lists",
+        "messages": {
+          "sender": "Memorae, add Stranger Things to my list of series I want to watch!",
+          "receiver": "I've added \"Stranger Things\" to your list of series you want to watch."
+        }
+      },
+      "insights": {
+        "title": "Voice notes that become tasks",
+        "description": "Your voice is enough. Memorae listens, transcribes and organizes what you say. That easy.",
+        "dotTitle": "Insights",
+        "messages": {
+          "receiver": "You've sent 1,245 messages this month. Keep it up! 📈"
+        }
+      },
+      "listas": {
+        "title": "From photo to reminder",
+        "description": "Take a photo of what you want to remember. A whiteboard, a post-it, a scribbled sheet. If you understand it, Memorae does too.",
+        "dotTitle": "Notes",
+        "messages": {
+          "sender": "What other ideas do you give me?",
+          "receiver": "I've created a note titled 'Blog Ideas' and added 'Write about productivity and time management' to the note."
+        }
+      },
+      "integracion": {
+        "title": "Smart searches, without leaving WhatsApp",
+        "description": "Questions? Data? Ideas? Ask it on WhatsApp. Get thoughtful answers, thanks to integrated ChatGPT and DeepSeek.",
+        "dotTitle": "Integration",
+        "messages": {
+          "sender": "I'm going to Lisbon this weekend, what's the weather going to be like?",
+          "receiver": "For the weekend of August 9-10, 2025 in Lisbon, mostly sunny and warm weather is expected.☀️"
+        }
+      }
+    }
+  },
+  "testimonials": {
+    "label": "+20k people",
+    "tagline": "have forgotten to forget",
+    "testimonials": [
+ 
+      {
+        "id": 2,
+        "badge": "STUDENT",
+        "stars": 5,
+        "text": "I use it every day, though sometimes I forget I asked it to remind me and when it alerts me it saves my life. Supernova plan is the best, plus I save on ChatGPT",
+        "username": "@carla.ramiro.h"
+      },
+      {
+        "id": 3,
+        "badge": "PARENT",
+        "stars": 5,
+        "text": "If Memorae didn't remind me of the thousand things I have to do every day, my kids would go to school without backpacks, without food, and probably without me.",
+        "username": "@lluis_mas"
+      },
+      {
+        "id": 10,
+        "badge": "PROFESSIONAL",
+        "stars": 4.5,
+        "text": "I work odd shifts, zero desire to open the calendar. I talk to Memorae and my life stays in order. Sometimes I explain too much and it gets confused but oh well, just like me.",
+        "username": "@maria.cardoso"
+      },
+      {
+        "id": 6,
+        "badge": "PARENT",
+        "stars": 4.5,
+        "text": "I didn't think I'd use it so much, but now I have it for everything. 'Remind me to buy diapers on Thursday', 'add milk to the list', 'delete the dentist appointment'. It's awesome that it's a WhatsApp contact",
+        "username": "@sofia_nader51"
+      },
+      {
+        "id": 7,
+        "badge": "PROFESSIONAL",
+        "stars": 5,
+        "text": "I use it for meeting reminders and quick notes without having to open apps. I didn't know I needed this until I tried it",
+        "username": "@wan_nich"
+      },
+      {
+        "id": 5,
+        "badge": "STUDENT",
+        "stars": 5,
+        "text": "I use it to remember university stuff and also for silly things like 'remind me to watch that series they recommended'. What I use most... Google Calendar integration (amazing)",
+        "username": "@p.depablo44"
+      },
+      {
+        "id": 8,
+        "badge": "PARENT",
+        "stars": 5,
+        "text": "My wife and I use it for everything. If it ever disappears, we disappear with it. No joke.",
+        "username": "@c.cardona.atletico"
+      },
+      {
+        "id": 9,
+        "badge": "PROFESSIONAL",
+        "stars": 5,
+        "text": "If it weren't for Memorae, I would have forgotten half of my meetings this month. My boss thinks I'm organized. Literally feel like a fraud, but an efficient one.",
+        "username": "@markus_g"
+      },
+     
+      {
+        "id": 11,
+        "badge": "STUDENT",
+        "stars": 4.5,
+        "text": "I always forget everything. Now I only forget to ask Memorae to remind me of more things. But hey, Memorae, besides loving you, you're very cute.",
+        "username": "@s.garcii"
+      }
+    ]
+  },
+  "pills": {
+    "topText": "If your hand doesn't tremble when paying €5 for an 'artisanal' coffee",
+    "bottomText": "why not invest in remembering everything?",
+    "comparePlansButton": "Compare Plans"
+  }
+}

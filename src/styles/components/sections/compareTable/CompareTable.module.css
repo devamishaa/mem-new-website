@@ -1,0 +1,176 @@
+/* CompareTable.module.css */
+.compareTableContainer {
+  background-color: #1a1a1a; /* Dark background */
+  padding: 8px;
+  border-radius: 8px;
+  color: #ffffff; /* White text for contrast */
+  position: relative;
+  overflow: visible; /* Let modal handle scrolling */
+  width: 100%;
+  box-sizing: border-box;
+  font-family: "Figtree", sans-serif;
+}
+
+.tableScrollWrapper {
+  overflow-x: auto;
+  width: 100%;
+  /* Add scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: #666 #1a1a1a;
+}
+
+/* Webkit scrollbar styling */
+.tableScrollWrapper::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.tableScrollWrapper::-webkit-scrollbar-track {
+  background: #1a1a1a;
+  border-radius: 4px;
+}
+
+.tableScrollWrapper::-webkit-scrollbar-thumb {
+  background: #666;
+  border-radius: 4px;
+}
+
+.tableScrollWrapper::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+.compareTable th,
+.compareTable td {
+  padding: 12px 8px; /* Reduced horizontal padding for mobile */
+  text-align: left;
+  border-bottom: 1px solid #444; /* Subtle border for dark theme */
+  word-wrap: break-word; /* Allow text to wrap */
+  overflow-wrap: break-word; /* Additional word wrapping support */
+}
+
+.compareTable th {
+  background-color: #333; /* Darker header background */
+  font-weight: bold;
+  color: #ffffff; /* White text for headers */
+}
+
+.compareTable td {
+  color: #d1d1d1; /* Light gray text for body */
+}
+
+/* Supernova column header */
+.supernovaHeader {
+  background-color: #332833; /* Light purple for Supernova header */
+  color: #1a1a1a; /* Dark text for contrast */
+}
+
+/* Supernova column cells */
+.supernovaHighlight {
+  background-color: #332833; /* Light purple for all Supernova cells */
+}
+
+/* Center checkmarks and dashes */
+.compareTable td img,
+.compareTable td span {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Style for dash icon */
+.compareTable td span {
+  color: #888; /* Gray dash for non-Supernova columns */
+  font-size: 1.2rem;
+}
+
+/* Purple dash for Supernova column */
+.supernovaHighlight span {
+  color: #a78bfa; /* Purple dash for Supernova */
+}
+
+/* Close button */
+.closeBtn {
+  position: absolute;
+  top: 10px;
+  left: 10px; /* Positioned in top-left */
+  background-color: #444; /* Dark gray background for visibility */
+  border: 1px solid #666; /* Subtle border for contrast */
+  border-radius: 4px; /* Rounded corners */
+  cursor: pointer;
+  padding: 8px; /* Larger click area */
+  transition: background-color 0.2s ease; /* Smooth hover transition */
+}
+
+.closeBtn:hover {
+  background-color: #555; /* Lighter gray on hover */
+}
+
+.closeBtn img {
+  filter: invert(1); /* Invert to make cross icon light-colored */
+  width: 24px; /* Larger icon for visibility */
+  height: 24px;
+}
+
+/* Ensure checkmark visibility on purple background */
+.supernovaHighlight img {
+  filter: brightness(1.2); /* Slightly increase brightness for visibility */
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .compareTableContainer {
+    padding: 4px;
+    max-height: 70vh; /* Smaller height on mobile */
+  }
+
+  .compareTable {
+    background-color: #0f0c0c;
+    min-width: 500px; /* Smaller minimum width for mobile */
+    font-size: 14px; /* Smaller font size */
+  }
+
+  .compareTable th,
+  .compareTable td {
+    padding: 8px 6px; /* Even smaller padding on mobile */
+    font-size: 12px; /* Smaller text on mobile */
+  }
+
+  .closeBtn {
+    top: 5px;
+    left: 5px;
+    padding: 6px;
+  }
+
+  .closeBtn img {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .compareTableContainer {
+    max-height: 60vh; /* Even smaller height on very small screens */
+  }
+
+  .compareTable {
+    background-color: #0f0c0c;
+    min-width: 450px; /* Minimum width for very small screens */
+    font-size: 12px;
+  }
+
+  .compareTable th,
+  .compareTable td {
+    padding: 6px 4px; /* Minimal padding */
+    font-size: 11px; /* Very small text */
+  }
+
+  /* Make feature names more compact */
+  .compareTable td:first-child {
+    max-width: 120px; /* Limit width of first column */
+  }
+}
+
+.tbody {
+  overflow: scroll;
+  height: 100px;
+}

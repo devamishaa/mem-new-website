@@ -1,0 +1,110 @@
+/* Animation base styles */
+.landing-page {
+  overflow-x: hidden;
+}
+
+/* Smooth scrolling override for Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* GSAP animation helpers */
+.gsap-fade-in {
+  opacity: 0;
+  transform: translateY(60px);
+}
+
+.gsap-fade-in-left {
+  opacity: 0;
+  transform: translateX(-60px);
+}
+
+.gsap-fade-in-right {
+  opacity: 0;
+  transform: translateX(60px);
+}
+
+.gsap-scale-in {
+  opacity: 0;
+  transform: scale3d(0.8, 0.8, 1);
+}
+
+/* ScrollTrigger helpers */
+.scroll-trigger-element {
+  will-change: transform, opacity;
+}
+
+/* Parallax containers */
+.parallax-container {
+  overflow: hidden;
+}
+
+.parallax-element {
+  will-change: transform;
+}
+
+/* Loading animations */
+.loading-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.loading-spinner::after {
+  content: "";
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f4f6;
+  border-top: 4px solid var(--primary-color, #3b82f6);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* animations/gsap.css (already global in your app) */
+[data-reveal],
+[data-parallax],
+[data-text-reveal] {
+  will-change: transform, opacity;
+}
+
+/* Hide elements before animation starts to prevent flash */
+[data-reveal="scale"] {
+  opacity: 0;
+  transform: scale3d(0.6, 0.6, 1);
+}
+
+[data-text-reveal] {
+  display: inline-block;
+  /* Ensure proper line height for text reveal animation */
+  line-height: 1.1;
+}
+
+/* Navbar specific hiding - preserve positioning */
+header[data-reveal="scale"] {
+  opacity: 0;
+  transform: translateX(-50%) scale3d(0.6, 0.6, 1);
+  transform-origin: center center;
+}

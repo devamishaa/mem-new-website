@@ -1,0 +1,1119 @@
+/* Superpower Section CSS Module */
+.superpowerSection {
+  width: 100%;
+  position: relative;
+  background-color: #061120;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: "Figtree", sans-serif;
+}
+
+.featureDiv {
+  height: 100vh;
+}
+
+/* Emotion Panel (Panel 1) */
+.emotionPanel {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.desktopBackground {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.emotionContent {
+  text-align: center;
+  color: white;
+  position: relative;
+  z-index: 2;
+}
+
+.characterContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 12em;
+}
+
+.speechBubble {
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 12px 24px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  color: #333;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.speechBubble::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 10px 10px 0;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.85) transparent transparent transparent;
+}
+
+.emotionText {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.characterImageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 3;
+}
+
+.characterImage {
+  animation: bounce 3s infinite;
+  max-width: auto;
+  max-height: 100%;
+}
+
+/* Hide character image on screens 1200px and above */
+
+/* Features Panel (Panel 2) */
+.featuresPanel {
+  width: 100%;
+  background-color: #061120;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  overflow: hidden;
+}
+
+/* Left content - fixed position */
+.leftContent {
+  display: flex;
+  flex-direction: column;
+  gap: 72px;
+  min-width: 600px;
+  max-width: 600px;
+  flex-shrink: 0;
+  padding: 4rem;
+  margin-left: 140px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 2rem;
+  backdrop-filter: blur(10px);
+}
+
+.leftTitle {
+  line-height: 1.1;
+  color: #ffffff;
+  font-size: 48px;
+  font-weight: 600;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+/* Cards container */
+.cardsContainer {
+  display: flex;
+  gap: 4rem;
+  /* align-items: center; */
+  padding: 0 2rem;
+  min-width: fit-content;
+}
+
+.cardSlide {
+  flex-shrink: 0;
+  width: 400px;
+}
+
+/* Progress indicator */
+.progressContainer {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  z-index: 100;
+}
+
+.progressBar {
+  height: 100%;
+  background: linear-gradient(90deg, #6c6cff 0%, #ff66a9 100%);
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.1s ease;
+}
+
+.featureCard {
+  position: relative;
+  width: 380px;
+  min-height: 540px;
+  border-radius: 32px;
+  overflow: hidden;
+  padding: 0.5em;
+  /* background: rgba(255, 255, 255, 0.05); */
+  backdrop-filter: blur(10px);
+  flex-shrink: 0;
+}
+
+/* Different border colors for each gradient variant - applied to main card */
+.featureCard.gradientBlue {
+  border-bottom: 2px solid rgba(66, 123, 222, 0.9);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+.featureCard.gradientPurple {
+  border-bottom: 2px solid rgba(148, 108, 245, 0.9);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+.featureCard.gradientGreen {
+  border-bottom: 2px solid rgba(34, 140, 131, 0.9);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+.featureCard.gradientOrange {
+  border-bottom: 2px solid rgba(199, 140, 13, 0.9);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+.featureCard.gradientPink {
+  border-bottom: 2px solid rgba(255, 102, 169, 0.9);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.featureCardBg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 1.5rem;
+  opacity: 1;
+  pointer-events: none;
+  background: radial-gradient(
+      circle at bottom center,
+      #946cf5 0%,
+      #00000001 40%
+    ),
+    radial-gradient(50% 50% at 50% 50%, #427bde 0%, #00000001 100%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.gradientBlue {
+  background: radial-gradient(
+      circle at bottom center,
+      #427bde 0%,
+      #00000001 40%
+    ),
+    radial-gradient(50% 50% at 50% 50%, #00000001 0%, #00000001 100%);
+}
+
+.gradientPurple {
+  background: radial-gradient(
+      circle at bottom center,
+      #946cf5 0%,
+      transparent 40%
+    ),
+    radial-gradient(50% 50% at 50% 50%, #00000001 0%, rgba(52, 84, 99, 0) 100%);
+}
+
+.gradientGreen {
+  background: radial-gradient(
+      circle at bottom center,
+      #228c83 0%,
+      transparent 40%
+    ),
+    radial-gradient(50% 50% at 50% 50%, #00000001 0%, rgba(52, 84, 99, 0) 100%);
+  border-bottom: 2px solid rgba(34, 140, 131, 0.6);
+}
+
+.gradientOrange {
+  background: radial-gradient(
+      circle at bottom center,
+      #c78c0d 0%,
+      transparent 40%
+    ),
+    radial-gradient(50% 50% at 50% 50%, #00000001 0%, rgba(52, 84, 99, 0) 100%);
+  border-bottom: 2px solid rgba(199, 140, 13, 0.6);
+}
+
+.gradientPink {
+  background: radial-gradient(
+      circle at bottom center,
+      #ff66a9 0%,
+      transparent 40%
+    ),
+    radial-gradient(50% 50% at 50% 50%, #00000001 0%, rgba(52, 84, 99, 0) 100%);
+  border-bottom: 2px solid rgba(255, 102, 169, 0.6);
+}
+
+.featureCardDescription {
+  font-size: 18px;
+  line-height: 1.4;
+  color: #999999;
+  font-weight: 400;
+}
+
+.featureCardContent {
+  position: relative;
+  z-index: 10;
+  padding: 20px 20px;
+}
+
+.featureCardTitle {
+  margin-bottom: 16px;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: white;
+}
+
+.featureCardChildren {
+  display: flex;
+  flex-direction: column;
+}
+
+.featureImage {
+  margin-top: 2em;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+.gradientButton {
+  background: linear-gradient(90deg, #6c6cff 0%, #ff66a9 100%);
+  border: none;
+  border-radius: 50px;
+  padding: 12px 24px;
+  color: white;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: none;
+}
+
+.gradientButton:hover {
+  transform: none;
+  box-shadow: none;
+} /* Mobile button - hidden by default, shown only on mobile */
+.mobileBtn {
+  display: none;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .horizontalScrollContainer {
+    padding: 0 2rem;
+    gap: 2rem;
+    margin-top: 13em;
+  }
+  .leftContent {
+    min-width: 400px;
+    max-width: 400px;
+  }
+  .leftTitle {
+    font-size: 36px;
+  }
+  .cardSlide {
+    width: 320px;
+  }
+  .featureCard {
+    width: 300px;
+    min-height: 450px;
+  }
+  /* Hide mobile content on tablets - only show on mobile */
+  .mobileContent {
+    display: none;
+  }
+  .mobileTitle {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .paginationRail {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 2.5em;
+    height: 28px;
+  }
+  .viewPort {
+    height: 50vh;
+  }
+  .mobileBtn {
+    display: flex;
+    justify-content: center;
+    margin-top: 2em;
+    margin-bottom: 2em;
+  }
+  .featureCardDescription {
+    margin-bottom: 2em;
+  }
+  .gradientButton {
+    width: 250px;
+  }
+  .mobileContent {
+    display: block !important;
+  }
+  .mobileTitle {
+    display: block !important;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    /* margin-bottom: 1rem; */
+  }
+  .superpowerSection {
+    min-height: 80vh;
+  }
+
+  .emotionPanel {
+    padding: 2rem 1rem;
+  }
+  .emotionText {
+    font-size: 20px;
+  }
+
+  .characterImage {
+    max-width: 250px;
+    max-height: 150px;
+  }
+
+  .horizontalScrollContainer {
+    flex-direction: row;
+    gap: 1rem;
+    min-height: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 20px 30px;
+  }
+
+  .leftContent {
+    display: none;
+  }
+  .leftTitle {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 0 !important;
+    text-align: left;
+  }
+
+  .cardsContainer {
+    flex-direction: row;
+    gap: 1rem;
+    padding: 0;
+    width: fit-content;
+    height: 62vh;
+  }
+  .cardSlide {
+    width: 100%;
+    max-width: 410px;
+  }
+  .progressContainer {
+    display: none;
+  }
+}
+
+@media (max-width: 680px) {
+  .paginationRail {
+    /* margin-top: -45px; */
+    margin-top: 5em;
+  }
+}
+
+@media (max-width: 480px) {
+  .horizontalScrollContainer {
+    padding: 0 2rem;
+    gap: 2rem;
+    margin-top: 1em;
+  }
+  .paginationRail {
+    /* margin-top: -45px; */
+    margin-top: 4.5em;
+  }
+  .emotionPanel {
+    padding: 1.5rem 1rem;
+  }
+  .emotionText {
+    font-size: 18px;
+  }
+  .speechBubble {
+    padding: 0.8rem 1.2rem;
+    max-width: 320px;
+  }
+  .characterImage {
+    max-width: 200px;
+    max-height: 200px;
+  }
+  .cardSlide {
+    max-width: 300px;
+  }
+  .mobileTitle {
+    font-size: 24px;
+    padding: 10px 25px;
+    padding-bottom: 0;
+    margin-top: 3.7em;
+  }
+}
+
+@media (max-width: 1400px) and (min-width: 769px) {
+  .mobileContent,
+  .mobileTitle {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 1420px) {
+  .mobileContent,
+  .mobileTitle {
+    display: none;
+  }
+  .horizontalScrollViewport {
+    overflow-x: auto;
+    height: 80vh;
+  }
+  .viewPort {
+    height: 90vh;
+    overflow: hidden;
+  }
+  .mobileBtn {
+    display: none;
+  }
+  .horizontalScrollContainer {
+    display: flex;
+    min-height: 100vh;
+    position: absolute;
+    top: 92px;
+    width: fit-content;
+    padding: 0 2rem;
+    gap: 2rem;
+    will-change: transform;
+    margin-top: 5em;
+  }
+  .gradientButton {
+    width: 150px;
+  }
+  /* Only the delta here; base font-size/line-height/color are already set above */
+  .featureCardDescription {
+    margin-bottom: 32px;
+  }
+  .paginationRail {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 16px;
+    margin-bottom: 5em !important;
+    height: 28px;
+    margin-top: 2em;
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.paginationRail {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 21px;
+  height: 28px;
+  margin-top: 3.4em;
+  margin-bottom: 2em;
+} /* dot */
+
+.dotButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: none;
+  transform-origin: center;
+}
+
+.dotButton::before {
+  content: "";
+  position: absolute;
+  width: 38px;
+  height: 40px;
+  top: 50%;
+  left: 50%;
+  /* transform: translate(-50%, -50%); */
+}
+
+.dotLabel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 1;
+  background: rgba(174, 167, 167, 0.3);
+  backdrop-filter: blur(8px);
+  white-space: nowrap;
+  overflow: hidden;
+  opacity: 0; /* hidden by default */
+  color: #fff;
+  transition: none;
+  transform-origin: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* Default collapsed → true circle */
+.dotButton:not(.activeDot) .dotLabel {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  padding: 0;
+  opacity: 1;
+  color: transparent;
+  transform: scale3d(1, 1, 1);
+  background: rgba(174, 167, 167, 0.4);
+  box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+}
+
+/* Active pill with delayed text */
+.activeDot .dotLabel {
+  min-height: 22px;
+  height: auto;
+  padding: 6px 16px;
+  border-radius: 16px;
+  min-width: 90px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0.1)
+  );
+  backdrop-filter: blur(12px);
+  opacity: 1;
+  color: #fff;
+  transform: none;
+  box-shadow: none;
+  letter-spacing: 0.3px;
+}
+
+/* Hover effects for better interactivity */
+.dotButton:hover .dotLabel {
+  transform: none;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.25),
+    rgba(255, 255, 255, 0.15)
+  );
+  box-shadow: none;
+}
+
+.dotButton:hover:not(.activeDot) .dotLabel {
+  transform: none;
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: none;
+}
+
+/* Active dot hover enhancement */
+.activeDot:hover .dotLabel {
+  transform: none;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0.2)
+  );
+  box-shadow: none;
+}
+
+/* Smooth text reveal animation for active dots */
+.activeDot .dotLabel {
+  animation: none;
+}
+
+@keyframes textReveal {
+  0% {
+    opacity: 0;
+    transform: scale3d(0.8, 0.8, 1) translateY(10px);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale3d(1.02, 1.02, 1) translateY(-2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale3d(1.08, 1.08, 1) translateY(0);
+  }
+}
+
+@keyframes activePulse {
+  0%,
+  100% {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3),
+      0 0 0 1px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* ---- Chat timeline in place of children ---- */
+.chatTimeline {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 180px;
+  justify-content: flex-end;
+  padding-top: 6px;
+}
+
+/* rows & alignment (legacy msg* + new sp* kept compatible where useful) */
+.msgRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+.rowLeft {
+  justify-content: flex-start;
+}
+.rowRight {
+  justify-content: flex-end;
+}
+
+/* bubbles (legacy set) */
+.msgBubble {
+  position: relative;
+  max-width: min(80%, 520px);
+  min-width: 160px;
+  padding: 8px 12px;
+  border-radius: 16px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+  background: #fff;
+  color: #0b1220;
+}
+
+.msgReceiver {
+  background: #ffffff;
+}
+.msgSender {
+  background: #dcf8c6;
+}
+
+/* bubble tails (legacy) */
+.msgReceiver::after,
+.msgSender::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border: 8px solid transparent;
+}
+.msgReceiver::after {
+  left: -4px;
+  border-bottom-color: #ffffff;
+  border-left: 0;
+  transform: translateY(-2px);
+}
+.msgSender::after {
+  right: -4px;
+  border-bottom-color: #dcf8c6;
+  border-right: 0;
+  transform: translateY(-2px);
+}
+
+/* text, time (legacy) */
+.msgText {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.35;
+}
+.msgTime {
+  position: absolute;
+  right: 8px;
+  bottom: 4px;
+  font-size: 10px;
+  opacity: 0.6;
+}
+
+/* image bubble (legacy) */
+.msgImageWrap {
+  display: grid;
+  gap: 6px;
+}
+.msgImage {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  display: block;
+  object-fit: cover;
+}
+.msgImageCaption {
+  margin: 0;
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+@keyframes spWave {
+  0%,
+  100% {
+    height: 6px;
+  }
+  50% {
+    height: 16px;
+  }
+}
+
+/* tighten on small screens (legacy) */
+@media (max-width: 480px) {
+  .msgBubble {
+    max-width: 90%;
+  }
+}
+
+/* ===== Chat bubbles (exact layout) ===== */
+.spChatWrapper {
+  margin-top: 2em;
+  padding: 0;
+} /* card controls outer padding */
+
+/* Row to stack bubbles like the sample */
+.spBubbleRow {
+  margin: 0 0 25px;
+  background-image: url("/sp_row_bg.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Base bubble */
+.spBubble {
+  --bubble-bg: #f5f5f5;
+  --name-color: #3498db;
+  max-width: 314px;
+  display: block;
+  position: relative;
+  background: var(--bubble-bg);
+  border-radius: 4px;
+}
+
+/* Receiver (left) */
+.spReceiver {
+  --bubble-bg: #ffffff;
+  border-radius: 8px;
+  --name-color: #3498db;
+  margin: 0 0 25px 0;
+}
+
+/* Sender (right) */
+.spSender {
+  border-radius: 8px;
+  --bubble-bg: #dcf8c6;
+  --name-color: #2ecc71;
+}
+
+/* Position shift for sender like `.bubble.alt` */
+.spBubbleAlt {
+  margin-left: 60px;
+}
+
+/* Inner text block */
+.spTxt {
+  padding: 12px 8px;
+  display: grid;
+  grid-template-columns: 1fr auto auto; /* text | ticks | time */
+  grid-auto-rows: auto;
+  grid-auto-flow: row;
+  align-items: end;
+  column-gap: 8px;
+  row-gap: 6px;
+}
+
+/* Message text */
+.spMessage {
+  font-size: 14px;
+  padding-top: 1px;
+  color: #2b2b2b;
+}
+
+/* Bubble image */
+.spImage {
+  display: block;
+  margin-bottom: 4px;
+  width: inherit; /* inherits bubble width */
+  height: auto;
+  border-radius: 3px;
+}
+.spImageContainer {
+  width: 100%;
+}
+
+/* Timestamp bottom-right inside the bubble */
+.spTimestamp {
+  font-size: 11px;
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+  text-transform: uppercase;
+  color: #999;
+}
+
+/* Arrow tails – same geometry/transform as sample */
+.spBubbleArrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: -16px;
+  bottom: 42px;
+}
+.spBubbleArrowAlt {
+  right: -2px;
+  left: auto;
+  bottom: 40px;
+}
+.spBubbleArrow::after {
+  content: "";
+  position: absolute;
+  border: 0 solid transparent;
+  border-top: 9px solid var(--bubble-bg);
+  border-radius: 0 20px 0;
+  width: 15px;
+  height: 30px;
+  transform: rotate(145deg);
+}
+.spBubbleArrowAlt::after {
+  transform: rotate(45deg) scaleY(-1);
+  border-top-color: var(--bubble-bg);
+}
+
+/* Read ticks (blue double tick near timestamp) */
+.spTicks {
+  position: absolute;
+  bottom: 8px;
+  right: 38px; /* timestamp is right:10px; ticks sit just to the left */
+  width: 16px;
+  height: 15px;
+  stroke: #34b7f1;
+  stroke-width: 1.6;
+  fill: none;
+  opacity: 0.95;
+}
+
+/* === Mobile card compaction (authoritative mobile overrides) === */
+@media (max-width: 768px) {
+  .featureDiv {
+    margin-top: 0em;
+  }
+  .spMessage {
+    font-size: 10px !important;
+    margin-bottom: 1em;
+    padding-top: 1px;
+    color: #2b2b2b;
+  }
+
+  .featureCard {
+    min-height: 340px;
+    max-height: 360px !important;
+  } /* override earlier 400 */
+  .featureCardContent {
+    padding: 14px;
+    height: 365px;
+  }
+  .featureCardTitle {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  .featureCardDescription {
+    font-size: 16px;
+    line-height: 1.35;
+    margin-bottom: 12px;
+  }
+
+  .spBubble {
+    width: 200px;
+  } /* scale chat */
+  .spTxt {
+    padding: 4px 4px;
+  }
+  .spBubbleRow {
+    margin: 0 0 12px;
+  }
+  .spImage {
+    width: 185px;
+  }
+  .spTimestamp {
+    bottom: 6px;
+    right: 8px;
+  }
+  .spTicks {
+    bottom: 6px;
+    right: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .featureCard {
+    min-height: 280px;
+  } /* override earlier 410 */
+  .featureCardTitle {
+    font-size: 18px;
+  }
+  .featureCardDescription {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .spBubble {
+    width: 180px;
+  }
+  /* .spTxt {
+    padding: 8px 12px 8px 8px;
+  } */
+  .spBubble {
+    width: 210px;
+  }
+}
+
+.bubble-container {
+  position: absolute;
+  inset: 0; /* same as top:0; right:0; bottom:0; left:0; */
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.bubble {
+  position: absolute;
+}
+
+.bubble-1 {
+  width: 5rem; /* w-20 */
+  height: 5rem; /* h-20 */
+}
+
+.bubble-2 {
+  width: 4rem; /* w-16 */
+  height: 4rem; /* h-16 */
+}
+
+.bubble-3 {
+  width: 3.5rem; /* w-14 */
+  height: 3.5rem; /* h-14 */
+}
+
+.bubblesContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.movingBubble {
+  position: absolute;
+  animation: moveLeftToRight 10s linear infinite;
+}
+
+.movingBubble1 {
+  animation: moveBottomToTop 10s linear infinite;
+  top: 20%;
+  left: -100px; /* Start off-screen */
+  animation-delay: 0s;
+  width: 50px;
+  height: 50px;
+}
+
+.movingBubble2 {
+  top: 60%;
+  animation: moveDiagonal 15s linear infinite;
+  left: -100px; /* Start off-screen */
+  animation-delay: 5s;
+  width: 80px;
+  height: 80px;
+}
+
+.movingBubble3 {
+  animation: moveBottomToTop 10s linear infinite;
+  top: 60%;
+  left: -100px; /* Start off-screen */
+  animation-delay: 5s;
+  width: 80px;
+  height: 80px;
+}
+
+.movingBubble4 {
+  top: 40%;
+  left: -80px;
+  animation-delay: 7s;
+  width: 40px;
+  height: 40px;
+  animation: moveLeftToRight 6s linear infinite;
+}
+
+@keyframes moveLeftToRight {
+  0% {
+    transform: translateX(0) rotate(0deg);
+  }
+  100% {
+    transform: translateX(calc(100vw + 100px)) rotate(360deg);
+  }
+}
+
+@keyframes moveBottomToTop {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(calc(-100vh - 100px)) rotate(-360deg);
+  }
+}
+@keyframes moveDiagonal {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate(calc(100vw + 100px), calc(-100vh - 100px))
+      rotate(360deg);
+  }
+}

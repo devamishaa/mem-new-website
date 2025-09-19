@@ -1,0 +1,1 @@
+export { useTextReveal } from "./useTextReveal";

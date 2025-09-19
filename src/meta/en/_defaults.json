@@ -1,0 +1,7 @@
+{
+  "title": "Memorae",
+  "description": "Your second brain, on WhatsApp.",
+  "ogImage": "og/default",
+  "twitterCard": "summary_large_image",
+  "robots": { "index": true, "follow": true }
+}

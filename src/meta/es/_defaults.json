@@ -1,0 +1,7 @@
+{
+  "title": "Memorae",
+  "description": "Tu segunda cabeza, en WhatsApp.",
+  "ogImage": "og/default-es",
+  "twitterCard": "summary_large_image",
+  "robots": { "index": true, "follow": true }
+}

@@ -1,0 +1,439 @@
+/* navbar.module.css */
+
+/* ===== Layout containers ===== */
+.navbar {
+  position: fixed;
+  top: var(--space-4);
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 1240px;
+  z-index: var(--z-navbar);
+  border-radius: var(--radius-4xl);
+  background-color: var(--color-glass);
+  border: 1px solid #ffffff0d;
+  -webkit-backdrop-filter: blur(1rem) saturate(120%);
+  backdrop-filter: blur(6rem) saturate(120%);
+  box-shadow: var(--shadow-glass);
+  isolation: isolate;
+  align-items: center;
+  display: inline-flex;
+  gap: var(--space-12);
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-6);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.navbar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.35),
+    rgba(255, 255, 255, 0) 42%
+  );
+  mix-blend-mode: overlay;
+  z-index: 0; /* Ensure overlay is below wave */
+}
+.overlay {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.inner {
+  display: contents;
+}
+
+/* ===== Branding ===== */
+.logo {
+  text-decoration: none;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 118px;
+  position: relative;
+  line-height: 0;
+}
+.logo svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.wordmark {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* ===== Desktop nav ===== */
+.desktop {
+  display: none;
+}
+.content {
+  align-items: center;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: var(--space-6);
+  position: relative;
+}
+/* Regular nav links (About Us, Dashboard) */
+.link {
+  color: var(--color-navbar-text);
+  font-family: "Figtree-Medium", Helvetica;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 19.6px;
+  margin-top: -0.64px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+/* Disabled state for non-interactive nav items */
+.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.link.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.linkFrame.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.linkFrame.disabled .linkFrameText {
+  opacity: 0.45;
+}
+
+/* Frame containers for items with chevrons (Superpowers, Master Memorae) */
+.linkFrame {
+  align-items: center;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 3px;
+  position: relative;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.linkFrameText {
+  color: var(--color-navbar-text);
+  font-family: "Figtree-Medium", Helvetica;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 19.6px;
+  margin-top: -1px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+  transition: color 0.3s ease;
+}
+
+.chevronIcon {
+  height: 5px;
+  width: 9px;
+  position: relative;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.chevronUp {
+  transform: rotate(180deg);
+}
+
+.dropdownContainer {
+  position: relative;
+}
+
+.linkFrame button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* (removed legacy dropdown and underline styles) */
+
+/* ===== CTA (desktop) ===== */
+.ctaWrap {
+  display: none;
+}
+.ctaBtn {
+  align-items: center;
+  background-color: #1ea952;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  gap: var(--space-2);
+  height: 49px;
+  justify-content: center;
+  padding: var(--space-2) var(--space-5) 13px;
+  position: relative;
+  text-decoration: none;
+}
+.ctaIconContainer {
+  aspect-ratio: 1;
+  height: 18px;
+  position: relative;
+  width: 18px;
+}
+.ctaIcon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 18px;
+  height: 18px;
+}
+.ctaText {
+  color: #ffffff;
+  font-family: "Plus Jakarta Sans-Medium", Helvetica;
+  font-weight: 500;
+  letter-spacing: 0;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+/* ===== Mobile burger ===== */
+.burger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+}
+.burgerIcon {
+  --size: 24px;
+  --line-h: 3px;
+  --radius: 3px;
+  inline-size: var(--size);
+  block-size: 16px;
+  position: relative;
+  display: inline-block;
+}
+.burgerLine {
+  position: absolute;
+  height: var(--line-h);
+  background: var(--color-navbar-text);
+  border-radius: var(--radius);
+  transform-origin: 50% 50%;
+  transition: transform 320ms var(--ease-custom),
+    opacity var(--duration-base) var(--ease-out), width 280ms var(--ease-out),
+    background 0.3s ease;
+}
+.burgerLine:nth-child(1) {
+  top: 0px;
+  left: 3px;
+  right: 3px;
+}
+.burgerLine:nth-child(2) {
+  top: 6.5px;
+  left: 0;
+  right: 0;
+}
+.burgerLine:nth-child(3) {
+  top: 13px;
+  left: 3px;
+  right: 3px;
+}
+/* morph to X via aria-expanded - smooth center-based rotation */
+.burger[aria-expanded="true"] .burgerLine:nth-child(1) {
+  transform: translateY(6.5px) translateX(1.5px) rotate(45deg);
+  left: 0;
+  right: 0;
+}
+.burger[aria-expanded="true"] .burgerLine:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.burger[aria-expanded="true"] .burgerLine:nth-child(3) {
+  transform: translateY(-6.5px) translateX(1.5px) rotate(-45deg);
+  left: 0;
+  right: 0;
+}
+
+/* ===== Mobile drawer ===== */
+.mobile {
+  display: block;
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%, -6px);
+  width: calc(100% - 40px);
+  max-width: 1240px;
+  top: 84px;
+  min-height: 120px;
+  /* glass effect like navbar */
+  background-color: #ffffff33;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 32px;
+  -webkit-backdrop-filter: blur(1rem) saturate(120%);
+  backdrop-filter: blur(1rem) saturate(120%);
+  background-clip: padding-box;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 280ms cubic-bezier(0.2, 0.6, 0, 0.9), opacity 220ms ease;
+}
+.open {
+  transform: translate(-50%, 0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobileInner {
+  padding: var(--space-3) var(--space-3);
+}
+.mobileRow {
+  padding: var(--space-1) 0;
+}
+.mobileRow > a {
+  color: var(--color-neutral-100);
+  text-decoration: none;
+  display: block;
+  padding: var(--space-2) var(--space-1);
+  border-radius: var(--radius-lg);
+}
+.mobileRow > a:hover {
+  background: var(--color-neutral-800);
+}
+.mobileSubmenu {
+  padding: var(--space-1) 0 var(--space-2) var(--space-4);
+}
+.mobileSubmenu a {
+  color: var(--color-neutral-300);
+  text-decoration: none;
+  display: block;
+  padding: var(--space-1) var(--space-1);
+  border-radius: var(--radius-md);
+}
+.mobileSubmenu a:hover {
+  background: var(--color-neutral-900);
+  color: white;
+}
+.mobileCta {
+  display: block;
+  text-align: center;
+  margin: var(--space-2) var(--space-1) var(--space-1);
+  background: var(--color-background);
+  color: var(--color-text-primary);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-xl);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* Mobile dropdown styling - styles handled by dropdown component */
+
+/* ===== Responsive ===== */
+@media (max-width: 860px) {
+  .navbar {
+    width: calc(100% - 40px);
+  }
+}
+
+@media (min-width: 860px) {
+  .desktop {
+    display: block;
+  }
+  .ctaWrap {
+    display: block;
+  }
+  .burger {
+    display: none;
+  }
+}
+
+/* fadeIn helper */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Blur fallback */
+@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+  .navbar {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* Motion safety */
+@media (prefers-reduced-motion: reduce) {
+  .burgerLine,
+  .mobile,
+  .hoverLine,
+  .ctaBtn::before,
+  .ctaBtn::after {
+    transition: none !important;
+  }
+}
+
+/* (removed unused wave animation styles) */
+
+.light .link,
+.light .linkFrameText {
+  color: #142b4e;
+}
+
+.light .burgerLine {
+  background: var(--color-text-primary);
+}
+/*  */
+.light {
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+.dark .link,
+.dark .linkFrameText {
+  color: #ffffff;
+}
+
+.dark .burgerLine {
+  background: var(--color-text-invert);
+}
+
+.dark {
+  position: fixed;
+  top: var(--space-4);
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 1240px;
+  z-index: var(--z-navbar);
+  border-radius: var(--radius-4xl);
+  background-color: var(--color-glass);
+  border: 1px solid var(--color-glass-border);
+  -webkit-backdrop-filter: blur(1rem) saturate(120%);
+  backdrop-filter: blur(1rem) saturate(120%);
+  box-shadow: var(--shadow-glass);
+  isolation: isolate;
+  align-items: center;
+  display: inline-flex;
+  gap: var(--space-12);
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-6);
+}
+
+/* Force burger to black on mobile, regardless of theme */
+@media (max-width: 860px) {
+  .burgerLine,
+  .light .burgerLine,
+  .dark .burgerLine {
+    background: #000 !important;
+  }
+}
